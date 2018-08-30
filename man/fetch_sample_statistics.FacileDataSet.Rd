@@ -24,7 +24,7 @@ a tbl_df or tbl_sqlite result from the sample_stats table
 }
 \description{
 NOTE: this function needs the axe. It has been changed to use the
-assay_sample_info_table, but the way we handle this with the new unhinged
+assay_sample_info_tbl, but the way we handle this with the new unhinged
 assay needs to change.
 }
 \seealso{

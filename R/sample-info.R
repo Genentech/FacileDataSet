@@ -1,7 +1,7 @@
 #' Fetch the sample statistics for sets of samples in the warehouse
 #'
 #' NOTE: this function needs the axe. It has been changed to use the
-#' assay_sample_info_table, but the way we handle this with the new unhinged
+#' assay_sample_info_tbl, but the way we handle this with the new unhinged
 #' assay needs to change.
 #' @export
 #' @param x A \code{FacileDataSet} object

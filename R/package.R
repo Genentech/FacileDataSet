@@ -1,3 +1,4 @@
+#' @import FacileAnalysis
 #' @import checkmate
 #' @import magrittr
 #' @import RSQLite
