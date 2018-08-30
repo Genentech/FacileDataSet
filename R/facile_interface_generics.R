@@ -11,11 +11,11 @@
 ##' @family FacileInterface
 ##' @export
 #fetch_organism <- function(x, ...) {
-#  UseMethod("organism")
+#  UseMethod("fetch_organism")
 #}
 #
 ##' @export
-#organism.default <- function(x, ...) {
+#fetch_organism.default <- function(x, ...) {
 #  stop("The FacileAPI requires that a specific method be written for this type.")
 #}
 ##' @export

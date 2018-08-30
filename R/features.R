@@ -41,7 +41,7 @@ feature_name_map <- function(x, feature_type) {
     select(feature_id, name) %>%
     collect(n=Inf) %>%
     mutate(type='primary')
-  if (organism(x) == 'Homo sapiens') {
+  if (fetch_organism(x) == 'Homo sapiens') {
     if (FALSE) {
       requireNamespace("org.Hs.eg.db") || stop("Failed to require org.Hs.eg.db")
       alias <- org.Hs.eg.db %>%
@@ -52,7 +52,7 @@ feature_name_map <- function(x, feature_type) {
     }
     alias <- system.file('extdata', 'feature-alias-map.human.csv', package='FacileDataSet')
     alias <- read.csv(alias, colClasses='character')
-  } else if (organism(x) == 'Mus musculus') {
+  } else if (fetch_organism(x) == 'Mus musculus') {
       if (FALSE) {
           requireNamespace("org.Mm.eg.db") || stop("Failed to require org.Mm.eg.db")
       alias <- org.Mm.eg.db %>%
