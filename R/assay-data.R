@@ -58,7 +58,7 @@ fetch_assay_data.FacileDataSet <- function(x, features, samples=NULL,
   ## as a defense to that, and also works to handle this strange case from the
   ## backend side, too -- perhaps a user will stumble on this in their analyses?
   if (is.null(samples) || (is.data.frame(samples) && nrow(samples) == 0L)) {
-    samples <- samples(x)
+    samples <- fetch_samples(x)
   }
   assert_sample_subset(samples)
 

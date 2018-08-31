@@ -4,7 +4,7 @@
 \alias{samples.FacileDataSet}
 \title{Retrieves the sample identifiers for all samples in a FacileDataSet.}
 \usage{
-\method{samples}{FacileDataSet}(x)
+samples.FacileDataSet(x)
 }
 \arguments{
 \item{x}{a `FacileDataSet`}
@@ -19,11 +19,11 @@ Sample identifiers are provided as `dataset,sample_id tuples`.
 Other API: \code{\link{fetch_assay_data.FacileDataSet}},
   \code{\link{fetch_assay_score.FacileDataSet}},
   \code{\link{fetch_custom_sample_covariates.FacileDataSet}},
+  \code{\link{fetch_organism.FacileDataSet}},
   \code{\link{fetch_sample_covariates.FacileDataSet}},
   \code{\link{fetch_sample_statistics.FacileDataSet}},
   \code{\link{fetch_samples.FacileDataSet}},
   \code{\link{filter_features.FacileDataSet}},
-  \code{\link{filter_samples.FacileDataSet}},
-  \code{\link{organism.FacileDataSet}}
+  \code{\link{filter_samples.FacileDataSet}}
 }
 \concept{API}
