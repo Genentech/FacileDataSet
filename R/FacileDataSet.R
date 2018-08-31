@@ -307,7 +307,7 @@ samples.FacileDataSet <- function(x) {
 #' @export
 #' @rdname facet_frame
 facet_frame.FacileDataSet <- function(x, name = "default", ...) {
-  samples(x) %>%
+  fetch_samples(x) %>%
     mutate(facet = dataset) %>%
     select(facet, dataset, sample_id) %>%
     set_fds(x)

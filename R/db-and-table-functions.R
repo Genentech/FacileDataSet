@@ -80,7 +80,7 @@ assay_sample_info_tbl <- function(x) {
 }
 
 #' @export
-feature_info_tbl <- function(x, assay_name=NULL) {
+feature_info_tbl.FacileDataSet <- function(x, assay_name=NULL) {
   stopifnot(is.FacileDataSet(x))
   out <- tbl(x$con, 'feature_info')
   if (!is.null(assay_name)) {

@@ -230,7 +230,7 @@ fetch_assay_score.FacileDataSet <- function(x, features, samples=NULL, assay_nam
   if (is.null(assay_name)) {
     assay_name <- features$assay
   }
-  stopifnot(is.character(assay_name), length(unique(asssay_name)) == 1L)
+  stopifnot(is.character(assay_name), length(unique(assay_name)) == 1L)
   dat <- fetch_assay_data(x, features, samples=samples, assay_name=NULL,
                           as.matrix=TRUE, normalized=TRUE,
                           subset.threshold=subset.threshold)
