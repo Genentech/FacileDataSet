@@ -74,7 +74,7 @@ assay_feature_info_tbl <- function(x) {
 }
 
 #' @export
-assay_sample_info_tbl <- function(x) {
+assay_sample_info_tbl.FacileDataSet <- function(x) {
   stopifnot(is.FacileDataSet(x))
   tbl(x$con, 'assay_sample_info') %>% set_fds(x)
 }
@@ -130,62 +130,15 @@ sample_stats_tbl <- function(x) {
 }
 
 #' @export
-sample_covariate_tbl <- function(x) {
+sample_covariate_tbl.FacileDataSet <- function(x) {
   stopifnot(is.FacileDataSet(x))
   tbl(x$con, 'sample_covariate') %>% set_fds(x)
 }
 
 #' @export
-sample_info_tbl <- function(x) {
+sample_info_tbl.FacileDataSet <- function(x) {
   stopifnot(is.FacileDataSet(x))
   tbl(x$con, 'sample_info') %>% set_fds(x)
-}
-
-#' Get/set db
-#'
-#' @rdname getsetdb
-#' @export
-#' @param x the object
-#' @param db The \code{FacileDb} object
-fds <- function(x) {
-  if (is.FacileDataSet(x)) return(x)
-  out <- attr(x, 'fds')
-  if (is.null(out)) {
-    warning("No FacileDataSet found in x (", class(x)[1L], ")", immediate.=TRUE)
-  }
-  out
-}
-
-#' @rdname getsetdb
-#' @export
-"fds<-" <- function(x, value) {
-  UseMethod("fds<-", x)
-}
-
-#' @rdname getsetdb
-#' @export
-"fds<-.tbl" <- function(x, value) {
-  attr(x, 'fds') <- value
-  x
-}
-
-#' @rdname getsetdb
-#' @export
-"fds<-.data.frame" <- function(x, value) {
-  attr(x, 'fds') <- value
-  x
-}
-
-"fds<-.default" <- function(x, value) {
-  attr(x, 'fds') <- value
-  x
-}
-
-#' @rdname getsetdb
-#' @export
-set_fds <- function(x, value) {
-  attr(x, 'fds') <- value
-  x
 }
 
 ## Unexported utility functions ================================================
