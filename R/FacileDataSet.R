@@ -221,7 +221,6 @@ meta_info <- function(x, fn = meta_file(x)) {
 #' @family API
 #' @return `"Homo sapiens`", `"Mus musculus"`, etc.
 fetch_organism.FacileDataSet <- function(x) {
-  assert_facile_data_set(x)
   x$organism
 }
 
@@ -298,7 +297,6 @@ covariate_definitions <- function(x, as.list=TRUE) {
 #' @param x a `FacileDataSet`
 #' @return tibble of sample attributes
 samples.FacileDataSet <- function(x) {
-  assert_facile_data_set(x)
   sample_info_tbl(x) %>%
     select(dataset, sample_id) %>%
     set_fds(x)

@@ -62,26 +62,22 @@ append_facile_table <- function(dat, x, table_name) {
 ## Database Table Accessors ====================================================
 
 #' @export
-assay_info_tbl <- function(x) {
-  stopifnot(is.FacileDataSet(x))
+assay_info_tbl.FacileDataSet <- function(x) {
   tbl(x$con, 'assay_info') %>% set_fds(x)
 }
 
 #' @export
-assay_feature_info_tbl <- function(x) {
-  stopifnot(is.FacileDataSet(x))
+assay_feature_info_tbl.FacileDataSet <- function(x) {
   tbl(x$con, 'assay_feature_info') %>% set_fds(x)
 }
 
 #' @export
 assay_sample_info_tbl.FacileDataSet <- function(x) {
-  stopifnot(is.FacileDataSet(x))
   tbl(x$con, 'assay_sample_info') %>% set_fds(x)
 }
 
 #' @export
 feature_info_tbl.FacileDataSet <- function(x, assay_name=NULL) {
-  stopifnot(is.FacileDataSet(x))
   out <- tbl(x$con, 'feature_info')
   if (!is.null(assay_name)) {
     assert_string(assay_name)
@@ -105,6 +101,7 @@ gene_info_tbl <- function(x) {
   # TODO: This function needs to be removed and the code that relies on gene_info_tbl
   # should be updated.
   stopifnot(is.FacileDataSet(x))
+  .Deprecated("feature_info_tbl")
   ## Columns:
   ## feature_id|feature_type|symbol|n_exons|length|source|hdf5_index
   hdf5.info <- assay_feature_info_tbl(x) %>%
@@ -124,6 +121,7 @@ gene_info_tbl <- function(x) {
 #' sample_stats_tbl be updated.
 #' @export
 sample_stats_tbl <- function(x) {
+  .Deprecated("assay_sample_info_tbl")
   assay_sample_info_tbl(x) %>%
     select(dataset, sample_id, libsize, normfactor) %>%
     set_fds(x)
@@ -131,13 +129,11 @@ sample_stats_tbl <- function(x) {
 
 #' @export
 sample_covariate_tbl.FacileDataSet <- function(x) {
-  stopifnot(is.FacileDataSet(x))
   tbl(x$con, 'sample_covariate') %>% set_fds(x)
 }
 
 #' @export
 sample_info_tbl.FacileDataSet <- function(x) {
-  stopifnot(is.FacileDataSet(x))
   tbl(x$con, 'sample_info') %>% set_fds(x)
 }
 
