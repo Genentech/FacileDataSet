@@ -192,8 +192,7 @@ hdf5fn <- function(x, mustWork=TRUE) {
 #' @family FacileDataSet
 #'
 #' @param x A `FacileDataSet`
-meta_file <- function(x) {
-  assert_facile_data_set(x)
+meta_file.FacilDataSet <- function(x) {
   fn <- assert_file(file.path(x$parent.dir, 'meta.yaml'), 'r')
   fn
 }
@@ -207,8 +206,7 @@ meta_file <- function(x) {
 #' @rdname meta-info
 #' @param fn The path to the `meta.yaml` file.
 #' @return The `meta.yaml` file parsed into a list-of-lists representation
-meta_info <- function(x, fn = meta_file(x)) {
-  assert_facile_data_set(x)
+meta_info.FacileDataSet <- function(x, fn = meta_file(x)) {
   out <- assert_valid_meta_file(fn, as.list = TRUE)
   out
 }

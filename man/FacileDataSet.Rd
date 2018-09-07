@@ -86,6 +86,7 @@ fds <- FacileDataSet(fn)
 }
 \seealso{
 Other FacileDataSet: \code{\link{dbfn}},
-  \code{\link{hdf5fn}}, \code{\link{meta_file}}
+  \code{\link{hdf5fn}},
+  \code{\link{meta_file.FacilDataSet}}
 }
 \concept{FacileDataSet}

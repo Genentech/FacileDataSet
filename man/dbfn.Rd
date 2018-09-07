@@ -21,6 +21,7 @@ Get location of the FacileDataSet database
 }
 \seealso{
 Other FacileDataSet: \code{\link{FacileDataSet}},
-  \code{\link{hdf5fn}}, \code{\link{meta_file}}
+  \code{\link{hdf5fn}},
+  \code{\link{meta_file.FacilDataSet}}
 }
 \concept{FacileDataSet}

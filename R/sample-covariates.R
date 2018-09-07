@@ -8,7 +8,7 @@
 #'   the given samples
 #' @return rows from the \code{sample_covariate} table
 #' @family API
-fetch_sample_covariates.FacileDataSet <- function(x, samples=NULL, covariates=NULL,
+fetch_sample_covariates <- function(x, samples=NULL, covariates=NULL,
                                     custom_key=Sys.getenv("USER")) {
   ## db temp table thing shouldn't be an issue here
   # dat <- sample_covariate_tbl(x) %>% collect(n=Inf) ## #dboptimize# remove to exercise db harder
