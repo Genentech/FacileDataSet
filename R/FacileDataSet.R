@@ -192,7 +192,7 @@ hdf5fn <- function(x, mustWork=TRUE) {
 #' @family FacileDataSet
 #'
 #' @param x A `FacileDataSet`
-meta_file.FacilDataSet <- function(x) {
+meta_file.FacileDataSet <- function(x) {
   fn <- assert_file(file.path(x$parent.dir, 'meta.yaml'), 'r')
   fn
 }
