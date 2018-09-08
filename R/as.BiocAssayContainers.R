@@ -76,7 +76,7 @@ as.DGEList.matrix <- function(x, covariates=TRUE, feature_ids=NULL,
   stopifnot(is(x, 'FacileExpression'))
   requireNamespace("edgeR")
   .fds <- force(.fds)
-  stopifnot(is.FacileDataSet(.fds))
+#  stopifnot(is.FacileDataSet(.fds))
 
   ## Construct sample table from colnames of the matrix, and make sure this is
   ## legit
@@ -160,7 +160,7 @@ as.DGEList.data.frame <- function(x, covariates=TRUE, feature_ids=NULL,
                                   custom_key=Sys.getenv("USER"),
                                   ...) {
   .fds <- force(.fds)
-  stopifnot(is.FacileDataSet(.fds))
+#  stopifnot(is.FacileDataSet(.fds))
   x <- assert_sample_subset(x)
 
   has.count <- 'value' %in% colnames(x) && is.integer(x[['value']])
@@ -246,7 +246,7 @@ as.ExpressionSet.data.frame <- function(x, covariates=TRUE, feature_ids=NULL,
                                         assay_name=default_assay(.fds),
                                         .fds=fds(x), custom_key=Sys.getenv("USER"), ...) {
   .fds <- force(.fds)
-  stopifnot(is.FacileDataSet(.fds))
+#  stopifnot(is.FacileDataSet(.fds))
   assert_sample_subset(x)
   if (!requireNamespace("Biobase", quietly = TRUE)) {
     stop("Biobase required")
@@ -290,7 +290,7 @@ as.SummarizedExperiment.data.frame <- function(x, covariates=TRUE, feature_ids=N
                                                custom_key=Sys.getenv("USER"),
                                                ...) {
   .fds <- force(.fds)
-  stopifnot(is.FacileDataSet(.fds))
+#  stopifnot(is.FacileDataSet(.fds))
   assert_sample_subset(x)
   if (!requireNamespace("SummarizedExperiment", quietly = TRUE)) {
     stop("SummarizedExperiment package required")

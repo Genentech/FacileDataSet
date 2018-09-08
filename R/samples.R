@@ -5,7 +5,7 @@
 #' @return a \code{tbl} with indication and subtype information for all samples
 #'   in the database
 subtype_map <- function(x) {
-  stopifnot(is.FacileDataSet(x))
+#  stopifnot(is.FacileDataSet(x))
   sample.map <- sample_covariate_tbl(x) %>%
     filter(type == 'tumor_classification') %>%
     with_sample_covariates('sample_type', .fds=x)

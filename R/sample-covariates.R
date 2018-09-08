@@ -110,7 +110,7 @@ save_custom_sample_covariates <- function(x, annotation, name=NULL,
                                           sample_filter_critera=NULL) {
   #' TODO: Figure out how to encode sample_filter_criteria into serialized
   #' (JSON) annotation file
-  stopifnot(is.FacileDataSet(x))
+#  stopifnot(is.FacileDataSet(x))
   annotation <- collect(annotation, n=Inf)
   assert_columns(annotation, c('dataset', 'sample_id', 'value'))
   if (is.null(name)) name <- annotation$name
@@ -151,7 +151,7 @@ save_custom_sample_covariates <- function(x, annotation, name=NULL,
 #' @return The facile \code{x} object, annotated with the specified covariates.
 with_sample_covariates <- function(x, covariates=NULL, na.rm=FALSE,
                                    custom_key=Sys.getenv("USER"), .fds=fds(x)) {
-  stopifnot(is.FacileDataSet(.fds))
+#  stopifnot(is.FacileDataSet(.fds))
   x <- assert_sample_subset(x) %>% collect(n=Inf)
   stopifnot(is.character(covariates) || is.null(covariates))
   if (is.character(covariates) && length(covariates) == 0L) {
@@ -186,7 +186,7 @@ with_sample_covariates <- function(x, covariates=NULL, na.rm=FALSE,
 #' @param .fds A \code{FacileDataSet} object
 #' @return a wide \code{tbl_df}-like object
 spread_covariates <- function(x, .fds=fds(x)) {
-  stopifnot(is.FacileDataSet(.fds))
+#  stopifnot(is.FacileDataSet(.fds))
   x <- assert_sample_covariates(x) %>%
     collect(n=Inf)
 

@@ -212,7 +212,7 @@ addFacileAssaySet <- function(x, datasets, facile_assay_name,
                               chunk_compression=4,
                               assay_name=NULL) {
   ## Parameter Checking --------------------------------------------------------
-  stopifnot(is.FacileDataSet(x))
+#  stopifnot(is.FacileDataSet(x))
   assert_string(facile_assay_name)
   if (facile_assay_name %in% assay_names(x)) {
     stop("`", facile_assay_name, "` assay already stored in FacileDataSet")
@@ -366,7 +366,7 @@ addFacileAssaySet <- function(x, datasets, facile_assay_name,
 append_facile_feature_info <- function(x, feature_info,
                                        type=feature_info$feature_type) {
   ## Argument Checking
-  stopifnot(is.FacileDataSet(x))
+#  stopifnot(is.FacileDataSet(x))
   stopifnot(is.data.frame(feature_info))
   if (is.null(feature_info$feature_type)) {
     stopifnot(is.character(type), length(type) %in% c(1L, nrow(feature_info)))

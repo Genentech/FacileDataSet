@@ -99,7 +99,7 @@ fetch_assay_data.FacileDataSet <- function(x, features, samples=NULL,
                               normalized=FALSE, as.matrix=FALSE,
                               subset.threshold=700, aggregate.by=NULL, ...,
                               verbose=FALSE) {
-  stopifnot(is.FacileDataSet(x))
+#  stopifnot(is.FacileDataSet(x))
   assert_string(assay_name)
   assert_character(feature_ids, min.len=1L)
   samples <- assert_sample_subset(samples)
@@ -241,7 +241,7 @@ fetch_assay_score.FacileDataSet <- function(x, features, samples=NULL, assay_nam
 }
 #' @export
 assay_types <- function(x) {
-  stopifnot(is.FacileDataSet(x))
+#  stopifnot(is.FacileDataSet(x))
   assay_info_tbl(x) %>% collect(n=Inf) %$% assay_type
 }
 
@@ -257,7 +257,7 @@ assay_names.FacileDataSet <- function(x, default_first=TRUE) {
 
 #' @export
 assay_info <- function(x, assay_name=NULL) {
-  stopifnot(is.FacileDataSet(x))
+#  stopifnot(is.FacileDataSet(x))
   ainfo <- assay_info_tbl(x) %>% collect(n=Inf)
   if (!is.null(assay_name)) {
     assert_string(assay_name)
@@ -269,7 +269,7 @@ assay_info <- function(x, assay_name=NULL) {
 
 #' @export
 has_assay <- function(x, assay_name) {
-  stopifnot(is.FacileDataSet(x))
+#  stopifnot(is.FacileDataSet(x))
   assert_character(assay_name)
   assay_name %in% assay_names(x)
 }
@@ -288,7 +288,7 @@ has_assay <- function(x, assay_name) {
 #'   in \code{assay_name} will be returnd here with NA values for hd5_index and
 #'   such.
 assay_sample_info <- function(x, assay_name, samples=NULL) {
-  stopifnot(is.FacileDataSet(x))
+#  stopifnot(is.FacileDataSet(x))
   if (!is.null(samples)) {
     samples <- assert_sample_subset(samples) %>%
       distinct(dataset, sample_id) %>%
@@ -319,7 +319,7 @@ assay_sample_info <- function(x, assay_name, samples=NULL) {
 #' @param x \code{FacileDataSet}
 #' @param assay_name the name of the assay
 assay_feature_type <- function(x, assay_name) {
-  stopifnot(is.FacileDataSet(x))
+#  stopifnot(is.FacileDataSet(x))
   assert_string(assay_name)
   assert_choice(assay_name, assay_names(x))
   assay_info_tbl(x) %>%
@@ -398,7 +398,7 @@ assay_feature_name_map <- function(x, assay_name) {
 #'   over the given samples. If no assays are defined over these samples,
 #'   you're going to get an empty tibble.
 assay_info_over_samples <- function(x, samples) {
-  stopifnot(is.FacileDataSet(x))
+#  stopifnot(is.FacileDataSet(x))
   assert_sample_subset(samples)
 
   asi <- assay_sample_info_tbl(x) %>% select(dataset, assay, sample_id)
@@ -459,7 +459,7 @@ normalize.assay.matrix <- function(vals, feature.info, sample.info,
 #'   used to absolutely find features
 create_assay_feature_descriptor <- function(x, features=NULL, assay_name=NULL) {
   ## TODO: Refactor the code inside `fetch_assay_data` to use this.
-  stopifnot(is.FacileDataSet(x))
+#  stopifnot(is.FacileDataSet(x))
 
   if (is.character(features) || is.null(features) || is(features, 'tbl_sql')) {
     if (is.null(assay_name)) assay_name <- default_assay(x)
@@ -500,7 +500,7 @@ with_assay_data <- function(samples, features, assay_name=NULL,
     .fds <- samples(samples)
     samples(samples(.fds))
   }
-  stopifnot(is.FacileDataSet(.fds))
+#  stopifnot(is.FacileDataSet(.fds))
   assert_sample_subset(samples)
   assert_flag(normalized)
 

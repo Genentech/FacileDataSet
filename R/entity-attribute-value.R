@@ -24,7 +24,7 @@
 #'   `$label`, `$is.factor`, (and maybe `$levels`)
 covariate_meta_info <- function(covariate, .fds, covdefs=NULL) {
   if (is.null(covdefs)) {
-    stopifnot(is.FacileDataSet(.fds))
+#    stopifnot(is.FacileDataSet(.fds))
     covdefs <- covariate_definitions(.fds)
   }
   assert_covariate_definitions(covdefs)
@@ -68,7 +68,7 @@ covariate_meta_info <- function(covariate, .fds, covdefs=NULL) {
 #'   `right_censored` data, for instance)
 cast_covariate <- function(covariate, values, cov.def, .fds) {
   if (missing(cov.def)) {
-    stopifnot(is.FacileDataSet(.fds))
+    #    stopifnot(is.FacileDataSet(.fds))
     cov.def <- covariate_definitions(.fds)
   }
   stopifnot(is(cov.def, 'CovariateDefinitions'))

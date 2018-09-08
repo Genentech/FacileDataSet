@@ -29,7 +29,7 @@ primary_key <- function(x, table_name) {
 #'   \code{dat} to.
 #' @return invisibly returns the conformed version of \code{dat}.
 append_facile_table <- function(dat, x, table_name) {
-  stopifnot(is.FacileDataSet(x))
+#  stopifnot(is.FacileDataSet(x))
   target <- try(tbl(x$con, table_name), silent=TRUE)
   if (is(target, 'try-error')) stop("Unknown table to append to: ", table_name)
   dat <- conform_data_frame(dat, target)
@@ -100,7 +100,7 @@ feature_info_tbl.FacileDataSet <- function(x, assay_name=NULL) {
 gene_info_tbl <- function(x) {
   # TODO: This function needs to be removed and the code that relies on gene_info_tbl
   # should be updated.
-  stopifnot(is.FacileDataSet(x))
+#  stopifnot(is.FacileDataSet(x))
   .Deprecated("feature_info_tbl")
   ## Columns:
   ## feature_id|feature_type|symbol|n_exons|length|source|hdf5_index
