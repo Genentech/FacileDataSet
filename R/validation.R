@@ -123,7 +123,7 @@ is_assay_feature_descriptor <- function(x, .fds=NULL) {
   if (!(is(x, 'tbl') || is(x, 'data.frame'))) return(FALSE)
   if (!has_columns(x, c('assay', 'feature_id'))) return(FALSE)
   if (!is.null(.fds)) {
-    stopifnot(is.FacileDataSet(.fds))
+#    stopifnot(is.FacileDataSet(.fds))
     bad.assay <- setdiff(x[['assay']], assay_names(.fds))
     if (length(bad.assay)) {
       stop("Assay(s) in assay_feature_descriptor not found: ",
@@ -214,4 +214,3 @@ is_covariate_definitions <- function(x) {
   }) %>% t
   all(kosher)
 }
-

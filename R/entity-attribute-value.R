@@ -28,6 +28,7 @@ covariate_meta_info <- function(covariate, .fds, covdefs=NULL) {
     covdefs <- covariate_definitions(.fds)
   }
   assert_covariate_definitions(covdefs)
+  message("covariate_meta_info looking for ", covariate)
   meta <- covdefs[[covariate]]
   if (!is.list(meta)) {
     stop("Covariate `", covariate, "` not found in covariate_definition file")
