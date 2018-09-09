@@ -292,13 +292,13 @@ covariate_definitions <- function(x, as.list=TRUE) {
 #' @export
 #' @family API
 #'
-#' @param x a `FacileDataSet`
+#' @param object a `FacileDataSet`
 #' @return tibble of sample attributes
-samples.FacileDataSet <- function(x) {
-  sample_info_tbl(x) %>%
+setMethod("samples", "FacileDataSet", function(object) {
+  sample_info_tbl(object) %>%
     select(dataset, sample_id) %>%
-    set_fds(x)
-}
+    set_fds(object)
+})
 
 #' @export
 #' @rdname facet_frame
