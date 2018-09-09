@@ -30,6 +30,6 @@ Other API: \code{\link{fetch_assay_data.FacileDataSet}},
   \code{\link{fetch_organism.FacileDataSet}},
   \code{\link{fetch_sample_statistics.FacileDataSet}},
   \code{\link{fetch_samples.FacileDataSet}},
-  \code{\link{samples.FacileDataSet}}
+  \code{\link{samples,FacileDataSet-method}}
 }
 \concept{API}
