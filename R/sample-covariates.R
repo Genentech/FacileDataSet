@@ -50,15 +50,12 @@ fetch_sample_covariates <- function(x, samples=NULL, covariates=NULL,
 #' @export
 #' @importFrom jsonlite stream_in
 #' @param fds The \code{FacileDataSet}
-#' @param samples the facile sample descriptor
 #' @param custom_key The key to use for the custom annotation
 #' @return covariate tbl
 #' @family API
-fetch_custom_sample_covariates.FacileDataSet <- function(x, samples=NULL, covariates=NULL,
-                                           custom_key=Sys.getenv("USER"),
-                                           file.prefix="facile") {
+custom_sample_covariates_tbl.FacileDataSet <- function(x, custom_key=Sys.getenv("USER")) {
   out.cols <- colnames(sample_covariate_tbl(x))
-
+  file.prefix = "facile"
   fpat <- paste0('^', file.prefix, '_', custom_key, "_.*json")
   annot.files <- list.files(path=x$anno.dir, pattern=fpat, full.names=TRUE)
 
@@ -66,9 +63,7 @@ fetch_custom_sample_covariates.FacileDataSet <- function(x, samples=NULL, covari
     annos <- lapply(annot.files, function(fn) stream_in(file(fn), verbose=FALSE))
     out <- bind_rows(annos) %>%
       select_(.dots=out.cols) %>%
-      set_fds(x) %>%
-      # filter_samples(samples)
-      join_samples(samples, semi=TRUE)
+      set_fds(x)
     ## We weren't saving the type == 'categorical' column earlier. So if this
     ## column is.na, then we force it to 'categorical', because that's all it
     ## realy could have been
@@ -81,6 +76,22 @@ fetch_custom_sample_covariates.FacileDataSet <- function(x, samples=NULL, covari
     out$date_entered <- integer()
     out <- as.data.frame(out, stringsAsFactors=FALSE) %>% as.tbl
   }
+  out
+}
+
+#' Fetches and filters custom (user) annotations for a given user prefix
+#'
+#' @export
+#' @importFrom jsonlite stream_in
+#' @param fds The \code{FacileDataSet}
+#' @param samples the facile sample descriptor
+#' @param custom_key The key to use for the custom annotation
+#' @return covariate tbl
+#' @family API
+fetch_custom_sample_covariates <- function(x, samples=NULL, covariates=NULL,
+                                           custom_key=Sys.getenv("USER")) {
+  out <- custom_sample_covariates_tbl(x, custom_key = custom_key) %>%
+    join_samples(samples, semi=TRUE)
 
   if (!is.null(covariates)) {
     out <- filter(out, variable %in% covariates)

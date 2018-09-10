@@ -11,8 +11,9 @@
 Helper function to get sample assay data from single or aggregate features
 }
 \seealso{
-Other API: \code{\link{fetch_assay_data.FacileDataSet}},
-  \code{\link{fetch_custom_sample_covariates.FacileDataSet}},
+Other API: \code{\link{custom_sample_covariates_tbl.FacileDataSet}},
+  \code{\link{fetch_assay_data.FacileDataSet}},
+  \code{\link{fetch_custom_sample_covariates}},
   \code{\link{fetch_sample_covariates}},
   \code{\link{fetch_sample_statistics}},
   \code{\link{fetch_samples.FacileDataSet}},

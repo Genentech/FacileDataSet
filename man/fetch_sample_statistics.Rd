@@ -5,7 +5,7 @@
 \title{Fetch the sample statistics for sets of samples in the warehouse}
 \usage{
 fetch_sample_statistics(x, samples = NULL, semi = TRUE,
-  assay_name = "rnaseq")
+  assay_name = default_assay(x))
 }
 \arguments{
 \item{x}{A \code{FacileDataSet} object}
@@ -28,9 +28,10 @@ assay_sample_info_tbl, but the way we handle this with the new unhinged
 assay needs to change.
 }
 \seealso{
-Other API: \code{\link{fetch_assay_data.FacileDataSet}},
+Other API: \code{\link{custom_sample_covariates_tbl.FacileDataSet}},
+  \code{\link{fetch_assay_data.FacileDataSet}},
   \code{\link{fetch_assay_score.FacileDataSet}},
-  \code{\link{fetch_custom_sample_covariates.FacileDataSet}},
+  \code{\link{fetch_custom_sample_covariates}},
   \code{\link{fetch_sample_covariates}},
   \code{\link{fetch_samples.FacileDataSet}},
   \code{\link{organism.FacileDataSet}},
