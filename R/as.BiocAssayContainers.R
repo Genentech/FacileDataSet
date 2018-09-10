@@ -126,7 +126,7 @@ as.DGEList.matrix <- function(x, covariates=TRUE, feature_ids=NULL,
 
   ## Doing the internal filtering seems to be too slow
   ## sample.stats <- fetch_sample_statistics(db, x) %>%
-  sample.stats <- fetch_sample_statistics(.fds, samples) %>%
+  sample.stats <- fetch_sample_statistics(.fds, samples, assay_name = assay_name) %>%
     collect(n=Inf) %>%
     mutate(samid=paste(dataset, sample_id, sep='__')) %>%
     rename(lib.size=libsize, norm.factors=normfactor) %>%
