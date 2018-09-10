@@ -105,9 +105,10 @@ as.DGEList.matrix <- function(x, covariates=TRUE, feature_ids=NULL,
   }
 
   fids <- rownames(x)
-  genes <- gene_info_tbl(.fds) %>%
+  genes <- feature_info_tbl(.fds) %>%
     collect(n=Inf) %>% ## #dboptimize# remove this if you want to exercise db
     semi_join(tibble(feature_id=fids), by='feature_id') %>%
+    rename(length = effective_length, symbol = name) %>%
     as.data.frame %>%
     set_rownames(., .$feature_id)
 
