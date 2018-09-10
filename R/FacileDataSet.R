@@ -211,6 +211,16 @@ meta_info.FacileDataSet <- function(x, fn = meta_file(x)) {
   out
 }
 
+
+#' @param object a FacileDataSet
+#' @return single character
+#' @family FacileInterface
+#' @export
+#' @importFrom BiocGenerics organism
+setMethod("organism", "FacileDataSet", function(object) {
+  UseMethod("organism")
+})
+
 #' Retrieves the organism the data is defined over
 #'
 #' A FacileDataStore is only expected to hold data for one organism.
@@ -218,7 +228,7 @@ meta_info.FacileDataSet <- function(x, fn = meta_file(x)) {
 #' @export
 #' @family API
 #' @return `"Homo sapiens`", `"Mus musculus"`, etc.
-fetch_organism.FacileDataSet <- function(x) {
+organism.FacileDataSet <- function(x) {
   x$organism
 }
 
@@ -293,12 +303,21 @@ covariate_definitions <- function(x, as.list=TRUE) {
 #' @family API
 #'
 #' @param object a `FacileDataSet`
-#' @return tibble of sample attributes
+#' @return tibble with dataset and sample_id columns
+#' @importFrom Biobase samples
 setMethod("samples", "FacileDataSet", function(object) {
-  sample_info_tbl(object) %>%
-    select(dataset, sample_id) %>%
-    set_fds(object)
+  UseMethod("samples")
 })
+
+#' @export
+#' @family API
+#' @param x a `FacileDataSet`
+#' @return tibble with dataset and sample_id columns
+samples.FacileDataSet <- function(x) {
+  sample_info_tbl(x) %>%
+    select(dataset, sample_id) %>%
+    set_fds(x)
+}
 
 #' @export
 #' @rdname facet_frame

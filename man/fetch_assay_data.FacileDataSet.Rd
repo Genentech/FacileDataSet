@@ -47,10 +47,11 @@ Fetch data from single assay of choice
 \seealso{
 Other API: \code{\link{fetch_assay_score.FacileDataSet}},
   \code{\link{fetch_custom_sample_covariates.FacileDataSet}},
-  \code{\link{fetch_organism.FacileDataSet}},
   \code{\link{fetch_sample_covariates}},
-  \code{\link{fetch_sample_statistics.FacileDataSet}},
+  \code{\link{fetch_sample_statistics}},
   \code{\link{fetch_samples.FacileDataSet}},
-  \code{\link{samples,FacileDataSet-method}}
+  \code{\link{organism.FacileDataSet}},
+  \code{\link{samples,FacileDataSet-method}},
+  \code{\link{samples.FacileDataSet}}
 }
 \concept{API}
