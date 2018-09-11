@@ -218,7 +218,7 @@ meta_info.FacileDataSet <- function(x, fn = meta_file(x)) {
 #' @export
 #' @importFrom BiocGenerics organism
 setMethod("organism", "FacileDataSet", function(object) {
-  UseMethod("organism")
+  FacileDataSet::organism.FacileDataSet(object)
 })
 
 #' Retrieves the organism the data is defined over
@@ -306,7 +306,7 @@ covariate_definitions <- function(x, as.list=TRUE) {
 #' @return tibble with dataset and sample_id columns
 #' @importFrom Biobase samples
 setMethod("samples", "FacileDataSet", function(object) {
-  UseMethod("samples")
+  FacileDataSet::samples.FacileDataSet(object)
 })
 
 #' @export
@@ -344,3 +344,10 @@ print.FacileDataSet <- function(x, ...) {
   cat(out)
   invisible()
 }
+
+### Hack to get S4 dispatch on data packages to work ###
+setOldClass(c("ExampleFacileTCGADataSet", "FacileDataSet", "AbstractFacileDataStore"))
+setOldClass(c("FacileTCGADataSet", "FacileDataSet", "AbstractFacileDataStore"))
+setOldClass(c("FacileGCellDataSet", "FacileDataSet", "AbstractFacileDataStore"))
+setOldClass(c("FacileClavierDataSet", "FacileDataSet", "AbstractFacileDataStore"))
+setOldClass(c("FacileAtezoDataSet", "FacileDataSet", "AbstractFacileDataStore"))
