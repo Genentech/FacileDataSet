@@ -503,7 +503,7 @@ with_assay_data <- function(samples, features, assay_name=NULL,
                             normalized=TRUE, aggregate.by=NULL,
                             spread=TRUE, with_assay_name=FALSE, ...,
                             verbose=FALSE, .fds=fds(samples)) {
-  if (is.FacileDataSet(samples)) {
+  if (is(samples,"FacileDataSet")) {
     .fds <- samples(samples)
     samples(samples(.fds))
   }

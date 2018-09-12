@@ -6,7 +6,7 @@
 #' @param table_name the name of the table to query
 #' @return a character vector of primary keys
 primary_key <- function(x, table_name) {
-  if (is.FacileDataSet(x)) x <- x$con
+  if (is(x,"FacileDataSet")) x <- x$con
   stopifnot(is(x, 'SQLiteConnection'))
   assert_string(table_name)
   info <- dbGetQuery(x, sprintf("PRAGMA table_info(%s);", table_name))
