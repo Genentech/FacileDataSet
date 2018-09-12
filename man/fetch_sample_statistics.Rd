@@ -30,7 +30,6 @@ assay needs to change.
 \seealso{
 Other API: \code{\link{custom_sample_covariates_tbl.FacileDataSet}},
   \code{\link{fetch_assay_data.FacileDataSet}},
-  \code{\link{fetch_assay_score.FacileDataSet}},
   \code{\link{fetch_custom_sample_covariates}},
   \code{\link{fetch_sample_covariates}},
   \code{\link{fetch_samples.FacileDataSet}},

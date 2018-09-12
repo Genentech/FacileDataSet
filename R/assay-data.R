@@ -223,9 +223,16 @@ fetch_assay_data.FacileDataSet <- function(x, features, samples=NULL,
 }
 
 #' Helper function to get sample assay data from single or aggregate features
+##' @param x An object from a class implementing FacileInterface
+##' @param features two-tbl of dataset and feature_id for subsetting
+##' @param samples two-tbl of dataset and sample_id for subsetting
+##' @param assay_name single character, e.g. rnaseq
+##' @param normalized single logical, normalize columns?
+##' @param as.matrix single logical, return matrix rather than long tbl?
+##' @param ... dots
+##' @param subset.threshold single integer, take first n rows
 #' @export
-#' @family API
-fetch_assay_score.FacileDataSet <- function(x, features, samples=NULL, assay_name=NULL,
+fetch_assay_score <- function(x, features, samples=NULL, assay_name=NULL,
                                             as.matrix=FALSE, ..., subset.threshold=700) {
   if (is.null(assay_name)) {
     assay_name <- features$assay

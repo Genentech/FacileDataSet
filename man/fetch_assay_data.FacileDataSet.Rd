@@ -46,7 +46,6 @@ Fetch data from single assay of choice
 }
 \seealso{
 Other API: \code{\link{custom_sample_covariates_tbl.FacileDataSet}},
-  \code{\link{fetch_assay_score.FacileDataSet}},
   \code{\link{fetch_custom_sample_covariates}},
   \code{\link{fetch_sample_covariates}},
   \code{\link{fetch_sample_statistics}},
