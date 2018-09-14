@@ -2,9 +2,17 @@
 % Please edit documentation in R/FacileDataSet.R
 \name{organism.FacileDataSet}
 \alias{organism.FacileDataSet}
-\title{Retrieves the organism the data is defined over}
+\title{#' @param object a FacileDataSet
+#' @return single character
+#' @family FacileInterface
+#' @export
+#' @importFrom BiocGenerics organism
+setMethod("organism", "FacileDataSet", function(object) {
+  FacileDataSet::organism.FacileDataSet(object)
+})
+Retrieves the organism the data is defined over}
 \usage{
-organism.FacileDataSet(x)
+\method{organism}{FacileDataSet}(x)
 }
 \value{
 `"Homo sapiens`", `"Mus musculus"`, etc.
@@ -18,8 +26,6 @@ Other API: \code{\link{custom_sample_covariates_tbl.FacileDataSet}},
   \code{\link{fetch_custom_sample_covariates}},
   \code{\link{fetch_sample_covariates}},
   \code{\link{fetch_sample_statistics}},
-  \code{\link{fetch_samples.FacileDataSet}},
-  \code{\link{samples,FacileDataSet-method}},
-  \code{\link{samples.FacileDataSet}}
+  \code{\link{fetch_samples.FacileDataSet}}
 }
 \concept{API}

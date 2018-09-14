@@ -45,6 +45,16 @@ fetch_sample_covariates <- function(x, samples=NULL, covariates=NULL,
   set_fds(out, x)
 }
 
+#' @export
+custom_sample_covariates_tbl <- function(x) {
+  UseMethod("custom_sample_covariates_tbl")
+}
+
+#' @method samples default
+custom_sample_covariates_tbl.default <- function(x) {
+  stop("The FacileAPI requires that a specific method be written for this type.")
+}
+
 #' Fetches custom (user) annotations for a given user prefix
 #'
 #' @export

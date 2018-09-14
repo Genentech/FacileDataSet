@@ -24,8 +24,6 @@ Other API: \code{\link{fetch_assay_data.FacileDataSet}},
   \code{\link{fetch_sample_covariates}},
   \code{\link{fetch_sample_statistics}},
   \code{\link{fetch_samples.FacileDataSet}},
-  \code{\link{organism.FacileDataSet}},
-  \code{\link{samples,FacileDataSet-method}},
-  \code{\link{samples.FacileDataSet}}
+  \code{\link{organism.FacileDataSet}}
 }
 \concept{API}

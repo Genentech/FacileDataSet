@@ -62,8 +62,28 @@ append_facile_table <- function(dat, x, table_name) {
 ## Database Table Accessors ====================================================
 
 #' @export
+assay_info_tbl <- function(x) {
+  UseMethod("assay_info_tbl")
+}
+
+#' @method samples default
+assay_info_tbl.default <- function(x) {
+  stop("The FacileAPI requires that a specific method be written for this type.")
+}
+
+#' @export
 assay_info_tbl.FacileDataSet <- function(x) {
   tbl(x$con, 'assay_info') %>% set_fds(x)
+}
+
+#' @export
+assay_feature_info_tbl <- function(x) {
+  UseMethod("assay_feature_info_tbl")
+}
+
+#' @method samples default
+assay_feature_info_tbl.default <- function(x) {
+  stop("The FacileAPI requires that a specific method be written for this type.")
 }
 
 #' @export
@@ -72,8 +92,28 @@ assay_feature_info_tbl.FacileDataSet <- function(x) {
 }
 
 #' @export
+assay_sample_info_tbl <- function(x) {
+  UseMethod("assay_sample_info_tbl")
+}
+
+#' @method samples default
+assay_sample_info_tbl.default <- function(x) {
+  stop("The FacileAPI requires that a specific method be written for this type.")
+}
+
+#' @export
 assay_sample_info_tbl.FacileDataSet <- function(x) {
   tbl(x$con, 'assay_sample_info') %>% set_fds(x)
+}
+
+#' @export
+feature_info_tbl <- function(x) {
+  UseMethod("feature_info_tbl")
+}
+
+#' @method samples default
+feature_info_tbl.default <- function(x) {
+  stop("The FacileAPI requires that a specific method be written for this type.")
 }
 
 #' @export
@@ -128,14 +168,78 @@ sample_stats_tbl <- function(x) {
 }
 
 #' @export
+sample_covariate_tbl <- function(x) {
+  UseMethod("sample_covariate_tbl")
+}
+
+#' @method samples default
+sample_covariate_tbl.default <- function(x) {
+  stop("The FacileAPI requires that a specific method be written for this type.")
+}
+
+#' @export
 sample_covariate_tbl.FacileDataSet <- function(x) {
   tbl(x$con, 'sample_covariate') %>% set_fds(x)
+}
+
+#' @export
+sample_info_tbl <- function(x) {
+  UseMethod("sample_info_tbl")
+}
+
+#' @method samples default
+sample_info_tbl.default <- function(x) {
+  stop("The FacileAPI requires that a specific method be written for this type.")
 }
 
 #' @export
 sample_info_tbl.FacileDataSet <- function(x) {
   tbl(x$con, 'sample_info') %>% set_fds(x)
 }
+
+###################### restored 2018.09.14
+#' Get/set db	
+#'	
+#' @rdname getsetdb	
+#' @export	
+#' @param x the object	
+#' @param db The \code{FacileDb} object	
+fds <- function(x) {	
+  if (is.FacileDataSet(x)) return(x)	
+  out <- attr(x, 'fds')	
+  if (is.null(out)) {	
+    warning("No FacileDataSet found in x (", class(x)[1L], ")", immediate.=TRUE)	
+  }	
+  out	
+}	
+#' @rdname getsetdb	
+#' @export	
+"fds<-" <- function(x, value) {	
+  UseMethod("fds<-", x)	
+}	
+#' @rdname getsetdb	
+#' @export	
+"fds<-.tbl" <- function(x, value) {	
+  attr(x, 'fds') <- value	
+  x	
+}	
+#' @rdname getsetdb	
+#' @export	
+"fds<-.data.frame" <- function(x, value) {	
+  attr(x, 'fds') <- value	
+  x	
+}	
+"fds<-.default" <- function(x, value) {	
+  attr(x, 'fds') <- value	
+  x	
+}	
+#' @rdname getsetdb	
+#' @export	
+set_fds <- function(x, value) {	
+  attr(x, 'fds') <- value	
+  x	
+}	
+###################### end - restored 2018.09.14
 
 ## Unexported utility functions ================================================
 

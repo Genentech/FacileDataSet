@@ -91,7 +91,7 @@ FacileDataSet <- function(path, data.fn=file.path(path, 'data.sqlite'),
   con <- dbConnect(SQLite(), paths$sqlite.fn)
 
   if (db.loc == 'memory') {
-    mcon <- dbConnect(RSQLite::SQLite(), ":memory:")
+    mcon <- dbConnect(SQLite(), ":memory:")
     RSQLite::sqliteCopyDatabase(con, mcon)
     RSQLite::dbDisconnect(con)
     con <- mcon
@@ -185,6 +185,16 @@ hdf5fn <- function(x, mustWork=TRUE) {
   out
 }
 
+#' @export
+meta_file <- function(x) {
+  UseMethod("meta_file")
+}
+
+#' @method samples default
+meta_file.default <- function(x) {
+  stop("The FacileAPI requires that a specific method be written for this type.")
+}
+
 #' Path to the meta information YAML file
 #'
 #' @export
@@ -195,6 +205,16 @@ hdf5fn <- function(x, mustWork=TRUE) {
 meta_file.FacileDataSet <- function(x) {
   fn <- assert_file(file.path(x$parent.dir, 'meta.yaml'), 'r')
   fn
+}
+
+#' @export
+meta_info <- function(x) {
+  UseMethod("meta_info")
+}
+
+#' @method samples default
+meta_info.default <- function(x) {
+  stop("The FacileAPI requires that a specific method be written for this type.")
 }
 
 #' Retrieves the meta information for a FacileDataSet
@@ -212,14 +232,14 @@ meta_info.FacileDataSet <- function(x, fn = meta_file(x)) {
 }
 
 
-#' @param object a FacileDataSet
-#' @return single character
-#' @family FacileInterface
-#' @export
-#' @importFrom BiocGenerics organism
-setMethod("organism", "FacileDataSet", function(object) {
-  FacileDataSet::organism.FacileDataSet(object)
-})
+#' #' @param object a FacileDataSet
+#' #' @return single character
+#' #' @family FacileInterface
+#' #' @export
+#' #' @importFrom BiocGenerics organism
+#' setMethod("organism", "FacileDataSet", function(object) {
+#'   FacileDataSet::organism.FacileDataSet(object)
+#' })
 
 #' Retrieves the organism the data is defined over
 #'
@@ -295,22 +315,22 @@ covariate_definitions <- function(x, as.list=TRUE) {
   set_fds(out, x)
 }
 
-#' Retrieves the sample identifiers for all samples in a FacileDataSet.
-#'
-#' Sample identifiers are provided as `dataset,sample_id tuples`.
-#'
-#' @export
-#' @family API
-#'
-#' @param object a `FacileDataSet`
-#' @return tibble with dataset and sample_id columns
-#' @importFrom Biobase samples
-setMethod("samples", "FacileDataSet", function(object) {
-  FacileDataSet::samples.FacileDataSet(object)
-})
+#' #' Retrieves the sample identifiers for all samples in a FacileDataSet.
+#' #'
+#' #' Sample identifiers are provided as `dataset,sample_id tuples`.
+#' #'
+#' #' @export
+#' #' @family API
+#' #'
+#' #' @param object a `FacileDataSet`
+#' #' @return tibble with dataset and sample_id columns
+#' #' @importFrom Biobase samples
+#' setMethod("samples", "FacileDataSet", function(object) {
+#'   FacileDataSet::samples.FacileDataSet(object)
+#' })
 
 #' @export
-#' @family API
+#' @family FacileInterface
 #' @param x a `FacileDataSet`
 #' @return tibble with dataset and sample_id columns
 samples.FacileDataSet <- function(x) {
