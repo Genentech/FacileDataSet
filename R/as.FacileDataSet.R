@@ -143,6 +143,15 @@ as.FacileDataSet.list <- function(x, path, assay_name, assay_type,
   if (file.exists(path)) {
     stop("Target directory already exists: ", path)
   }
+  
+  # All elements in list must be the same class, and a legit class at that!
+  first <- x[[1L]]
+  fclass <- class(first)[1L]
+  # ... same class
+  same.classes <- sapply(x, function(xx) class(xx)[1L] == fclass)
+  stopifnot(all(same.classes))
+  # ... legit class
+  stopifnot(fclass %in% legit.as.classes)
 
   # names(x) defines the name of the `dataset` value for each internal dataset
   if (length(x) > 1L) {
@@ -155,15 +164,6 @@ as.FacileDataSet.list <- function(x, path, assay_name, assay_type,
     # default dataset name if the list is unnamed
     names(x) <- tolower(fclass)
   }
-
-  # All elements in list must be the same class, and a legit class at that!
-  first <- x[[1L]]
-  fclass <- class(first)[1L]
-  # ... same class
-  same.classes <- sapply(x, function(xx) class(xx)[1L] == fclass)
-  stopifnot(all(same.classes))
-  # ... legit class
-  stopifnot(fclass %in% legit.as.classes)
 
   # load required namespace to deal with object of type `fclass`
   pkg <- local({
