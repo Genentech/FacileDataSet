@@ -62,29 +62,10 @@ append_facile_table <- function(dat, x, table_name) {
 ## Database Table Accessors ====================================================
 
 #' @export
-assay_info_tbl <- function(x) {
-  UseMethod("assay_info_tbl")
-}
-
-#' @method samples default
-assay_info_tbl.default <- function(x) {
-  stop("The FacileAPI requires that a specific method be written for this type.")
-}
-
-#' @export
 assay_info_tbl.FacileDataSet <- function(x) {
   tbl(x$con, 'assay_info') %>% set_fds(x)
 }
 
-#' @export
-assay_feature_info_tbl <- function(x) {
-  UseMethod("assay_feature_info_tbl")
-}
-
-#' @method samples default
-assay_feature_info_tbl.default <- function(x) {
-  stop("The FacileAPI requires that a specific method be written for this type.")
-}
 
 #' @export
 assay_feature_info_tbl.FacileDataSet <- function(x) {
@@ -92,29 +73,10 @@ assay_feature_info_tbl.FacileDataSet <- function(x) {
 }
 
 #' @export
-assay_sample_info_tbl <- function(x) {
-  UseMethod("assay_sample_info_tbl")
-}
-
-#' @method samples default
-assay_sample_info_tbl.default <- function(x) {
-  stop("The FacileAPI requires that a specific method be written for this type.")
-}
-
-#' @export
 assay_sample_info_tbl.FacileDataSet <- function(x) {
   tbl(x$con, 'assay_sample_info') %>% set_fds(x)
 }
 
-#' @export
-feature_info_tbl <- function(x) {
-  UseMethod("feature_info_tbl")
-}
-
-#' @method samples default
-feature_info_tbl.default <- function(x) {
-  stop("The FacileAPI requires that a specific method be written for this type.")
-}
 
 #' @export
 feature_info_tbl.FacileDataSet <- function(x, assay_name=NULL) {
@@ -168,28 +130,8 @@ sample_stats_tbl <- function(x) {
 }
 
 #' @export
-sample_covariate_tbl <- function(x) {
-  UseMethod("sample_covariate_tbl")
-}
-
-#' @method samples default
-sample_covariate_tbl.default <- function(x) {
-  stop("The FacileAPI requires that a specific method be written for this type.")
-}
-
-#' @export
 sample_covariate_tbl.FacileDataSet <- function(x) {
   tbl(x$con, 'sample_covariate') %>% set_fds(x)
-}
-
-#' @export
-sample_info_tbl <- function(x) {
-  UseMethod("sample_info_tbl")
-}
-
-#' @method samples default
-sample_info_tbl.default <- function(x) {
-  stop("The FacileAPI requires that a specific method be written for this type.")
 }
 
 #' @export

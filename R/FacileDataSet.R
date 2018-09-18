@@ -185,16 +185,6 @@ hdf5fn <- function(x, mustWork=TRUE) {
   out
 }
 
-#' @export
-meta_file <- function(x) {
-  UseMethod("meta_file")
-}
-
-#' @method samples default
-meta_file.default <- function(x) {
-  stop("The FacileAPI requires that a specific method be written for this type.")
-}
-
 #' Path to the meta information YAML file
 #'
 #' @export
@@ -205,16 +195,6 @@ meta_file.default <- function(x) {
 meta_file.FacileDataSet <- function(x) {
   fn <- assert_file(file.path(x$parent.dir, 'meta.yaml'), 'r')
   fn
-}
-
-#' @export
-meta_info <- function(x) {
-  UseMethod("meta_info")
-}
-
-#' @method samples default
-meta_info.default <- function(x) {
-  stop("The FacileAPI requires that a specific method be written for this type.")
 }
 
 #' Retrieves the meta information for a FacileDataSet
