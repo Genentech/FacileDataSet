@@ -23,7 +23,7 @@
 #'   data to be \code{\link[dplyr]{collect}}ed when \code{db} is provided,
 #'   otherwise a \code{tbl_df} of the results.
 #' @family API
-fetch_assay_data.FacileDataSet <- function(x, features, samples=NULL,
+fetch_assay_data.FacileDataSet <- function(x, features = NULL, samples=NULL,
                              assay_name=default_assay(x),
                              normalized=FALSE, ..., as.matrix=FALSE,
                              subset.threshold=700, aggregate.by=c("none", "ewm", "zscore"),
@@ -31,14 +31,14 @@ fetch_assay_data.FacileDataSet <- function(x, features, samples=NULL,
   assert_flag(as.matrix)
   assert_flag(normalized)
   assert_number(subset.threshold)
-
   aggregate.by = match.arg(aggregate.by)
+
   if (!is.null(assay_name) || is.character(features)) {
     assert_string(assay_name)
     assert_choice(assay_name, assay_names(x))
   }
 
-  if (missing(features) || is.null(features)) {
+  if (is.null(features)) {
     assert_string(assay_name)
     features <- assay_feature_info(x, assay_name) %>% collect(n=Inf)
   } else {
@@ -186,7 +186,7 @@ fetch_assay_data.FacileDataSet <- function(x, features, samples=NULL,
 
   if (!as.matrix) {
     vals <- .melt.assay.matrix(vals, assay_name, atype, ftype, finfo)
-    if (!is.null(aggregate.by)) {
+    if (!identical(aggregate.by,"none")) {
       vals[, feature_type := 'aggregated']
       vals[, feature_id := 'aggregated']
       vals[, feature_name := 'aggregated']
@@ -256,10 +256,4 @@ normalize.assay.matrix <- function(vals, feature.info, sample.info,
     out <- vals
   }
   out
-}
-
-can.spread.assay.by.name <- function(x, assay_name) {
-  ## TODO: check if duplicate sample_id;name combos exist, in which case
-  ## we spread with id and not name
-  TRUE
 }
