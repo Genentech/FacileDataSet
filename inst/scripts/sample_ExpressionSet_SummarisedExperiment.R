@@ -38,7 +38,6 @@ ExpressionSetSample <-
     assayData = assayDataSample,
     phenoData = AnnotatedDataFrame(phenoDataSample),
     featureData = AnnotatedDataFrame(featureDataSample),
-    protocolData = annotatedDataFrameFrom(assayDataSample, byrow = FALSE),
     annotation = "annotation"
   )
 ## save sample ExpressionSetSample

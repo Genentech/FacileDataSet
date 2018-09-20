@@ -48,7 +48,6 @@ testthat::test_that(desc = "as.FacileDataSet.R::as.FacileDataSet.ExpressionSet",
     source_assay = "exprs",
     dataset_name = "ExpressionSetSample",
     assay_name = "assayDataSample",
-    #assay_type = "rnaseq",
     organism = "unspecified"
   )
   testthat::expect_identical(object = file.size(list.files(fdsDir, full.names = TRUE)),
