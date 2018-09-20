@@ -42,7 +42,7 @@ subtype_map <- function(x) {
 #' @param ... the NSE boolean filter criteria
 #' @return a facile sample descriptor
 #' @family API
-fetch_samples.FacileDataSet <- function(x, samples=NULL, assay="rnaseq", ...) {
+fetch_samples <- function(x, samples=NULL, assay="rnaseq", ...) {
   dots <- lazy_dots(...)
   if (length(dots)) {
     stop("Currently rethinking how to make fetching samples intuitive, ie. ",

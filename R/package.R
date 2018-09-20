@@ -9,5 +9,6 @@
 #' @import tidyr
 #' @import methods
 #' @import survival
+#' @import assertthat
 #' @importFrom utils read.csv
 "_PACKAGE"

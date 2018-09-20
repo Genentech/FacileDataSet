@@ -61,20 +61,21 @@ as.DGEList <- function(x, ...) {
 #' @method as.DGEList matrix
 #' @rdname as.BiocContainer
 #' @export
-#' @param x
-#' @param covariates
-#' @param feature_ids
-#' @param assay_name
-#' @param .fds
-#' @param custom_key
-#' @param ...
+#' @param x result of fetch_assay_data
+#' @param covariates character, of pData columns to fetch
+#' @param feature_ids two-column tibble of dataset,feature_id to filter features
+#' @param assay_name single character, e.g. 'rnaseq'
+#' @param .fds FacileDataSet
+#' @param custom_key single character, e.g. user ID for looking up custom covariates
+#' @param ... dots, passed on
 as.DGEList.matrix <- function(x, covariates=TRUE, feature_ids=NULL,
                               assay_name=default_assay(.fds), .fds=fds(x),
                               custom_key=Sys.getenv("USER"), ...) {
 
   ## NOTE: by now assay_name is ignored
   stopifnot(is(x, 'FacileExpression'))
-  requireNamespace("edgeR")
+  requireNamespace("edgeR") || stop("Failed to require edgeR.")
+
   .fds <- force(.fds)
 #  stopifnot(is.FacileDataSet(.fds))
 
@@ -86,8 +87,9 @@ as.DGEList.matrix <- function(x, covariates=TRUE, feature_ids=NULL,
   ## if you don't want to `collect` first, you could send `samples` in as
   ## second argument and then copy that into the db.
   ## #dboptimize
+
   bad.samples <- samples %>%
-    anti_join(collect(sample_stats_tbl(.fds), n=Inf),
+    anti_join(collect(assay_sample_info_tbl(.fds), n=Inf),
               by=c('dataset', 'sample_id')) %>%
     collect(n=Inf)
   if (nrow(bad.samples)) {
@@ -160,6 +162,7 @@ as.DGEList.data.frame <- function(x, covariates=TRUE, feature_ids=NULL,
                                   assay_name=default_assay(.fds), .fds=fds(x),
                                   custom_key=Sys.getenv("USER"),
                                   ...) {
+
   .fds <- force(.fds)
 #  stopifnot(is.FacileDataSet(.fds))
   x <- assert_sample_subset(x)
@@ -173,7 +176,7 @@ as.DGEList.data.frame <- function(x, covariates=TRUE, feature_ids=NULL,
       fetch.counts <- TRUE
     }
     if (!missing(feature_ids) && is.null(feature_ids)) {
-      ## user explicitly wants everythin
+      ## user explicitly wants everything
       fetch.counts <- TRUE
     }
   }
@@ -188,7 +191,7 @@ as.DGEList.data.frame <- function(x, covariates=TRUE, feature_ids=NULL,
     if (ainfo$assay_type != 'rnaseq') {
       warning("Creating DGEList for something other than rnaseq type assay")
     }
-    counts <- fetch_assay_data(.fds, feature_ids, x, assay_name=assay_name,
+    counts <- fetch_assay_data(.fds, feature_ids, samples = x, assay_name=assay_name,
                                normalized=FALSE, as.matrix=TRUE)
   } else {
     counts.dt <- assert_expression_result(x) %>%

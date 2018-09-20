@@ -76,7 +76,7 @@ custom_sample_covariates_tbl.FacileDataSet <- function(x, custom_key=Sys.getenv(
     out$date_entered <- integer()
     out <- as.data.frame(out, stringsAsFactors=FALSE) %>% as.tbl
   }
-  out
+  set_fds(out,x)
 }
 
 #' Fetches and filters custom (user) annotations for a given user prefix

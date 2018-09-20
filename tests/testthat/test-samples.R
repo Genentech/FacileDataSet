@@ -1,3 +1,6 @@
+library(FacileDataSet)
+library(testthat)
+
 context("Retrieving arbitrary samples")
 
 FDS <- exampleFacileDataSet()

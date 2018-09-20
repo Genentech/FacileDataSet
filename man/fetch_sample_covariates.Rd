@@ -28,7 +28,7 @@ Other API: \code{\link{custom_sample_covariates_tbl.FacileDataSet}},
   \code{\link{fetch_assay_data.FacileDataSet}},
   \code{\link{fetch_custom_sample_covariates}},
   \code{\link{fetch_sample_statistics}},
-  \code{\link{fetch_samples.FacileDataSet}},
+  \code{\link{fetch_samples}},
   \code{\link{organism.FacileDataSet}},
   \code{\link{samples,FacileDataSet-method}},
   \code{\link{samples.FacileDataSet}}

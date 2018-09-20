@@ -55,6 +55,8 @@ as.SummarizedExperiment(x, ...)
 \arguments{
 \item{x}{a facile expression-like result}
 
+\item{...}{dots, passed on}
+
 \item{covariates}{The covariates the user wants to add to the $samples of
 the DGEList. This can take the following forms:
 - `TRUE`: All covariates are retrieved from the `FacileDataSet`
@@ -80,6 +82,18 @@ The default value is the entry provided by [default_assay()]}
 
 \item{custom_key}{the custom key to use to fetch custom annotations from
 `.fds`}
+
+\item{x}{result of fetch_assay_data}
+
+\item{covariates}{character, of pData columns to fetch}
+
+\item{feature_ids}{two-column tibble of dataset,feature_id to filter features}
+
+\item{assay_name}{single character, e.g. 'rnaseq'}
+
+\item{.fds}{FacileDataSet}
+
+\item{custom_key}{single character, e.g. user ID for looking up custom covariates}
 }
 \value{
 the appropriate bioconductor assay container, ie. a [edgeR::DGEList]

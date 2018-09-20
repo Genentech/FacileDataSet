@@ -4,7 +4,10 @@
 \alias{organism.FacileDataSet}
 \title{Retrieves the organism the data is defined over}
 \usage{
-organism.FacileDataSet(x)
+organism.FacileDataSet(object)
+}
+\arguments{
+\item{object}{A FacileDataSet}
 }
 \value{
 `"Homo sapiens`", `"Mus musculus"`, etc.
@@ -18,7 +21,7 @@ Other API: \code{\link{custom_sample_covariates_tbl.FacileDataSet}},
   \code{\link{fetch_custom_sample_covariates}},
   \code{\link{fetch_sample_covariates}},
   \code{\link{fetch_sample_statistics}},
-  \code{\link{fetch_samples.FacileDataSet}},
+  \code{\link{fetch_samples}},
   \code{\link{samples,FacileDataSet-method}},
   \code{\link{samples.FacileDataSet}}
 }

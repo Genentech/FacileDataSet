@@ -3,7 +3,6 @@
 #' @export
 #' @importFrom rhdf5 h5read
 #' @importFrom multiGSEA eigenWeightedMean
-#' @inheritParams assay_feature_info
 #' @param x A \code{FacileDataSet} object.
 #' @param features a feature descriptor (data.frame with assay and feature_id
 #'   columms)
@@ -26,13 +25,14 @@
 #' @family API
 fetch_assay_data.FacileDataSet <- function(x, features, samples=NULL,
                              assay_name=default_assay(x),
-                             normalized=FALSE, as.matrix=FALSE, ...,
+                             normalized=FALSE, ..., as.matrix=FALSE,
                              subset.threshold=700, aggregate.by=c("none", "ewm", "zscore"),
                              verbose=FALSE) {
   assert_flag(as.matrix)
   assert_flag(normalized)
   assert_number(subset.threshold)
-  aggregate.by = match.arg(tolower(aggregate.by))
+
+  aggregate.by = match.arg(aggregate.by)
   if (!is.null(assay_name) || is.character(features)) {
     assert_string(assay_name)
     assert_choice(assay_name, assay_names(x))
@@ -98,7 +98,7 @@ fetch_assay_data.FacileDataSet <- function(x, features, samples=NULL,
                               subset.threshold=700, aggregate.by=c("none", "ewm", "zscore"),
                               ..., verbose=FALSE) {
   #  stopifnot(is.FacileDataSet(x))
-  aggregate.by = match.arg(tolower(aggregate.by))
+  aggregate.by = match.arg(aggregate.by)
   assert_string(assay_name)
   assert_character(feature_ids, min.len=1L)
   samples <- assert_sample_subset(samples)
