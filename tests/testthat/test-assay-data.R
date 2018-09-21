@@ -1,3 +1,6 @@
+library(FacileDataSet)
+library(testthat)
+
 context("Fetching assay level data")
 
 FDS <- exampleFacileDataSet()

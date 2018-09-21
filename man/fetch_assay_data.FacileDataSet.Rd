@@ -4,10 +4,10 @@
 \alias{fetch_assay_data.FacileDataSet}
 \title{Fetch data from single assay of choice}
 \usage{
-\method{fetch_assay_data}{FacileDataSet}(x, features, samples = NULL,
-  assay_name = default_assay(x), normalized = FALSE, ...,
-  as.matrix = FALSE, subset.threshold = 700, aggregate.by = c("none",
-  "ewm", "zscore"), verbose = FALSE)
+\method{fetch_assay_data}{FacileDataSet}(x, features = NULL,
+  samples = NULL, assay_name = default_assay(x), normalized = FALSE,
+  ..., as.matrix = FALSE, subset.threshold = 700,
+  aggregate.by = c("none", "ewm", "zscore"), verbose = FALSE)
 }
 \arguments{
 \item{x}{A \code{FacileDataSet} object.}

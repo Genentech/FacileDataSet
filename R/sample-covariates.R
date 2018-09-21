@@ -162,8 +162,11 @@ save_custom_sample_covariates <- function(x, annotation, name=NULL,
 #' @return The facile \code{x} object, annotated with the specified covariates.
 with_sample_covariates <- function(x, covariates=NULL, na.rm=FALSE,
                                    custom_key=Sys.getenv("USER"), .fds=fds(x)) {
-#  stopifnot(is.FacileDataSet(.fds))
-  x <- assert_sample_subset(x) %>% collect(n=Inf)
+  #  stopifnot(is.FacileDataSet(.fds))
+
+  .fds <- force(.fds) # Necessary because we lose the fds attribute of x below
+  x <- assert_sample_subset(x) %>% collect(n=Inf) # collect drops fds attribute, but OK
+
   stopifnot(is.character(covariates) || is.null(covariates))
   if (is.character(covariates) && length(covariates) == 0L) {
     return(x)
