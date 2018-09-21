@@ -267,10 +267,15 @@ as.ExpressionSet.data.frame <- function(x, covariates=TRUE, feature_ids=NULL,
 #' @export
 #' @method as.ExpressionSet FacileDataSet
 #' @rdname as.BiocContainer
-as.ExpressionSet.FacileDataSet <- function(x, covariates=TRUE, feature_ids=NULL,
-                                           assay_name=default_assay(.fds),
-                                           .fds=fds(x),
-                                           custom_key=Sys.getenv("USER"), ...) {
+as.ExpressionSet.FacileDataSet <-
+  function(x,
+           covariates = TRUE,
+           feature_ids = NULL,
+           .fds = fds(x),
+           assay_name = default_assay(.fds),
+           custom_key = Sys.getenv("USER"),
+           ...) {
+    
   force(.fds)
   x <- samples(x) %>% collect(n=Inf) %>% set_fds(.fds)
   as.ExpressionSet(x, covariates, feature_ids, assay_name, x,
