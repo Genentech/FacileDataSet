@@ -11,10 +11,12 @@ initializeFacileDataSet(path, meta_file, page_size = 2^12,
 \item{path}{the directory to create which will house the
 \code{FacileDataSet}}
 
-\item{page_size, cache_size}{\code{pragma} values to setup the backend SQLite
+\item{meta_file}{single character, name of YAML file with pData metadata}
+
+\item{page_size}{cache_size \code{pragma} values to setup the backend SQLite
 database}
 
-\item{covariate_definition}{the path to the covariate definition file}
+\item{cache_size}{single integer, for SQLite optimization}
 }
 \value{
 inivisibly returns the \code{FaclieDataSet} you just made

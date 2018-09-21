@@ -11,7 +11,7 @@ eav_encode_covariate(pdata, covariate_def, aname = "variable")
 
 \item{covariate_def}{the single-list-definition of this covariate}
 
-\item{vname}{the name of the attribute column in the eav table}
+\item{aname}{the name of the attribute column in the eav table}
 }
 \value{
 a four-column \code{data.frame} (dataset,sample_id,variable,value)

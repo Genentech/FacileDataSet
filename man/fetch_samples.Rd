@@ -9,6 +9,10 @@ fetch_samples(x, samples = NULL, assay = "rnaseq", ...)
 \arguments{
 \item{x}{A \code{FacileDataRepository}}
 
+\item{samples}{tbl, with dataset and sample_id columns}
+
+\item{assay}{single character, relevant asay}
+
 \item{...}{the NSE boolean filter criteria}
 }
 \value{

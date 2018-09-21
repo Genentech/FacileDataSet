@@ -97,6 +97,8 @@ feature_info_tbl.FacileDataSet <- function(x, assay_name=NULL) {
 #' Mimics the old `gene_info` table.
 #'
 #' @export
+#' @param x A FacileDataSet
+#' @return tbl
 gene_info_tbl <- function(x) {
   # TODO: This function needs to be removed and the code that relies on gene_info_tbl
   # should be updated.
@@ -120,6 +122,7 @@ gene_info_tbl <- function(x) {
 #' This function needs to be removed and the code that relies on
 #' sample_stats_tbl be updated.
 #' @export
+#' @param x A FacileDataSet
 sample_stats_tbl <- function(x) {
   .Deprecated("assay_sample_info_tbl")
   assay_sample_info_tbl(x) %>%

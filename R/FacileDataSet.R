@@ -57,7 +57,6 @@
 #' @param cache_size A custom paramter for the SQLite database
 #' @param db.loc single character, location for the data
 #' @param ... other args to pass down, not used at the moment
-#' @param covdef.fn A custom path to the yaml file that has covariate mapping info
 #' @return a `FacileDataSet` object
 #' @examples
 #' fn <- system.file("extdata", "exampleFacileDataSet", package = "FacileDataSet")
@@ -238,6 +237,7 @@ organism.FacileDataSet <- function(object) {
 #' Retrieves the name of the default assay
 #' @export
 #' @param x A FacileDataSet
+#' @param ... dots, ignored
 #' @return single character, e.g. 'rnaseq'
 default_assay.FacileDataSet <- function(x, ...) {
   if (is.null(x$default_assay)) {
@@ -257,6 +257,7 @@ default_assay.FacileDataSet <- function(x, ...) {
 #' which is specified in the FacileDataSets `meta.yaml` file.
 #'
 #' @export
+#' @param x A FacileDataSet
 #' @param as.list boolean, if `FALSE` (default) returns a list, otherwise
 #'   summarizes results into a tibble.
 #' @return meta information about the datasets in `x` as a `list` or `tibble`

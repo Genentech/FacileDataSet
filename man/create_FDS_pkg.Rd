@@ -26,6 +26,8 @@ create_FDS_pkg(data_list = NULL, slug = NULL, version = "0.0.1",
 
 \item{assay_name}{label to be used within FacileExplorer. Default "rnaseq".}
 
+\item{source_assay}{single character, name of assay to take from incoming BioC object}
+
 \item{organism}{label to be used within FacileExplorer. Default "Homo Sapiens".}
 }
 \value{
@@ -82,8 +84,8 @@ create_FDS_pkg(data_list = data_list,
                slug = "GCell",
                version = "0.0.1",
                parent_path = "~/FacileVerse",
-               covariates = c("PRIMARY_TISSUE", "GENDER", 
-                              "TISSUE_DIAGNOSIS", "ETHNICITY", 
+               covariates = c("PRIMARY_TISSUE", "GENDER",
+                              "TISSUE_DIAGNOSIS", "ETHNICITY",
                               "TISSUE_METACLASS_ONCOLOGY"),
                cov_metadata = cov_metadata,
                data_metadata = data_metadata)

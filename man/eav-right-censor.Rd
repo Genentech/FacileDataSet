@@ -16,10 +16,14 @@ eav_decode_right_censored(x, attrname = character(), def = list(),
 \item{event}{0/1 vector encoded in the "R sense". "1" is an event, "0" is
 right censored.}
 
-\item{sas.encoding}{Is the 'event' vector "SAS encoded"? In the SAS world,
+\item{sas.encoding}{Indicates that the 'event' vector "SAS encoded". In the SAS world,
 1 means censored, and 0 is event. This is \code{FALSE} by default.}
 
+\item{...}{dots ignored}
+
 \item{x}{the time to event}
+
+\item{attrname}{the name of "attribute" (covariate) in the EAV table.}
 
 \item{def}{the covariate definition for this variable}
 

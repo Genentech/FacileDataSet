@@ -8,14 +8,14 @@ fetch_sample_covariates(x, samples = NULL, covariates = NULL,
   custom_key = Sys.getenv("USER"))
 }
 \arguments{
+\item{x}{A FacileDataSet}
+
 \item{samples}{a samples descriptor \code{tbl_*}}
 
 \item{covariates}{character vector of covariate names}
 
 \item{custom_key}{The key to use to fetch more custom annotations over
 the given samples}
-
-\item{db}{a \code{FacileDataSet} connection}
 }
 \value{
 rows from the \code{sample_covariate} table

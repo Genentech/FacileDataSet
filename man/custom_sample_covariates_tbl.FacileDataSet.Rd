@@ -8,9 +8,9 @@
   custom_key = Sys.getenv("USER"))
 }
 \arguments{
-\item{custom_key}{The key to use for the custom annotation}
+\item{x}{The \code{FacileDataSet}}
 
-\item{fds}{The \code{FacileDataSet}}
+\item{custom_key}{The key to use for the custom annotation}
 }
 \value{
 covariate tbl

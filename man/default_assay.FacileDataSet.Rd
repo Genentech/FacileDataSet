@@ -8,6 +8,8 @@
 }
 \arguments{
 \item{x}{A FacileDataSet}
+
+\item{...}{dots, ignored}
 }
 \value{
 single character, e.g. 'rnaseq'

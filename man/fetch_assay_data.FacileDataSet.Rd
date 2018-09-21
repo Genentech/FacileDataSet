@@ -18,6 +18,8 @@ columms)}
 \item{samples}{a sample descriptor to specify which samples to return data
 from.}
 
+\item{assay_name}{single character, name of assay to get, e.g. 'rnaseq'}
+
 \item{normalized}{return normalize or raw data values, defaults to
 \code{raw}}
 
@@ -33,6 +35,8 @@ the elbow.}
 
 \item{aggregate.by}{do you want individual level results or geneset
 scores? Use 'ewm' for eigenWeightedMean, and that's all.}
+
+\item{verbose}{single logical, make some noise}
 }
 \value{
 A lazy \code{\link[dplyr]{tbl}} object with the expression

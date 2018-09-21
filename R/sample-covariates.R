@@ -1,7 +1,7 @@
 #' Fetch rows from sample_covariate table for specified samples and covariates
 #'
 #' @export
-#' @param db a \code{FacileDataSet} connection
+#' @param x A FacileDataSet
 #' @param samples a samples descriptor \code{tbl_*}
 #' @param covariates character vector of covariate names
 #' @param custom_key The key to use to fetch more custom annotations over
@@ -49,7 +49,7 @@ fetch_sample_covariates <- function(x, samples=NULL, covariates=NULL,
 #'
 #' @export
 #' @importFrom jsonlite stream_in
-#' @param fds The \code{FacileDataSet}
+#' @param x The \code{FacileDataSet}
 #' @param custom_key The key to use for the custom annotation
 #' @return covariate tbl
 #' @family API
@@ -83,8 +83,9 @@ custom_sample_covariates_tbl.FacileDataSet <- function(x, custom_key=Sys.getenv(
 #'
 #' @export
 #' @importFrom jsonlite stream_in
-#' @param fds The \code{FacileDataSet}
+#' @param x The \code{FacileDataSet}
 #' @param samples the facile sample descriptor
+#' @param covariates character, names of pData columns to pull
 #' @param custom_key The key to use for the custom annotation
 #' @return covariate tbl
 #' @family API
@@ -105,20 +106,21 @@ fetch_custom_sample_covariates <- function(x, samples=NULL, covariates=NULL,
 #' @export
 #' @importFrom jsonlite stream_out
 #'
-#' @param x the \code{FacileDataSet}
-#' @param annotation the annotation table of covariate values to a
-#'   sample-descriptor-like table
-#' @param name the variable name of the covariate
-#' @param custom_key the custom key (likely userid) for the annotation
-#' @param file.prefix Vincent uses this
-#' @param sample_filter_criteria optional list of filtering criteria that were
-#'   used to drill down into the samples we have the \code{annotatino}
-#'   data.frame for
+##' @param x the \code{FacileDataSet}
+##' @param annotation the annotation table of covariate values to a
+##'   sample-descriptor-like table
+##' @param name the variable name of the covariate
+##' @param class single character, pdata column class
+##' @param custom_key the custom key (likely userid) for the annotation
+##' @param file.prefix Vincent uses this
+##' @param sample_filter_criteria optional list of filtering criteria that were
+##'   used to drill down into the samples we have the \code{annotatino}
+##'   data.frame for
 save_custom_sample_covariates <- function(x, annotation, name=NULL,
                                           class='categorical',
                                           custom_key=Sys.getenv("USER"),
                                           file.prefix="facile",
-                                          sample_filter_critera=NULL) {
+                                          sample_filter_criteria=NULL) {
   #' TODO: Figure out how to encode sample_filter_criteria into serialized
   #' (JSON) annotation file
 #  stopifnot(is.FacileDataSet(x))

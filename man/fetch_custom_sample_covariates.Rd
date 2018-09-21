@@ -8,11 +8,13 @@ fetch_custom_sample_covariates(x, samples = NULL, covariates = NULL,
   custom_key = Sys.getenv("USER"))
 }
 \arguments{
+\item{x}{The \code{FacileDataSet}}
+
 \item{samples}{the facile sample descriptor}
 
-\item{custom_key}{The key to use for the custom annotation}
+\item{covariates}{character, names of pData columns to pull}
 
-\item{fds}{The \code{FacileDataSet}}
+\item{custom_key}{The key to use for the custom annotation}
 }
 \value{
 covariate tbl

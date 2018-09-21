@@ -8,17 +8,19 @@
 #'   columms)
 #' @param samples a sample descriptor to specify which samples to return data
 #'   from.
+#' @param assay_name single character, name of assay to get, e.g. 'rnaseq'
 #' @param normalized return normalize or raw data values, defaults to
 #'   \code{raw}
+#' @param ... parameters to pass to normalization methods
 #' @param as.matrix by default, the data is returned in a long-form tbl-like
 #'   result. If set to \code{TRUE}, the data is returned as a matrix.
-#' @param ... parameters to pass to normalization methods
 #' @param subset.threshold sometimes fetching all the genes is faster than
 #'   trying to subset. We have to figure out why that is, but I've previously
 #'   tested random features of different lengths, and around 700 features was
 #'   the elbow.
 #' @param aggregate.by do you want individual level results or geneset
 #'   scores? Use 'ewm' for eigenWeightedMean, and that's all.
+#' @param verbose single logical, make some noise
 #' @return A lazy \code{\link[dplyr]{tbl}} object with the expression
 #'   data to be \code{\link[dplyr]{collect}}ed when \code{db} is provided,
 #'   otherwise a \code{tbl_df} of the results.

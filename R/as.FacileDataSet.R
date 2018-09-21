@@ -143,7 +143,7 @@ as.FacileDataSet.list <- function(x, path, assay_name, assay_type,
   if (file.exists(path)) {
     stop("Target directory already exists: ", path)
   }
-  
+
   # All elements in list must be the same class, and a legit class at that!
   first <- x[[1L]]
   fclass <- class(first)[1L]
@@ -402,7 +402,6 @@ pdata_metadata <- function(x, ...) {
   UseMethod("pdata_metadata")
 }
 
-#' SummarizedExperiment method
 #' @export
 pdata_metadata.SummarizedExperiment <- function(x, ...) {
     stopifnot(requireNamespace("SummarizedExperiment", quietly = TRUE))
@@ -411,7 +410,6 @@ pdata_metadata.SummarizedExperiment <- function(x, ...) {
     defs
 }
 
-#' ExpressionSet method
 #' @export
 pdata_metadata.ExpressionSet <- function(x, ...) {
     sinfo = pdata(x)
@@ -421,7 +419,6 @@ pdata_metadata.ExpressionSet <- function(x, ...) {
     defs
 }
 
-#' DGEList method
 #' @export
 pdata_metadata.DGEList <- function(x, ...) {
     sinfo = x$samples
@@ -435,10 +432,12 @@ pdata_metadata.DGEList <- function(x, ...) {
 #'
 #' Get assay matrix
 #' @param x SummarizedExperiment, ExpressionSet or DGEList
+#' @param assay single character, name of assay, e.g. 'rnaseq'
 #' @param ... additional args, ignored for now
 adata <- function(x, assay = NULL, ...) {
   UseMethod("adata")
 }
+
 adata.SummarizedExperiment <- function(x, assay = NULL, ...) {
   stopifnot(requireNamespace("SummarizedExperiment", quietly = TRUE))
   if (is.null(assay)) {
@@ -449,6 +448,7 @@ adata.SummarizedExperiment <- function(x, assay = NULL, ...) {
   }
   SummarizedExperiment::assay(x, assay)
 }
+
 adata.ExpressionSet <- function(x, assay = NULL, ...) {
   stopifnot(requireNamespace("Biobase", quietly = TRUE))
   if (is.null(assay)) {
@@ -459,6 +459,7 @@ adata.ExpressionSet <- function(x, assay = NULL, ...) {
   }
   Biobase::assayDataElement(x, assay)
 }
+
 adata.DGEList <- function(x, assay = NULL, ...) {
   # stopifnot(requireNamespace("edgeR", quietly = TRUE))
   # DGEList only has one assay

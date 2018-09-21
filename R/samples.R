@@ -39,6 +39,8 @@ subtype_map <- function(x) {
 #' @export
 #' @importFrom lazyeval lazy_dots
 #' @param x A \code{FacileDataRepository}
+#' @param samples tbl, with dataset and sample_id columns
+#' @param assay single character, relevant asay
 #' @param ... the NSE boolean filter criteria
 #' @return a facile sample descriptor
 #' @family API
@@ -89,7 +91,7 @@ fetch_samples <- function(x, samples=NULL, assay="rnaseq", ...) {
 #'   otherwise does an inner_join between \code{x} and \code{samples}
 #'   (default \code{FALSE}).
 #' @return joined result between \code{x} and \code{samples}
-join_samples <- function(x, samples=NULL, semi=FALSE, distinct.samples=FALSE) {
+join_samples <- function(x, samples=NULL, semi=FALSE) {
   if (is.null(samples)) {
     return(x)
   }
@@ -112,19 +114,17 @@ join_samples <- function(x, samples=NULL, semi=FALSE, distinct.samples=FALSE) {
     set_fds(fds(x))
 }
 
-## Filter x down to specific samples
-##
-## @export
-## @param x something like a \code{tbl_sqlite} object
-## @param samples a sample descriptor
-## @return filtered version of \code{x} that only has the desired samples
-# filter_samples <- function(x, samples=NULL) {
-#  join_samples(x, samples, semi=TRUE)
-# }
-
-## FacileExplorer's filter_active_samples ======================================
-
+#' Filter x down to specific samples
+#'
+#' FacileExplorer's filter_active_samples
 #' @export
+#' @param criteria something like a \code{tbl_sqlite} object
+#' @param cov.table a sample descriptor
+#' @return filtered version of \code{x} that only has the desired samples
+#' filter_samples <- function(x, samples=NULL) {
+#'  join_samples(x, samples, semi=TRUE)
+#' }
+#'@export
 retrieve_samples_in_memory <- function(criteria, cov.table=NULL) {
   if(length(criteria)==0){
     # case where no filters have been defined

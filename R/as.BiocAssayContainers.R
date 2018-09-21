@@ -37,6 +37,7 @@
 #' @param .fds The `FacileDataSet` that `x` was retrieved from
 #' @param custom_key the custom key to use to fetch custom annotations from
 #'   `.fds`
+#' @param ... dots, passed on
 #' @return the appropriate bioconductor assay container, ie. a [edgeR::DGEList]
 #'   for `as.DGEList`, an [Biobase::ExpressionSet] for `as.ExpressionSet`, or
 #'   a [SummarizedExperiment::SummarizedExperiment] for
@@ -54,20 +55,15 @@
 #'   filter_samples(sex == "f") %>%
 #'   as.DGEList() # or `as.ExpressionSet()`
 #' @export
-as.DGEList <- function(x, ...) {
+as.DGEList <- function(x, covariates=TRUE, feature_ids=NULL,
+                              assay_name=default_assay(.fds), .fds=fds(x),
+                              custom_key=Sys.getenv("USER"), ...) {
   UseMethod('as.DGEList')
 }
 
 #' @method as.DGEList matrix
 #' @rdname as.BiocContainer
 #' @export
-#' @param x result of fetch_assay_data
-#' @param covariates character, of pData columns to fetch
-#' @param feature_ids two-column tibble of dataset,feature_id to filter features
-#' @param assay_name single character, e.g. 'rnaseq'
-#' @param .fds FacileDataSet
-#' @param custom_key single character, e.g. user ID for looking up custom covariates
-#' @param ... dots, passed on
 as.DGEList.matrix <- function(x, covariates=TRUE, feature_ids=NULL,
                               assay_name=default_assay(.fds), .fds=fds(x),
                               custom_key=Sys.getenv("USER"), ...) {
@@ -159,9 +155,8 @@ as.DGEList.matrix <- function(x, covariates=TRUE, feature_ids=NULL,
 #' @method as.DGEList data.frame
 #' @rdname as.BiocContainer
 as.DGEList.data.frame <- function(x, covariates=TRUE, feature_ids=NULL,
-                                  assay_name=default_assay(.fds), .fds=fds(x),
-                                  custom_key=Sys.getenv("USER"),
-                                  ...) {
+                              assay_name=default_assay(.fds), .fds=fds(x),
+                              custom_key=Sys.getenv("USER"), ...) {
 
   .fds <- force(.fds)
 #  stopifnot(is.FacileDataSet(.fds))
@@ -216,9 +211,9 @@ as.DGEList.data.frame <- function(x, covariates=TRUE, feature_ids=NULL,
 #' @method as.DGEList tbl_sql
 #' @rdname as.BiocContainer
 as.DGEList.tbl_sql <- function(x, covariates=TRUE, feature_ids=NULL,
-                               assay_name=default_assay(.fds), .fds=fds(x),
-                               custom_key=Sys.getenv("USER"),
-                               ...) {
+                              assay_name=default_assay(.fds), .fds=fds(x),
+                              custom_key=Sys.getenv("USER"), ...) {
+
   x <- collect(x, n=Inf) %>% set_fds(.fds)
   as.DGEList(x, covariates, feature_ids, assay_name, .fds=.fds,
              custom_key=custom_key, ...)
@@ -228,9 +223,8 @@ as.DGEList.tbl_sql <- function(x, covariates=TRUE, feature_ids=NULL,
 #' @method as.DGEList FacileDataSet
 #' @rdname as.BiocContainer
 as.DGEList.FacileDataSet <- function(x, covariates=TRUE, feature_ids=NULL,
-                                     assay_name=default_assay(x),
-                                     custom_key=Sys.getenv("USER"),
-                                     ...) {
+                              assay_name=default_assay(.fds), .fds=fds(x),
+                              custom_key=Sys.getenv("USER"), ...) {
   as.DGEList(samples(x), covariates, feature_ids, assay_name, x, custom_key,
              ...)
 }
@@ -275,7 +269,7 @@ as.ExpressionSet.FacileDataSet <-
            assay_name = default_assay(.fds),
            custom_key = Sys.getenv("USER"),
            ...) {
-    
+
   force(.fds)
   x <- samples(x) %>% collect(n=Inf) %>% set_fds(.fds)
   as.ExpressionSet(x, covariates, feature_ids, assay_name, x,

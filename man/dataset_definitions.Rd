@@ -7,6 +7,8 @@
 dataset_definitions(x, as.list = TRUE)
 }
 \arguments{
+\item{x}{A FacileDataSet}
+
 \item{as.list}{boolean, if `FALSE` (default) returns a list, otherwise
 summarizes results into a tibble.}
 }

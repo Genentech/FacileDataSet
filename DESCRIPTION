@@ -1,8 +1,8 @@
 Package: FacileDataSet
 Type: Package
 Title: A fluent API for accessing multi-assay high-throughput genomics data
-Version: 0.9.5
-Date: 2018-09-20
+Version: 0.9.6
+Date: 2018-09-21
 Authors@R: c(
   person("Steve", "Lianoglou", , "slianoglou@gmail.com", c("aut", "cre")),
   person("Vincent", "Rouilly", , "rouilly.vincent@gene.com", role = "ctb"),
@@ -40,12 +40,12 @@ Imports:
   survival,
   Biobase,
   S4Vectors,
-  SummarizedExperiment,
   desc,
   devtools,
   glue,
   utils,
   BiocGenerics,
+  SummarizedExperiment,
   assertthat
 Suggests:
   testthat (>= 1.0.2),
