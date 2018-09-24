@@ -4,7 +4,11 @@
 \alias{samples.FacileDataSet}
 \title{Get basic sample descriptor tibble}
 \usage{
+<<<<<<< Updated upstream
 samples.FacileDataSet(object)
+=======
+\method{samples}{FacileDataSet}(x)
+>>>>>>> Stashed changes
 }
 \arguments{
 \item{object}{a `FacileDataSet`}

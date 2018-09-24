@@ -4,8 +4,13 @@
 \alias{fetch_sample_statistics}
 \title{Fetch the sample statistics for sets of samples in the warehouse}
 \usage{
+<<<<<<< Updated upstream:man/fetch_sample_statistics.Rd
 fetch_sample_statistics(x, samples = NULL, semi = TRUE,
   assay_name = default_assay(x))
+=======
+fetch_sample_statistics.FacileDataSet(x, samples = NULL, semi = TRUE,
+  assay_name = "rnaseq")
+>>>>>>> Stashed changes:man/fetch_sample_statistics.FacileDataSet.Rd
 }
 \arguments{
 \item{x}{A \code{FacileDataSet} object}

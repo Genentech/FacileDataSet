@@ -4,7 +4,11 @@
 \alias{fetch_samples}
 \title{Fetches a sample descriptor that matches the filter criterion}
 \usage{
+<<<<<<< Updated upstream:man/fetch_samples.Rd
 fetch_samples(x, samples = NULL, assay = "rnaseq", ...)
+=======
+fetch_samples.FacileDataSet(x, samples = NULL, assay = "rnaseq", ...)
+>>>>>>> Stashed changes:man/fetch_samples.FacileDataSet.Rd
 }
 \arguments{
 \item{x}{A \code{FacileDataRepository}}
