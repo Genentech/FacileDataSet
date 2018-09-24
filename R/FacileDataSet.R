@@ -90,7 +90,7 @@ FacileDataSet <- function(path, data.fn=file.path(path, 'data.sqlite'),
   con <- dbConnect(SQLite(), paths$sqlite.fn)
 
   if (db.loc == 'memory') {
-    mcon <- dbConnect(RSQLite::SQLite(), ":memory:")
+    mcon <- dbConnect(SQLite(), ":memory:")
     RSQLite::sqliteCopyDatabase(con, mcon)
     RSQLite::dbDisconnect(con)
     con <- mcon
@@ -300,19 +300,19 @@ covariate_definitions <- function(x, as.list=TRUE) {
   set_fds(out, x)
 }
 
-#' Retrieves the sample identifiers for all samples in a FacileDataSet.
-#'
-#' Sample identifiers are provided as `dataset,sample_id tuples`.
-#'
-#' @export
-#' @family API
-#'
-#' @param object a `FacileDataSet`
-#' @return tibble with dataset and sample_id columns
-#' @importFrom Biobase samples
-setMethod("samples", "FacileDataSet", function(object) {
-  FacileDataSet::samples.FacileDataSet(object)
-})
+#' #' Retrieves the sample identifiers for all samples in a FacileDataSet.
+#' #'
+#' #' Sample identifiers are provided as `dataset,sample_id tuples`.
+#' #'
+#' #' @export
+#' #' @family API
+#' #'
+#' #' @param object a `FacileDataSet`
+#' #' @return tibble with dataset and sample_id columns
+#' #' @importFrom Biobase samples
+#' setMethod("samples", "FacileDataSet", function(object) {
+#'   FacileDataSet::samples.FacileDataSet(object)
+#' })
 
 #' Get basic sample descriptor tibble
 #'

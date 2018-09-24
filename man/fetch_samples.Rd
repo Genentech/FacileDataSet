@@ -4,11 +4,7 @@
 \alias{fetch_samples}
 \title{Fetches a sample descriptor that matches the filter criterion}
 \usage{
-<<<<<<< Updated upstream:man/fetch_samples.Rd
 fetch_samples(x, samples = NULL, assay = "rnaseq", ...)
-=======
-fetch_samples.FacileDataSet(x, samples = NULL, assay = "rnaseq", ...)
->>>>>>> Stashed changes:man/fetch_samples.FacileDataSet.Rd
 }
 \arguments{
 \item{x}{A \code{FacileDataRepository}}
@@ -38,7 +34,6 @@ Other API: \code{\link{custom_sample_covariates_tbl.FacileDataSet}},
   \code{\link{fetch_sample_covariates}},
   \code{\link{fetch_sample_statistics}},
   \code{\link{organism.FacileDataSet}},
-  \code{\link{samples,FacileDataSet-method}},
   \code{\link{samples.FacileDataSet}}
 }
 \concept{API}
