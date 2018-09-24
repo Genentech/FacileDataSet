@@ -28,4 +28,3 @@ a `FacileDataStore`.
 \seealso{
 Other FacileInterface: \code{\link{organism,FacileDataSet-method}}
 }
-\concept{FacileInterface}

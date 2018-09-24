@@ -5,7 +5,7 @@
 \alias{organism,FacileDataSet-method}
 \title{Get the name of the organism described by this dataset}
 \usage{
-\S4method{organism}{FacileDataSet}(object)
+\S4method{organism}{FacileDataSet}(x)
 }
 \arguments{
 \item{object}{A FacileDataSet}
@@ -19,4 +19,3 @@ Get the name of the organism described by this dataset
 \seealso{
 Other FacileInterface: \code{\link{facet_frame.FacileDataSet}}
 }
-\concept{FacileInterface}

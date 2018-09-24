@@ -16,4 +16,3 @@ Path to the meta information YAML file
 Other FacileDataSet: \code{\link{FacileDataSet}},
   \code{\link{dbfn}}, \code{\link{hdf5fn}}
 }
-\concept{FacileDataSet}

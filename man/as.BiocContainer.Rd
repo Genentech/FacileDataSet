@@ -22,38 +22,37 @@ as.DGEList(x, covariates = TRUE, feature_ids = NULL,
   assay_name = default_assay(.fds), .fds = fds(x),
   custom_key = Sys.getenv("USER"), ...)
 
-\method{as.DGEList}{data.frame}(x, covariates = TRUE,
-  feature_ids = NULL, assay_name = default_assay(.fds),
-  .fds = fds(x), custom_key = Sys.getenv("USER"), ...)
+\method{as.DGEList}{data.frame}(x, covariates = TRUE, feature_ids = NULL,
+  assay_name = default_assay(.fds), .fds = fds(x),
+  custom_key = Sys.getenv("USER"), ...)
 
 \method{as.DGEList}{tbl_sql}(x, covariates = TRUE, feature_ids = NULL,
   assay_name = default_assay(.fds), .fds = fds(x),
   custom_key = Sys.getenv("USER"), ...)
 
-\method{as.DGEList}{FacileDataSet}(x, covariates = TRUE,
-  feature_ids = NULL, assay_name = default_assay(.fds),
-  .fds = fds(x), custom_key = Sys.getenv("USER"), ...)
+\method{as.DGEList}{FacileDataSet}(x, covariates = TRUE, feature_ids = NULL,
+  assay_name = default_assay(.fds), .fds = fds(x),
+  custom_key = Sys.getenv("USER"), ...)
 
 as.ExpressionSet(x, ...)
 
 \method{as.ExpressionSet}{data.frame}(x, covariates = TRUE,
-  feature_ids = NULL, assay_name = default_assay(.fds),
-  .fds = fds(x), custom_key = Sys.getenv("USER"), ...)
+  feature_ids = NULL, assay_name = default_assay(.fds), .fds = fds(x),
+  custom_key = Sys.getenv("USER"), ...)
 
 \method{as.ExpressionSet}{FacileDataSet}(x, covariates = TRUE,
-  feature_ids = NULL, .fds = fds(x),
-  assay_name = default_assay(.fds), custom_key = Sys.getenv("USER"),
-  ...)
+  feature_ids = NULL, .fds = fds(x), assay_name = default_assay(.fds),
+  custom_key = Sys.getenv("USER"), ...)
 
 as.SummarizedExperiment(x, ...)
 
 \method{as.SummarizedExperiment}{data.frame}(x, covariates = TRUE,
-  feature_ids = NULL, assay_name = default_assay(.fds),
-  .fds = fds(x), custom_key = Sys.getenv("USER"), ...)
+  feature_ids = NULL, assay_name = default_assay(.fds), .fds = fds(x),
+  custom_key = Sys.getenv("USER"), ...)
 
 \method{as.SummarizedExperiment}{FacileDataSet}(x, covariates = TRUE,
-  feature_ids = NULL, assay_name = default_assay(.fds),
-  .fds = fds(x), custom_key = Sys.getenv("USER"), ...)
+  feature_ids = NULL, assay_name = default_assay(.fds), .fds = fds(x),
+  custom_key = Sys.getenv("USER"), ...)
 }
 \arguments{
 \item{x}{a facile expression-like result}

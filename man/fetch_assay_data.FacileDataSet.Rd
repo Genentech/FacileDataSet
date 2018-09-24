@@ -4,10 +4,10 @@
 \alias{fetch_assay_data.FacileDataSet}
 \title{Fetch data from single assay of choice}
 \usage{
-\method{fetch_assay_data}{FacileDataSet}(x, features = NULL,
-  samples = NULL, assay_name = default_assay(x), normalized = FALSE,
-  ..., as.matrix = FALSE, subset.threshold = 700,
-  aggregate.by = c("none", "ewm", "zscore"), verbose = FALSE)
+\method{fetch_assay_data}{FacileDataSet}(x, features = NULL, samples = NULL,
+  assay_name = default_assay(x), normalized = FALSE, ...,
+  as.matrix = FALSE, subset.threshold = 700, aggregate.by = c("none",
+  "ewm", "zscore"), verbose = FALSE)
 }
 \arguments{
 \item{x}{A \code{FacileDataSet} object.}
@@ -53,7 +53,5 @@ Other API: \code{\link{custom_sample_covariates_tbl.FacileDataSet}},
   \code{\link{fetch_sample_statistics}},
   \code{\link{fetch_samples}},
   \code{\link{organism.FacileDataSet}},
-  \code{\link{samples,FacileDataSet-method}},
   \code{\link{samples.FacileDataSet}}
 }
-\concept{API}

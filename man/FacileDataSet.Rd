@@ -87,4 +87,3 @@ Other FacileDataSet: \code{\link{dbfn}},
   \code{\link{hdf5fn}},
   \code{\link{meta_file.FacileDataSet}}
 }
-\concept{FacileDataSet}
