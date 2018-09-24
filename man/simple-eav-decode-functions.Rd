@@ -33,6 +33,8 @@ eav_encode_categorical(x, ...)
 \item{attrname}{the name of "attribute" (covariate) in the EAV table.}
 
 \item{def}{the `covariate_definition` list for this covariate}
+
+\item{...}{dots, ignored}
 }
 \value{
 a `numeric` vector of `length(x)`

@@ -6,8 +6,8 @@
 \usage{
 create_FDS_pkg(data_list = NULL, slug = NULL, version = "0.0.1",
   parent_path = ".", covariates = NULL, cov_metadata = NULL,
-  data_metadata = NULL, assay_name = "rnaseq",
-  source_assay = "counts", organism = "Homo sapiens")
+  data_metadata = NULL, assay_name = "rnaseq", source_assay = "counts",
+  organism = "Homo sapiens")
 }
 \arguments{
 \item{data_list}{named \code{list} of data \code{SummarizedExperiment} objects to be converted into a \code{Facile___DataSet} package.}
@@ -25,6 +25,8 @@ create_FDS_pkg(data_list = NULL, slug = NULL, version = "0.0.1",
 \item{data_metadata}{named `list`` of metadata for the datasets. Must contain at least url and description for each dataset.}
 
 \item{assay_name}{label to be used within FacileExplorer. Default "rnaseq".}
+
+\item{source_assay}{single character, name of assay to take from incoming BioC object}
 
 \item{organism}{label to be used within FacileExplorer. Default "Homo Sapiens".}
 }
@@ -82,8 +84,8 @@ create_FDS_pkg(data_list = data_list,
                slug = "GCell",
                version = "0.0.1",
                parent_path = "~/FacileVerse",
-               covariates = c("PRIMARY_TISSUE", "GENDER", 
-                              "TISSUE_DIAGNOSIS", "ETHNICITY", 
+               covariates = c("PRIMARY_TISSUE", "GENDER",
+                              "TISSUE_DIAGNOSIS", "ETHNICITY",
                               "TISSUE_METACLASS_ONCOLOGY"),
                cov_metadata = cov_metadata,
                data_metadata = data_metadata)

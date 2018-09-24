@@ -1,8 +1,8 @@
 Package: FacileDataSet
 Type: Package
 Title: A fluent API for accessing multi-assay high-throughput genomics data
-Version: 0.9.1
-Date: 2018-09-11
+Version: 0.9.6
+Date: 2018-09-21
 Authors@R: c(
   person("Steve", "Lianoglou", , "slianoglou@gmail.com", c("aut", "cre")),
   person("Vincent", "Rouilly", , "rouilly.vincent@gene.com", role = "ctb"),
@@ -27,7 +27,6 @@ Imports:
   dtplyr,
   magrittr,
   yaml,
-  checkmate (>= 1.8.5),
   RSQLite,
   reshape2,
   tidyr,
@@ -35,18 +34,19 @@ Imports:
   data.table,
   jsonlite,
   multiGSEA (>= 0.10.4),
+  checkmate (>= 1.8.5),
   edgeR,
   lazyeval,
   survival,
   Biobase,
   S4Vectors,
-  SummarizedExperiment,
   desc,
   devtools,
   glue,
   utils,
   BiocGenerics,
-  Biobase
+  SummarizedExperiment,
+  assertthat
 Suggests:
   testthat (>= 1.0.2),
   knitr,

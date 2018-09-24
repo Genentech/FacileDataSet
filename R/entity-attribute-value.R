@@ -113,6 +113,7 @@ cast_covariate <- function(covariate, values, cov.def, .fds) {
 #' @param x the values column from the `EAV` table for this covariate
 #' @param attrname the name of "attribute" (covariate) in the EAV table.
 #' @param def the `covariate_definition` list for this covariate
+#' @param ... dots, ignored
 #' @return a `numeric` vector of `length(x)`
 #' @rdname simple-eav-decode-functions
 #' @export
@@ -123,7 +124,6 @@ eav_decode_real <- function(x, attrname = character(), def = list(), ...) {
     msg <- "%d (%.2f) values in `%s` covariate failed conversion to numeric"
     warning(sprintf(msg, n.na, n.na / length(x), attrname))
   }
-
   out
 }
 
@@ -236,7 +236,7 @@ eav_encode_factor <- eav_encode_categorical
 #' @param time `numeric` time to event
 #' @param event 0/1 vector encoded in the "R sense". "1" is an event, "0" is
 #'   right censored.
-#' @param sas.encoding Is the 'event' vector "SAS encoded"? In the SAS world,
+#' @param sas.encoding Indicates that the 'event' vector "SAS encoded". In the SAS world,
 #'   1 means censored, and 0 is event. This is `FALSE` by default.
 #' @return returns a numeric vector that combines time-to-event and censoring
 #'   info (sign of the value).
@@ -264,9 +264,11 @@ eav_encode_right_censored <- function(time, event, sas.encoding=FALSE, ...) {
 #' @export
 #' @rdname eav-right-censor
 #' @param x the time to event
+#' @param attrname the name of "attribute" (covariate) in the EAV table.
+#' @param def the covariate definition for this variable
 #' @param suffix adds `_<suffix>` to the `tte` and `event` columns of the
 #'   outgoing `data.frame`
-#' @param def the covariate definition for this variable
+#' @param ... dots ignored
 #' @return two column `data.frame` with `tte(_SUFFIX)?` and `event(_SUFFIX)?`
 #'   columns.
 eav_decode_right_censored <- function(x, attrname=character(), def=list(),
@@ -629,7 +631,7 @@ as.EAVtable <- function(x, eav_metadata = NULL, covariate_def = list()) {
 #'
 #' @param pdata the `pData` `data.frame`
 #' @param covariate_def the single-list-definition of this covariate
-#' @param vname the name of the attribute column in the eav table
+#' @param aname the name of the attribute column in the eav table
 #' @return a four-column `data.frame` (dataset,sample_id,variable,value)
 #'   with the encoded covariate into a single `value` column.
 eav_encode_covariate <- function(pdata, covariate_def, aname = "variable") {

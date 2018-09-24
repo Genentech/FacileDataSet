@@ -14,29 +14,26 @@
 #' @importFrom Biobase samples
 setMethod("samples", "FacileDataSet", function(object) {
   FacileDataSet::samples.FacileDataSet(object)
-})}
+})
+Get basic sample descriptor tibble}
 \usage{
-\method{samples}{FacileDataSet}(x)
+\method{samples}{FacileDataSet}(object)
 }
 \arguments{
-\item{x}{a `FacileDataSet`}
+\item{object}{a `FacileDataSet`}
 }
 \value{
 tibble with dataset and sample_id columns
 }
 \description{
-#' Retrieves the sample identifiers for all samples in a FacileDataSet.
-#'
-#' Sample identifiers are provided as `dataset,sample_id tuples`.
-#'
-#' @export
-#' @family API
-#'
-#' @param object a `FacileDataSet`
-#' @return tibble with dataset and sample_id columns
-#' @importFrom Biobase samples
-setMethod("samples", "FacileDataSet", function(object) {
-  FacileDataSet::samples.FacileDataSet(object)
-})
+Returns two-column tibble of sample_id and dataset for each sample.
 }
-\concept{FacileInterface}
+\seealso{
+Other API: \code{\link{custom_sample_covariates_tbl.FacileDataSet}},
+  \code{\link{fetch_assay_data.FacileDataSet}},
+  \code{\link{fetch_custom_sample_covariates}},
+  \code{\link{fetch_sample_covariates}},
+  \code{\link{fetch_sample_statistics}},
+  \code{\link{fetch_samples}},
+  \code{\link{organism.FacileDataSet}}
+}

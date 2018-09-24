@@ -51,6 +51,13 @@ assert_covariate_definitions(x)
 
 is_covariate_definitions(x)
 }
+\arguments{
+\item{x}{tbl}
+
+\item{.fds}{A FacileDataSet or something implementing the FacileInterface}
+
+\item{req.cols}{character, required column names in tbl}
+}
 \description{
 Samples have compound keys: dataset,sample_id. If we want to index into
 them, we can either:

@@ -21,4 +21,3 @@ Get location of the FacileDataSet HDF5 file
 Other FacileDataSet: \code{\link{FacileDataSet}},
   \code{\link{dbfn}}, \code{\link{meta_file.FacileDataSet}}
 }
-\concept{FacileDataSet}

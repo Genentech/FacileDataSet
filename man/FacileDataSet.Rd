@@ -28,8 +28,6 @@ FacileDataSet(path, data.fn = file.path(path, "data.sqlite"),
 \item{db.loc}{single character, location for the data}
 
 \item{...}{other args to pass down, not used at the moment}
-
-\item{covdef.fn}{A custom path to the yaml file that has covariate mapping info}
 }
 \value{
 a `FacileDataSet` object
@@ -89,4 +87,3 @@ Other FacileDataSet: \code{\link{dbfn}},
   \code{\link{hdf5fn}},
   \code{\link{meta_file.FacileDataSet}}
 }
-\concept{FacileDataSet}

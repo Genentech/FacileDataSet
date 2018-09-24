@@ -57,7 +57,6 @@
 #' @param cache_size A custom paramter for the SQLite database
 #' @param db.loc single character, location for the data
 #' @param ... other args to pass down, not used at the moment
-#' @param covdef.fn A custom path to the yaml file that has covariate mapping info
 #' @return a `FacileDataSet` object
 #' @examples
 #' fn <- system.file("extdata", "exampleFacileDataSet", package = "FacileDataSet")
@@ -188,7 +187,6 @@ hdf5fn <- function(x, mustWork=TRUE) {
 #' Path to the meta information YAML file
 #'
 #' @export
-#' @rdname meta-info
 #' @family FacileDataSet
 #'
 #' @param x A `FacileDataSet`
@@ -203,7 +201,7 @@ meta_file.FacileDataSet <- function(x) {
 #' This function returns all of that in a list-of-lists
 #'
 #' @export
-#' @rdname meta-info
+#' @param x A FacileDataSet
 #' @param fn The path to the `meta.yaml` file.
 #' @return The `meta.yaml` file parsed into a list-of-lists representation
 meta_info.FacileDataSet <- function(x, fn = meta_file(x)) {
@@ -212,14 +210,17 @@ meta_info.FacileDataSet <- function(x, fn = meta_file(x)) {
 }
 
 
-#' #' @param object a FacileDataSet
-#' #' @return single character
-#' #' @family FacileInterface
-#' #' @export
-#' #' @importFrom BiocGenerics organism
-#' setMethod("organism", "FacileDataSet", function(object) {
-#'   FacileDataSet::organism.FacileDataSet(object)
-#' })
+#' Get the name of the organism described by this dataset
+#'
+#' Get the name of the organism described by this dataset
+#' @param object A FacileDataSet
+#' @return single character
+#' @family FacileInterface
+#' @export
+#' @importFrom BiocGenerics organism
+setMethod("organism", "FacileDataSet", function(object) {
+  FacileDataSet::organism.FacileDataSet(object)
+})
 
 #' Retrieves the organism the data is defined over
 #'
@@ -227,14 +228,18 @@ meta_info.FacileDataSet <- function(x, fn = meta_file(x)) {
 #'
 #' @export
 #' @family API
+#' @param object A FacileDataSet
 #' @return `"Homo sapiens`", `"Mus musculus"`, etc.
-organism.FacileDataSet <- function(x) {
-  x$organism
+organism.FacileDataSet <- function(object) {
+  object$organism
 }
 
+#' Retrieves the name of the default assay
 #' @export
-#' @rdname meta-info
-default_assay.FacileDataSet <- function(x) {
+#' @param x A FacileDataSet
+#' @param ... dots, ignored
+#' @return single character, e.g. 'rnaseq'
+default_assay.FacileDataSet <- function(x, ...) {
   if (is.null(x$default_assay)) {
     out <- assay_names(x, default_first=FALSE)[1L]
     if (is.na(out)) out <- NULL
@@ -251,8 +256,8 @@ default_assay.FacileDataSet <- function(x) {
 #' description and URL information that describes these datasets in more detail,
 #' which is specified in the FacileDataSets `meta.yaml` file.
 #'
-#' @rdname meta-info
 #' @export
+#' @param x A FacileDataSet
 #' @param as.list boolean, if `FALSE` (default) returns a list, otherwise
 #'   summarizes results into a tibble.
 #' @return meta information about the datasets in `x` as a `list` or `tibble`
@@ -309,18 +314,37 @@ covariate_definitions <- function(x, as.list=TRUE) {
 #'   FacileDataSet::samples.FacileDataSet(object)
 #' })
 
+#' Get basic sample descriptor tibble
+#'
+#' Returns two-column tibble of sample_id and dataset for each sample.
 #' @export
-#' @family FacileInterface
-#' @param x a `FacileDataSet`
+#' @family API
+#' @param object a `FacileDataSet`
 #' @return tibble with dataset and sample_id columns
-samples.FacileDataSet <- function(x) {
-  sample_info_tbl(x) %>%
+samples.FacileDataSet <- function(object) {
+  sample_info_tbl(object) %>%
     select(dataset, sample_id) %>%
-    set_fds(x)
+    set_fds(object)
 }
 
+
+#' Retrieves grouping table for samples within a FacileDataSet.
+#'
+#' It is natural to define subgroups of samples within larger datasets.
+#' This function returns grouping definitions (which we call "facets") for
+#' a `FacileDataStore`.
+#'
+#' @family FacileInterface
+#'
+#' @param x An object of a class implementing the FacileInterface
+#' @param name The specific facet (grouping) definition to return. Note that
+#'   this parameter isn't yet used. Only one facet table was originally
+#'   defined for each FacileDataSet, but we want to enable different facet
+#'   definitions to be used in the future.
+#' @param ... dots
+#' @return A `tibble` that defines the `dataset,sample_id` tuples that belong
+#'   to each "facet" (group).
 #' @export
-#' @rdname facet_frame
 facet_frame.FacileDataSet <- function(x, name = "default", ...) {
   fetch_samples(x) %>%
     mutate(facet = dataset) %>%
@@ -351,3 +375,4 @@ setOldClass(c("FacileTCGADataSet", "FacileDataSet", "AbstractFacileDataStore"))
 setOldClass(c("FacileGCellDataSet", "FacileDataSet", "AbstractFacileDataStore"))
 setOldClass(c("FacileClavierDataSet", "FacileDataSet", "AbstractFacileDataStore"))
 setOldClass(c("FacileAtezoDataSet", "FacileDataSet", "AbstractFacileDataStore"))
+setOldClass("FacileDataSet")

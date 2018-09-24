@@ -7,12 +7,12 @@
 #'
 #' @param path the directory to create which will house the
 #'   \code{FacileDataSet}
-#' @param covariate_definition the path to the covariate definition file
-#' @param page_size,cache_size \code{pragma} values to setup the backend SQLite
+#' @param meta_file single character, name of YAML file with pData metadata
+#' @param page_size cache_size \code{pragma} values to setup the backend SQLite
 #'   database
+#' @param cache_size single integer, for SQLite optimization
 #' @return inivisibly returns the \code{FaclieDataSet} you just made
-initializeFacileDataSet <- function(path, meta_file,
-                                    page_size=2**12, cache_size=2e5) {
+initializeFacileDataSet <- function(path, meta_file, page_size=2**12, cache_size=2e5) {
   assert_valid_meta_file(meta_file)
   path <- normalizePath(path, mustWork=FALSE)
   if (file.exists(path) || dir.exists(path)) {
@@ -47,8 +47,12 @@ initializeFacileDataSet <- function(path, meta_file,
   invisible(FacileDataSet(path))
 }
 
+#' Check a pData metadatad YAML file
 #' @export
 #' @importFrom tools file_ext
+#' @param fn single character, file name
+#' @param as.list single logical, return as list or return file name
+#' @return list of YAML contents or file name, controlled by `as.list`
 assert_valid_meta_file <- function(fn, as.list = FALSE) {
   assert_file(fn)
   if (!tolower(file_ext(fn)) ==  'yaml') {
@@ -183,7 +187,7 @@ assert_valid_assay_datasets <- function(datasets, facile_feature_info,
 #'   'affymetrix', etc.)
 #' @param facile_feature_type a string indicating the universe the features in
 #'   this assay refer to, i.e. "entrez", "ensgid", "enstid", etc.
-#' @param facie_assay_description a string that allows the caller to provide
+#' @param facile_assay_description a string that allows the caller to provide
 #'   a "freeform" description of the assay (platform, protocol, whatever).
 #' @param facile_feature_info a `data.frame` with the required `feature_info`
 #'   columns that describe the features in this assay. Please refer to the

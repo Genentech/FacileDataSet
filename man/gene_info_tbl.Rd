@@ -6,6 +6,12 @@
 \usage{
 gene_info_tbl(x)
 }
+\arguments{
+\item{x}{A FacileDataSet}
+}
+\value{
+tbl
+}
 \description{
 Mimics the old `gene_info` table.
 }

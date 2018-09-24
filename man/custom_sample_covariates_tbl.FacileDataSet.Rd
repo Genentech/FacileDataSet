@@ -8,9 +8,9 @@
   custom_key = Sys.getenv("USER"))
 }
 \arguments{
-\item{custom_key}{The key to use for the custom annotation}
+\item{x}{The \code{FacileDataSet}}
 
-\item{fds}{The \code{FacileDataSet}}
+\item{custom_key}{The key to use for the custom annotation}
 }
 \value{
 covariate tbl
@@ -23,7 +23,7 @@ Other API: \code{\link{fetch_assay_data.FacileDataSet}},
   \code{\link{fetch_custom_sample_covariates}},
   \code{\link{fetch_sample_covariates}},
   \code{\link{fetch_sample_statistics}},
-  \code{\link{fetch_samples.FacileDataSet}},
-  \code{\link{organism.FacileDataSet}}
+  \code{\link{fetch_samples}},
+  \code{\link{organism.FacileDataSet}},
+  \code{\link{samples.FacileDataSet}}
 }
-\concept{API}

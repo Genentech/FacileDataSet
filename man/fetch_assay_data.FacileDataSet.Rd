@@ -4,10 +4,10 @@
 \alias{fetch_assay_data.FacileDataSet}
 \title{Fetch data from single assay of choice}
 \usage{
-\method{fetch_assay_data}{FacileDataSet}(x, features, samples = NULL,
-  assay_name = default_assay(x), normalized = FALSE,
-  as.matrix = FALSE, ..., subset.threshold = 700,
-  aggregate.by = NULL, verbose = FALSE)
+\method{fetch_assay_data}{FacileDataSet}(x, features = NULL, samples = NULL,
+  assay_name = default_assay(x), normalized = FALSE, ...,
+  as.matrix = FALSE, subset.threshold = 700, aggregate.by = c("none",
+  "ewm", "zscore"), verbose = FALSE)
 }
 \arguments{
 \item{x}{A \code{FacileDataSet} object.}
@@ -18,15 +18,15 @@ columms)}
 \item{samples}{a sample descriptor to specify which samples to return data
 from.}
 
-\item{assay_name}{the name of the assay}
+\item{assay_name}{single character, name of assay to get, e.g. 'rnaseq'}
 
 \item{normalized}{return normalize or raw data values, defaults to
 \code{raw}}
 
+\item{...}{parameters to pass to normalization methods}
+
 \item{as.matrix}{by default, the data is returned in a long-form tbl-like
 result. If set to \code{TRUE}, the data is returned as a matrix.}
-
-\item{...}{parameters to pass to normalization methods}
 
 \item{subset.threshold}{sometimes fetching all the genes is faster than
 trying to subset. We have to figure out why that is, but I've previously
@@ -35,6 +35,8 @@ the elbow.}
 
 \item{aggregate.by}{do you want individual level results or geneset
 scores? Use 'ewm' for eigenWeightedMean, and that's all.}
+
+\item{verbose}{single logical, make some noise}
 }
 \value{
 A lazy \code{\link[dplyr]{tbl}} object with the expression
@@ -49,7 +51,7 @@ Other API: \code{\link{custom_sample_covariates_tbl.FacileDataSet}},
   \code{\link{fetch_custom_sample_covariates}},
   \code{\link{fetch_sample_covariates}},
   \code{\link{fetch_sample_statistics}},
-  \code{\link{fetch_samples.FacileDataSet}},
-  \code{\link{organism.FacileDataSet}}
+  \code{\link{fetch_samples}},
+  \code{\link{organism.FacileDataSet}},
+  \code{\link{samples.FacileDataSet}}
 }
-\concept{API}

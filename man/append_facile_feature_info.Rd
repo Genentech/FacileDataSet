@@ -4,8 +4,7 @@
 \alias{append_facile_feature_info}
 \title{Appends new features to \code{feature_info} table}
 \usage{
-append_facile_feature_info(x, feature_info,
-  type = feature_info$feature_type)
+append_facile_feature_info(x, feature_info, type = feature_info$feature_type)
 }
 \arguments{
 \item{x}{The \code{FacileDataSet}}
