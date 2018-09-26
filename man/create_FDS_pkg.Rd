@@ -7,7 +7,8 @@
 create_FDS_pkg(data_list = NULL, slug = NULL, version = "0.0.1",
   parent_path = ".", covariates = NULL, cov_metadata = NULL,
   data_metadata = NULL, assay_name = "rnaseq",
-  source_assay = "counts", organism = "Homo sapiens")
+  source_assay = "counts", feature_type = "entrez",
+  feature_source = "Entrez", organism = "Homo sapiens")
 }
 \arguments{
 \item{data_list}{named \code{list} of data \code{SummarizedExperiment} objects to be converted into a \code{Facile___DataSet} package.}
@@ -36,59 +37,4 @@ Builds and installs a \code{Facile___DataSet} package, leaving a source tarball 
 \description{
 Accepts a list of datasets (SummarizedExperiments) and metadata and
 builds/installs a Facile___DataSet based on this.
-}
-\examples{
-\dontrun{
-ngs114 <- ep.project.from.id("PRJ0013166", standard.checks = FALSE)
-ngs171 <- ep.project.from.id("PRJ0013155", standard.checks = FALSE)
-
-data_list <- list(
-  NGS114 = ep.SummarizedExperiment(ngs114, attach.annot = TRUE),
-  NGS171 = ep.SummarizedExperiment(ngs171, attach.annot = TRUE)
-)
-
-cov_metadata <- list(
-  primary_tissue = list(label = "Primary Tissue",
-                        description = "Primary tissue source",
-                        type = "tumor_classification",
-                        class = "categorical"
-  ),
-  gender = list(label = "Gender/Sex",
-                description = "In the 'ratio between chrX:chrY' sense.",
-                type = "clinical",
-                class = "categorical"
-  ),
-  diagnosis = list(label = "Tissue Diagnosis",
-                   description = "Tissue metaclass oncology",
-                   type = "tumor_classification",
-                   class = "categorical"
-  ),
-  ethnicity = list(label = "Ethnicity",
-                   description = "Patient ethnicity",
-                   type = "clinical",
-                   class = "categorical"
-  ),
-  tissue = list(label = "Tissue Group",
-                description = "Rollup of tissue type to defined vocab",
-                type = "tumor_classification",
-                class = "categorical"
-  )
-)
-
-data_metadata <- list(
-  NGS114 = list(url = "http://gene.com", description = "This is NGS114"),
-  NGS171 = list(url = "http://gene.com", description = "This is NGS171")
-)
-
-create_FDS_pkg(data_list = data_list,
-               slug = "GCell",
-               version = "0.0.1",
-               parent_path = "~/FacileVerse",
-               covariates = c("PRIMARY_TISSUE", "GENDER",
-                              "TISSUE_DIAGNOSIS", "ETHNICITY",
-                              "TISSUE_METACLASS_ONCOLOGY"),
-               cov_metadata = cov_metadata,
-               data_metadata = data_metadata)
-
-}
 }

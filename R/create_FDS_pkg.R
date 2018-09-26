@@ -20,63 +20,8 @@
 #' @importFrom SummarizedExperiment colData
 #' @importFrom devtools create document install build
 #' @importFrom desc desc_set_version
-#'
 #' @return Builds and installs a `Facile___DataSet` package, leaving a source tarball in `parent_path` directory.
 #' @export
-#'
-#' @examples \dontrun{
-#' ngs114 <- ep.project.from.id("PRJ0013166", standard.checks = FALSE)
-#' ngs171 <- ep.project.from.id("PRJ0013155", standard.checks = FALSE)
-#'
-#' data_list <- list(
-#'   NGS114 = ep.SummarizedExperiment(ngs114, attach.annot = TRUE),
-#'   NGS171 = ep.SummarizedExperiment(ngs171, attach.annot = TRUE)
-#' )
-#'
-#' cov_metadata <- list(
-#'   primary_tissue = list(label = "Primary Tissue",
-#'                         description = "Primary tissue source",
-#'                         type = "tumor_classification",
-#'                         class = "categorical"
-#'   ),
-#'   gender = list(label = "Gender/Sex",
-#'                 description = "In the 'ratio between chrX:chrY' sense.",
-#'                 type = "clinical",
-#'                 class = "categorical"
-#'   ),
-#'   diagnosis = list(label = "Tissue Diagnosis",
-#'                    description = "Tissue metaclass oncology",
-#'                    type = "tumor_classification",
-#'                    class = "categorical"
-#'   ),
-#'   ethnicity = list(label = "Ethnicity",
-#'                    description = "Patient ethnicity",
-#'                    type = "clinical",
-#'                    class = "categorical"
-#'   ),
-#'   tissue = list(label = "Tissue Group",
-#'                 description = "Rollup of tissue type to defined vocab",
-#'                 type = "tumor_classification",
-#'                 class = "categorical"
-#'   )
-#' )
-#'
-#' data_metadata <- list(
-#'   NGS114 = list(url = "http://gene.com", description = "This is NGS114"),
-#'   NGS171 = list(url = "http://gene.com", description = "This is NGS171")
-#' )
-#'
-#' create_FDS_pkg(data_list = data_list,
-#'                slug = "GCell",
-#'                version = "0.0.1",
-#'                parent_path = "~/FacileVerse",
-#'                covariates = c("PRIMARY_TISSUE", "GENDER",
-#'                               "TISSUE_DIAGNOSIS", "ETHNICITY",
-#'                               "TISSUE_METACLASS_ONCOLOGY"),
-#'                cov_metadata = cov_metadata,
-#'                data_metadata = data_metadata)
-#'
-#' }
 create_FDS_pkg <- function(data_list = NULL,
                            slug = NULL,
                            version = "0.0.1",
@@ -86,6 +31,8 @@ create_FDS_pkg <- function(data_list = NULL,
                            data_metadata = NULL,
                            assay_name = "rnaseq",
                            source_assay = "counts",
+                           feature_type = "entrez",
+                           feature_source = "Entrez",
                            organism = "Homo sapiens") {
 
   if (is.null(slug)) stop("Please provide a slug to use in the new dataset name: Facile<slug>DataSet")
@@ -130,8 +77,8 @@ create_FDS_pkg <- function(data_list = NULL,
 
     ## source is a new column
     ## feature_type is overwritten
-    mcols(x)$source = "IGIS"
-    mcols(x)$feature_type = "entrez"
+    mcols(x)$source = feature_source
+    mcols(x)$feature_type = feature_type
     mcols(x)$feature_id = rownames(x)
 
     ## ensure that all cov_metadata entries contain minimal metadata entries
@@ -201,7 +148,9 @@ create_FDS_pkg <- function(data_list = NULL,
                "    path <- system.file('extdata', '{FDS_name}', package='{FDS_name}')",
                "  }}",
                "  db.loc <- match.arg(db.loc)",
-               "  FacileDataSet(path, cache_size = cache_size, db.loc = db.loc)",
+               "  out <- FacileDataSet(path, cache_size = cache_size, db.loc = db.loc)",
+               "  class(out) <- c({FDS_name}, class(out))",
+               "  out",
                "}}", .sep = "\n"),
     file.path(DIR, "R", glue::glue("{FDS_name}.R"))
   )

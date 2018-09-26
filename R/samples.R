@@ -40,7 +40,7 @@ subtype_map <- function(x) {
 #' @importFrom lazyeval lazy_dots
 #' @param x A \code{FacileDataRepository}
 #' @param samples tbl, with dataset and sample_id columns
-#' @param assay single character, relevant asay
+#' @param assay single character, relevant assay
 #' @param ... the NSE boolean filter criteria
 #' @return a facile sample descriptor
 #' @family API

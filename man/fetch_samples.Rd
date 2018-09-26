@@ -11,7 +11,7 @@ fetch_samples(x, samples = NULL, assay = "rnaseq", ...)
 
 \item{samples}{tbl, with dataset and sample_id columns}
 
-\item{assay}{single character, relevant asay}
+\item{assay}{single character, relevant assay}
 
 \item{...}{the NSE boolean filter criteria}
 }
