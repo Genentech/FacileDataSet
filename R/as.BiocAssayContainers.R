@@ -270,9 +270,9 @@ as.ExpressionSet.FacileDataSet <-
            custom_key = Sys.getenv("USER"),
            ...) {
 
-  force(.fds)
-  x <- samples(x) %>% collect(n=Inf) %>% set_fds(.fds)
-  as.ExpressionSet(x, covariates, feature_ids, assay_name, x,
+  .fds <- force(.fds)
+  y <- samples(x) %>% collect(n=Inf) %>% set_fds(.fds)
+  as.ExpressionSet(y, covariates, feature_ids, assay_name, .fds,
                    custom_key, ...)
 }
 
@@ -315,8 +315,8 @@ as.SummarizedExperiment.FacileDataSet <- function(x, covariates=TRUE, feature_id
                                                   assay_name=default_assay(.fds),
                                                   .fds=fds(x), custom_key=Sys.getenv("USER"),
                                                   ...) {
-  force(.fds)
-  x <- samples(x) %>% collect(n=Inf) %>% set_fds(.fds)
-  as.SummarizedExperiment(x, covariates, feature_ids, assay_name, x,
+  .fds <- force(.fds)
+  y <- samples(x) %>% collect(n=Inf) %>% set_fds(.fds)
+  as.SummarizedExperiment(y, covariates, feature_ids, assay_name, .fds,
                            custom_key, ...)
 }
