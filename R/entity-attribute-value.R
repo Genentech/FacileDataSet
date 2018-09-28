@@ -119,10 +119,13 @@ cast_covariate <- function(covariate, values, cov.def, .fds) {
 #' @export
 eav_decode_real <- function(x, attrname = character(), def = list(), ...) {
   out <- as.numeric(x)
-  n.na <- sum(is.na(out))
-  if (n.na > 0L) {
+  before.n.na <- sum(is.na(x))
+  after.n.na <- sum(is.na(out))
+  # assert the same number of NAs before and after conversion
+  if (after.n.na != before.n.na) {
+    diff.n.na <- after.n.na - before.n.na
     msg <- "%d (%.2f) values in `%s` covariate failed conversion to numeric"
-    warning(sprintf(msg, n.na, n.na / length(x), attrname))
+    warning(sprintf(msg, diff.n.na, dif.n.na / length(x), attrname))
   }
   out
 }
