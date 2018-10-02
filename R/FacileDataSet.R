@@ -218,6 +218,7 @@ meta_info.FacileDataSet <- function(x, fn = meta_file(x)) {
 #' @family FacileInterface
 #' @export
 #' @importFrom BiocGenerics organism
+#' @exportMethod organism
 setMethod("organism", "FacileDataSet", function(object) {
   FacileDataSet::organism.FacileDataSet(object)
 })
@@ -300,19 +301,20 @@ covariate_definitions <- function(x, as.list=TRUE) {
   set_fds(out, x)
 }
 
-#' #' Retrieves the sample identifiers for all samples in a FacileDataSet.
-#' #'
-#' #' Sample identifiers are provided as `dataset,sample_id tuples`.
-#' #'
-#' #' @export
-#' #' @family API
-#' #'
-#' #' @param object a `FacileDataSet`
-#' #' @return tibble with dataset and sample_id columns
-#' #' @importFrom Biobase samples
-#' setMethod("samples", "FacileDataSet", function(object) {
-#'   FacileDataSet::samples.FacileDataSet(object)
-#' })
+#' Retrieves the sample identifiers for all samples in a FacileDataSet.
+#'
+#' Sample identifiers are provided as `dataset,sample_id tuples`.
+#'
+#' @export
+#' @family API
+#'
+#' @param object a `FacileDataSet`
+#' @return tibble with dataset and sample_id columns
+#' @importFrom Biobase samples
+#' @exportMethod samples
+setMethod("samples", "FacileDataSet", function(object) {
+  FacileDataSet::samples.FacileDataSet(object)
+})
 
 #' Get basic sample descriptor tibble
 #'
