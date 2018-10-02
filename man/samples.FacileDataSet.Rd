@@ -17,7 +17,7 @@ setMethod("samples", "FacileDataSet", function(object) {
 })
 Get basic sample descriptor tibble}
 \usage{
-\method{samples}{FacileDataSet}(object)
+samples.FacileDataSet(object)
 }
 \arguments{
 \item{object}{a `FacileDataSet`}
