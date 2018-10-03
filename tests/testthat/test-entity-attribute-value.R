@@ -89,9 +89,47 @@ test_that("basic encoding and decoding of EAV columns works", {
   foo = Surv(1:3, c(0,1,0))
   x = as(foo, "cSurv")
   y = eav_encode_cSurv(x)
-  y1 = c("1+","2 ","3+")
+  y1 = c("1+","2","3+")
   attr(y1, "eavclass") = "cSurv"
   expect_identical(y, y1)
   z = eav_decode_cSurv(y)
   expect_identical(x,z)
 })
+
+test_that("basic decoding works corectly", {
+  # numeric/real
+  numeric_input <- c(0,10,100)
+  character_input <- as.character(numeric_input)
+  x1 <- eav_decode_real(character_input)
+  x2 <- eav_decode_numeric(character_input)
+  x3 <- eav_decode(character_input, "numeric")
+  expect_identical(x1, numeric_input)
+  expect_identical(x2, numeric_input)
+  expect_identical(x3, numeric_input)
+  
+  # numeric/real with NA
+  numeric_input_with_na <- c('0','10','100',NA)
+  x1 <- eav_decode_real(numeric_input_with_na)
+  expect_identical(x1, as.numeric(numeric_input_with_na))
+  numeric_input_with_na <- c('0','10','100','NA')
+  expect_warning(x1 <- eav_decode_real(numeric_input_with_na))
+  expect_identical(x1, as.numeric(numeric_input_with_na))
+  
+  # factor/categorical
+  character_input <- c("BLCA","BLCA","CRC","CRC")
+  factor_input <- as.factor(factor_input)
+  x1 <- eav_decode_factor(character_input)
+  x2 <- eav_decode_categorical(character_input)
+  expect_identical(x1, character_input)
+  expect_identical(x2, character_input)
+  
+  #logical
+  logical_input.as.int <- c(1, 1, 1, 0)
+  logical_input <- c(T, T, T, F)
+  character_input <- as.character(logical_input.as.int)
+  x <- eav_decode_logical(character_input)
+  expect_identical(x, logical_input)
+  
+})
+
+
