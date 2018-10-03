@@ -125,7 +125,7 @@ eav_decode_real <- function(x, attrname = character(), def = list(), ...) {
   if (after.n.na != before.n.na) {
     diff.n.na <- after.n.na - before.n.na
     msg <- "%d (%.2f) values in `%s` covariate failed conversion to numeric"
-    warning(sprintf(msg, diff.n.na, dif.n.na / length(x), attrname))
+    warning(sprintf(msg, diff.n.na, diff.n.na / length(x), attrname))
   }
   out
 }

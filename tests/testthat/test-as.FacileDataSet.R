@@ -51,7 +51,7 @@ testthat::test_that(desc = "as.FacileDataSet.R::as.FacileDataSet.ExpressionSet",
     organism = "unspecified"
   )
   testthat::expect_identical(object = file.size(list.files(fdsDir, full.names = TRUE)),
-                             expected = c(4096, 36433, 434176, 876))
+                             expected = c(4096, 37366, 434176, 876))
   unlink(fdsDir, recursive = TRUE)
 })
 testthat::test_that(desc = "as.FacileDataSet.R::as.FacileDataSet.SummarizedExperiment", code = {
@@ -79,6 +79,6 @@ testthat::test_that(desc = "as.FacileDataSet.R::as.FacileDataSet.SummarizedExper
       organism = "unspecified"
     )
   testthat::expect_identical(object = file.size(list.files(fdsDir, full.names = TRUE)),
-                             expected = c(4096, 36433, 405504, 520))
+                             expected = c(4096, 37366, 405504, 520))
   unlink(fdsDir, recursive = TRUE)
 })

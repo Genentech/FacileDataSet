@@ -1,60 +1,58 @@
-# library(FacileDataSet)
-# library(testthat)
-# 
-# context("Fetching assay level data")
-# 
-# FDS <- exampleFacileDataSet()
-# samples <- sample_covariate_tbl(FDS) %>%
-#   filter(variable == 'stage' & value == 'III') %>%
-#   select(dataset, sample_id)
-# 
-# genes <- c(
-#   PRF1='5551',
-#   GZMA='3001',
-#   CD274='29126',
-#   TIGIT='201633')
-# 
-# features <- tibble(assay='rnaseq', feature_id=genes)
-# 
-# test_that("fetch_assay_data limits samples correctly", {
-#   s.df <- collect(samples, n=Inf)
-# 
-#   e.sqlite <- fetch_assay_data(FDS, genes, samples) %>% collect(n=Inf)
-#   e.df <- fetch_assay_data(FDS, genes, s.df) %>% collect(n=Inf)
-# 
-#   ## results are same from tbl_df and tbl_sqlite `samples` parameter
-#   expect_equal(e.sqlite, e.df)
-# 
-#   ## samples limited correcly
-#   expect_true(setequal(paste0(e.df$dataset, e.df$sample_id),
-#                        paste0(s.df$dataset, s.df$sample_id)))
-# 
-# })
-# 
-# test_that("spreading data works with_assay_data", {
-#   expected <- FDS %>%
-#     fetch_assay_data(genes, samples, normalized=TRUE) %>%
-#     select(dataset, sample_id, feature_name, value) %>%
-#     tidyr::spread(feature_name, value)
-#   result <- samples %>%
-#     with_assay_data(genes, normalized=TRUE) %>%
-#     collect
-# 
-#   expect_equal(result, expected)
-# })
-# 
-# test_that("fetch_assay_data(..., aggregate.by='ewm') provides scores", {
-#   scores <- FDS %>%
-#     fetch_assay_data(features, samples, normalized=TRUE, aggregate.by='ewm') %>%
-#     arrange(sample_id, feature_name) %>%
-#     select(dataset, sample_id, feature_id, symbol=feature_name, value) %>%
-#     mutate(samid=paste(dataset, sample_id, sep="__"))
-# 
-#   dat <- FDS %>%
-#     fetch_assay_data(features, samples, normalized=TRUE, as.matrix=TRUE)
-#   ewm <- multiGSEA::eigenWeightedMean(dat)$score[scores$samid]
-#   expect_equal(scores$value, unname(ewm))
-# })
+library(FacileDataSet)
+library(testthat)
+
+context("Fetching assay level data")
+
+FDS <- exampleFacileDataSet()
+samples <- sample_covariate_tbl(FDS) %>%
+  filter(variable == 'stage' & value == 'III') %>%
+  select(dataset, sample_id)
+
+genes <- c(
+  PRF1='5551',
+  GZMA='3001',
+  CD274='29126',
+  TIGIT='201633')
+
+features <- tibble(assay='rnaseq', feature_id=genes)
+
+test_that("fetch_assay_data limits samples correctly", {
+  s.df <- collect(samples, n=Inf)
+
+  e.sqlite <- fetch_assay_data(FDS, genes, samples) %>% collect(n=Inf)
+  e.df <- fetch_assay_data(FDS, genes, s.df) %>% collect(n=Inf)
+  
+  ## results are same from tbl_df and tbl_sqlite `samples` parameter
+  expect_equal(e.sqlite, e.df)
+
+  ## samples limited correcly
+  expect_true(setequal(paste0(e.df$dataset, e.df$sample_id),
+                       paste0(s.df$dataset, s.df$sample_id)))
+})
+
+test_that("spreading data works with_assay_data", {
+  expected <- FDS %>%
+    fetch_assay_data(genes, samples, normalized=TRUE) %>%
+    select(dataset, sample_id, feature_name, value) %>%
+    tidyr::spread(feature_name, value)
+  result <- samples %>%
+    with_assay_data(genes, normalized=TRUE) %>%
+    collect
+  expect_equal(result, expected)
+})
+
+test_that("fetch_assay_data(..., aggregate.by='ewm') provides scores", {
+  scores <- FDS %>%
+    fetch_assay_data(features, samples, normalized=TRUE, aggregate.by='ewm') %>%
+    arrange(sample_id, feature_name) %>%
+    select(dataset, sample_id, feature_id, symbol=feature_name, value) %>%
+    mutate(samid=paste(dataset, sample_id, sep="__"))
+
+  dat <- FDS %>%
+    fetch_assay_data(features, samples, normalized=TRUE, as.matrix=TRUE)
+  ewm <- multiGSEA::eigenWeightedMean(dat)$score[scores$samid]
+  expect_equal(scores$value, unname(ewm))
+})
 
 # test_that("fetch_assay_data handles missing entries for requested samples", {
 #   ## When we have multiple assays for an FDS, we can use a valid sample
