@@ -117,7 +117,7 @@ cast_covariate <- function(covariate, values, cov.def, .fds) {
 #' @return a `numeric` vector of `length(x)`
 #' @rdname simple-eav-decode-functions
 #' @export
-eav_decode_real <- function(x, attrname = character(), def = list(), ...) {
+eav_decode_numeric <- function(x, attrname = character(), def = list(), ...) {
   out <- as.numeric(x)
   before.n.na <- sum(is.na(x))
   after.n.na <- sum(is.na(out))
@@ -125,10 +125,12 @@ eav_decode_real <- function(x, attrname = character(), def = list(), ...) {
   if (after.n.na != before.n.na) {
     diff.n.na <- after.n.na - before.n.na
     msg <- "%d (%.2f) values in `%s` covariate failed conversion to numeric"
-    warning(sprintf(msg, diff.n.na, dif.n.na / length(x), attrname))
+    warning(sprintf(msg, diff.n.na, diff.n.na / length(x), attrname))
   }
   out
 }
+
+eav_decode_real <- eav_decode_numeric
 
 #' @rdname simple-eav-decode-functions
 #' @export
@@ -191,7 +193,7 @@ eav_decode_cSurv <- function(x, attrname = character(), def = list(), ...) {
 #' @inheritParams eav_decode_real
 #' @rdname simple-eav-decode-functions
 #' @export
-eav_decode_categorical <- function(x, attrname=character(), def=list(), ...) {
+eav_decode_factor <- function(x, attrname=character(), def=list(), ...) {
   out <- as.character(x)
   if (is.character(def$levels)) {
     ## protect against NAing a long list of values in the event that the
@@ -202,6 +204,7 @@ eav_decode_categorical <- function(x, attrname=character(), def=list(), ...) {
   }
   out
 }
+eav_decode_categorical <- eav_decode_factor
 
 #' @rdname simple-eav-decode-functions
 #' @export
@@ -659,3 +662,70 @@ eav_encode_covariate <- function(pdata, covariate_def, aname = "variable") {
   #args <- covariate_def[['arguments']] # Let us assume is a list of character(1)s for now
   encode.fn(pdata[[aname]])
 }
+
+##########
+
+cast_covariate.new <- function(covariate, values, cov.def, .fds) {
+  if (missing(cov.def)) {
+    #    stopifnot(is.FacileDataSet(.fds))
+    cov.def <- covariate_definitions(.fds)
+  }
+  stopifnot(is(cov.def, 'CovariateDefinitions'))
+  stopifnot(is.character(values))
+  stopifnot(is.character(covariate) && length(covariate) == 1L)
+  
+  if (covariate != '.dummy.') {
+    def <- cov.def[[covariate]]
+    if (is.null(def)) {
+      warning("Covariate definition not found for ", covariate,
+              " casting assumed to be categorical", immediate. = TRUE)
+      def <- list(class="categorical")
+    }
+    
+    clazz <- def$class
+    stopifnot(is.character(clazz), length(clazz) == 1L)
+    if(clazz == "real") clazz <- "numeric"
+    if(clazz == "categorical") clazz <- "factor"
+    
+    if(clazz == "right_censored"){
+      values <- eav_decode_right_censored(values, covariate, def)
+    } else{
+      out.values <- as(values, clazz)
+      .check.new.na(values, out.values)
+      return(out.values)
+    }
+
+    values <- dfn(values, covariate, def)
+  }
+  
+  values
+}
+
+#' @rdname simple-eav-decode-functions
+#' @export
+eav_encode <- function(x, class, ...) {
+  out <- as.character(x)
+  attr(out, "eavclass") <- class
+  return(out)
+}
+
+#' @rdname simple-eav-decode-functions
+#' @export
+eav_decode <- function(x, class, ...) {
+  out.values <- as(x, class)
+  .check.new.na(x, out.values, class)
+  return(out.values)
+}
+
+.check.new.na <- function(in.value, out.value, class){
+  before.n.na <- sum(is.na(in.value))
+  after.n.na <- sum(is.na(out.value))
+  # assert the same number of NAs before and after conversion
+  if (after.n.na != before.n.na) {
+    diff.n.na <- after.n.na - before.n.na
+    msg <- "%d (%.2f) values in `%s` covariate failed conversion to %s"
+    warning(sprintf(msg, diff.n.na, diff.n.na / length(in.value), attrname, class))
+  }
+}
+
+setAs(from = "character", to = "factor", def = function(from) factor(from))
