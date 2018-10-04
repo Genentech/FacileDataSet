@@ -150,7 +150,6 @@ create_FDS_pkg <- function(data_list = NULL,
                "  db.loc <- match.arg(db.loc)",
                "  out <- FacileDataSet(path, cache_size = cache_size, db.loc = db.loc)",
                "  class(out) <- c('FacileDataSet', 'AbstractFacileDataStore')",
-#               "  setOldClass(c('{FDS_name}', 'FacileDataSet', 'AbstractFacileDataStore'))",
                "  out",
                "}}", .sep = "\n"),
     file.path(DIR, "R", glue::glue("{FDS_name}.R"))
