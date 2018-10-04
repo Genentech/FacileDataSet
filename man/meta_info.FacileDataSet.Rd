@@ -4,7 +4,7 @@
 \alias{meta_info.FacileDataSet}
 \title{Retrieves the meta information for a FacileDataSet}
 \usage{
-\method{meta_info}{FacileDataSet}(x, fn = meta_file(x))
+meta_info.FacileDataSet(x, fn = meta_file(x))
 }
 \arguments{
 \item{x}{A FacileDataSet}

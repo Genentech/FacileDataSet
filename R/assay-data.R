@@ -33,7 +33,10 @@ fetch_assay_data.FacileDataSet <- function(x, features = NULL, samples=NULL,
   assert_flag(as.matrix)
   assert_flag(normalized)
   assert_number(subset.threshold)
-  aggregate.by = match.arg(aggregate.by)
+  if (is.null(aggregate.by))
+    aggregate.by = "none"
+  else
+    aggregate.by = match.arg(aggregate.by)
 
   if (!is.null(assay_name) || is.character(features)) {
     assert_string(assay_name)
@@ -94,13 +97,30 @@ fetch_assay_data.FacileDataSet <- function(x, features = NULL, samples=NULL,
 
   out
 }
-
+##' .. content for \description{} (no empty lines) ..
+##'
+##' .. content for \details{} ..
+##' @param x
+##' @param assay_name
+##' @param feature_ids
+##' @param samples
+##' @param normalized
+##' @param as.matrix
+##' @param subset.threshold
+##' @param aggregate.by
+##' @param ...
+##' @param verbose
+##' @return
+##' @export
 .fetch_assay_data <- function(x, assay_name, feature_ids, samples,
                               normalized=FALSE, as.matrix=FALSE,
                               subset.threshold=700, aggregate.by=c("none", "ewm", "zscore"),
                               ..., verbose=FALSE) {
   #  stopifnot(is.FacileDataSet(x))
-  aggregate.by = match.arg(aggregate.by)
+  if (is.null(aggregate.by))
+    aggregate.by = "none"
+  else
+    aggregate.by = match.arg(aggregate.by)
   assert_string(assay_name)
   assert_character(feature_ids, min.len=1L)
   samples <- assert_sample_subset(samples)
@@ -176,9 +196,10 @@ fetch_assay_data.FacileDataSet <- function(x, features = NULL, samples=NULL,
       warning("No assay feature aggregation performed over single feature",
               immediate.=TRUE)
     }
-    aggregate.by <- NULL
+    aggregate.by <- "none"
   }
 
+  message("aggregate.by: ", aggregate.by)
   if (!identical(aggregate.by, "none")) {
     scores <- switch(aggregate.by,
                      ewm=eigenWeightedMean(vals, ...)$score,
