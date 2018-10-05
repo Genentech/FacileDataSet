@@ -684,14 +684,19 @@ cast_covariate.new <- function(covariate, values, cov.def, .fds) {
     
     clazz <- def$class
     stopifnot(is.character(clazz), length(clazz) == 1L)
+    # we have false class, here we change to real R class
+    # TODO: remove in the future
     if(clazz == "real") clazz <- "numeric"
     if(clazz == "categorical") clazz <- "factor"
     
+    # right_censored have more complicated structure, and decoding must be 
+    # more complicated. But class cSurv merge numeric value and event in one 
+    # variable and could be decoding as other class
     if(clazz == "right_censored"){
       values <- eav_decode_right_censored(values, covariate, def)
     } else{
       out.values <- as(values, clazz)
-      .check.new.na(values, out.values)
+      .check.new.na(values, out.values, clazz)
       return(out.values)
     }
 

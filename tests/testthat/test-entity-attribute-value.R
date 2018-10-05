@@ -100,11 +100,13 @@ test_that("basic decoding works corectly", {
   # numeric/real
   numeric_input <- c(0,10,100)
   character_input <- as.character(numeric_input)
+  # test 'clasic' decoding function
   x1 <- eav_decode_real(character_input)
   x2 <- eav_decode_numeric(character_input)
-  x3 <- eav_decode(character_input, "numeric")
   expect_identical(x1, numeric_input)
   expect_identical(x2, numeric_input)
+  # test universal decoding function
+  x3 <- eav_decode(character_input, "numeric")
   expect_identical(x3, numeric_input)
   
   # numeric/real with NA
