@@ -210,17 +210,17 @@ meta_info.FacileDataSet <- function(x, fn = meta_file(x)) {
 }
 
 
-#' Get the name of the organism described by this dataset
-#'
-#' Get the name of the organism described by this dataset
-#' @param object A FacileDataSet
-#' @return single character
-#' @family FacileInterface
-#' @export
-#' @importFrom BiocGenerics organism
-setMethod("organism", "FacileDataSet", function(object) {
-  FacileDataSet::organism.FacileDataSet(object)
-})
+# #' Get the name of the organism described by this dataset
+# #'
+# #' Get the name of the organism described by this dataset
+# #' @param object A FacileDataSet
+# #' @return single character
+# #' @family FacileInterface
+# #' @export
+# #' @importFrom BiocGenerics organism
+# setMethod("organism", "FacileDataSet", function(object) {
+#   FacileDataSet::organism.FacileDataSet(object)
+# })
 
 #' Retrieves the organism the data is defined over
 #'

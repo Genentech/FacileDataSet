@@ -38,6 +38,7 @@ normalize.assay.matrix <- function(vals, feature.info, sample.info,
   }
   out
 }
+
 #' @importFrom checkmate assert_string assert_character assert_flag assert_number
 #' @importFrom rhdf5 h5read
 fetch_assay_data_tbl.FacileDataSet <- function(x,
