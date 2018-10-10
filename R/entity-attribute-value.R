@@ -665,7 +665,7 @@ eav_encode_covariate <- function(pdata, covariate_def, aname = "variable") {
 
 ##########
 
-cast_covariate.new <- function(covariate, values, cov.def, .fds) {
+cast_covariate_new <- function(covariate, values, cov.def, .fds) {
   if (missing(cov.def)) {
     #    stopifnot(is.FacileDataSet(.fds))
     cov.def <- covariate_definitions(.fds)

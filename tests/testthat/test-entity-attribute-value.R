@@ -89,7 +89,7 @@ test_that("basic encoding and decoding of EAV columns works", {
   foo = Surv(1:3, c(0,1,0))
   x = as(foo, "cSurv")
   y = eav_encode_cSurv(x)
-  y1 = c("1+","2","3+")
+  y1 = c("1+","2 ","3+")
   attr(y1, "eavclass") = "cSurv"
   expect_identical(y, y1)
   z = eav_decode_cSurv(y)
@@ -100,7 +100,7 @@ test_that("basic decoding works corectly", {
   # numeric/real
   numeric_input <- c(0,10,100)
   character_input <- as.character(numeric_input)
-  # test 'clasic' decoding function
+  # test 'classic' decoding function
   x1 <- eav_decode_real(character_input)
   x2 <- eav_decode_numeric(character_input)
   expect_identical(x1, numeric_input)
