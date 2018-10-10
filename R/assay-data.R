@@ -68,7 +68,7 @@ fetch_assay_data_tbl.FacileDataSet <- function(x,
   ftype <- finfo$feature_type[1L]
   sinfo <- assay_sample_info(x, assay_name, samples) %>%
     mutate(samid=paste(dataset, sample_id, sep="__"))
-  bad.samples <- is.na(pull(sinfo, hdf5_index))
+  bad.samples <- is.na(sinfo$hdf5_index)
   if (any(bad.samples)) {
     if (verbose) {
       warning(sum(bad.samples), " samples not found in `",
