@@ -9,6 +9,7 @@ assay_names.FacileDataSet <- function(x, default_first=TRUE) {
 }
 
 ## helper function to fetch_assay_data
+#' @importFrom edgeR cpm
 normalize.assay.matrix <- function(vals, feature.info, sample.info,
                                    log=TRUE, prior.count=5, ...,
                                    verbose=FALSE) {
@@ -24,7 +25,7 @@ normalize.assay.matrix <- function(vals, feature.info, sample.info,
   libsize <- sample.info$libsize * sample.info$normfactor
   if (atype == 'rnaseq') {
     # we assume these are units that are at the count level
-    out <- edgeR::cpm(vals, libsize, log=log, prior.count=prior.count)
+    out <- cpm(vals, libsize, log=log, prior.count=prior.count)
   } else if (atype == "tpm") {
     # someone processed their data with salmon or kallisto and wanted to store
     # tpm. Normalizing this is just log2(val + prior.count)
