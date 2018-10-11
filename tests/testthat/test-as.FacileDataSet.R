@@ -50,8 +50,10 @@ testthat::test_that(desc = "as.FacileDataSet.R::as.FacileDataSet.ExpressionSet",
     assay_name = "assayDataSample",
     organism = "unspecified"
   )
-  testthat::expect_identical(object = file.size(list.files(fdsDir, full.names = TRUE)),
-                             expected = c(4096, 37366, 434176, 876))
+  fdsFiles <- c("custom-annotation", "data.sqlite", "data.h5", "meta.yaml")
+  testthat::expect_true(object =
+                          all(file.size(file.path(fdsDir,
+                                                  fdsFiles)) > 0))
   unlink(fdsDir, recursive = TRUE)
 })
 testthat::test_that(desc = "as.FacileDataSet.R::as.FacileDataSet.SummarizedExperiment", code = {
@@ -78,7 +80,9 @@ testthat::test_that(desc = "as.FacileDataSet.R::as.FacileDataSet.SummarizedExper
       assay_type = "rnaseq",
       organism = "unspecified"
     )
-  testthat::expect_identical(object = file.size(list.files(fdsDir, full.names = TRUE)),
-                             expected = c(4096, 37366, 405504, 520))
+  fdsFiles <- c("custom-annotation", "data.sqlite", "data.h5", "meta.yaml")
+  testthat::expect_true(object =
+                          all(file.size(file.path(fdsDir,
+                                                  fdsFiles)) > 0))
   unlink(fdsDir, recursive = TRUE)
 })

@@ -42,16 +42,19 @@ normalize.assay.matrix <- function(vals, feature.info, sample.info,
 
 #' @importFrom checkmate assert_string assert_character assert_flag assert_number
 #' @importFrom rhdf5 h5read
-fetch_assay_data_tbl.FacileDataSet <- function(x,
-                              assay_name,
-                              feature_ids,
-                              samples,
-                              normalized = FALSE,
-                              as.matrix = FALSE,
-                              subset.threshold = 700,
-                              aggregate.by = c("none", "ewm", "zscore"),
-                              verbose = FALSE,
-                              ...) {
+fetch_assay_data_tbl.FacileDataSet <- 
+  function(x,
+           assay_name,
+           feature_ids,
+           samples,
+           normalized = FALSE,
+           as.matrix = FALSE,
+           aggregate.by = c("none", "ewm", "zscore"),
+           subset.threshold = 700,
+           verbose = FALSE,
+           ...) {
+    
+  
   
   aggregate.by = match.arg(aggregate.by)
   assert_string(assay_name)
