@@ -21,14 +21,13 @@ test_that("fetch_assay_data limits samples correctly", {
 
   e.sqlite <- fetch_assay_data(FDS, genes, samples) %>% collect(n=Inf)
   e.df <- fetch_assay_data(FDS, genes, s.df) %>% collect(n=Inf)
-
+  
   ## results are same from tbl_df and tbl_sqlite `samples` parameter
   expect_equal(e.sqlite, e.df)
 
   ## samples limited correcly
   expect_true(setequal(paste0(e.df$dataset, e.df$sample_id),
                        paste0(s.df$dataset, s.df$sample_id)))
-
 })
 
 test_that("spreading data works with_assay_data", {
@@ -39,7 +38,6 @@ test_that("spreading data works with_assay_data", {
   result <- samples %>%
     with_assay_data(genes, normalized=TRUE) %>%
     collect
-
   expect_equal(result, expected)
 })
 
