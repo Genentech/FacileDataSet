@@ -77,7 +77,6 @@ fetch_assay_data_tbl.FacileDataSet <-
               assay_name, "`assay.", immediate.=TRUE)
     }
     sinfo <- sinfo[!bad.samples,,drop=FALSE]
-    #sinfo <- filter(sinfo, !is.na(hdf5_index))
   }
   
   ## DEBUG: Tune chunk size?
