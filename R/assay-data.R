@@ -4,6 +4,7 @@ assay_names.FacileDataSet <- function(x, default_first=TRUE) {
   if (default_first && length(anames) > 1L) {
     dassay <- default_assay(x)
     anames <- intersect(c(dassay, setdiff(anames, dassay)), anames)
+
   }
   anames
 }
@@ -53,8 +54,6 @@ fetch_assay_data_tbl.FacileDataSet <-
            subset.threshold = 700,
            verbose = FALSE,
            ...) {
-    
-  
   
   aggregate.by = match.arg(aggregate.by)
   assert_string(assay_name)
@@ -133,9 +132,9 @@ fetch_assay_data_tbl.FacileDataSet <-
       warning("No assay feature aggregation performed over single feature",
               immediate.=TRUE)
     }
-    aggregate.by <- NULL
+    aggregate.by <- "none"
   }
-  
+    
   if (!identical(aggregate.by, "none")) {
     scores <- switch(aggregate.by,
                      ewm=eigenWeightedMean(vals, ...)$score,

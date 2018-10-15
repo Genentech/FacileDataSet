@@ -4,7 +4,7 @@
 \alias{meta_file.FacileDataSet}
 \title{Path to the meta information YAML file}
 \usage{
-\method{meta_file}{FacileDataSet}(x)
+meta_file.FacileDataSet(x)
 }
 \arguments{
 \item{x}{A `FacileDataSet`}

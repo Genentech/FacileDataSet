@@ -58,7 +58,7 @@ create_FDS_pkg <- function(data_list = NULL,
 
     ## assertions
     if (!inherits(x, "SummarizedExperiment")) stop("Requires SummarizedExperiment objects in data_list")
-    if (length(colnames(mcols(x))) != 5L) stop("Requires exactly 5 columns in rowData")
+    if (length(colnames(mcols(x))) != 5L) stop("Requires exactly 5 columns in rowData: aliases, effective_length, feature_type, name, meta")
     if (any(!(covariates %in% names(cov_metadata)))) stop("All covariates must be present in colData for all datasets")
 
     ## prepend feature_id with "GeneID:"
@@ -149,7 +149,7 @@ create_FDS_pkg <- function(data_list = NULL,
                "  }}",
                "  db.loc <- match.arg(db.loc)",
                "  out <- FacileDataSet(path, cache_size = cache_size, db.loc = db.loc)",
-               "  class(out) <- c({FDS_name}, class(out))",
+               "  class(out) <- c('FacileDataSet', 'AbstractFacileDataStore')",
                "  out",
                "}}", .sep = "\n"),
     file.path(DIR, "R", glue::glue("{FDS_name}.R"))

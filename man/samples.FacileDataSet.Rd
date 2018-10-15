@@ -2,22 +2,9 @@
 % Please edit documentation in R/FacileDataSet.R
 \name{samples.FacileDataSet}
 \alias{samples.FacileDataSet}
-\title{#' Retrieves the sample identifiers for all samples in a FacileDataSet.
-#'
-#' Sample identifiers are provided as `dataset,sample_id tuples`.
-#'
-#' @export
-#' @family API
-#'
-#' @param object a `FacileDataSet`
-#' @return tibble with dataset and sample_id columns
-#' @importFrom Biobase samples
-setMethod("samples", "FacileDataSet", function(object) {
-  FacileDataSet::samples.FacileDataSet(object)
-})
-Get basic sample descriptor tibble}
+\title{Get basic sample descriptor tibble}
 \usage{
-\method{samples}{FacileDataSet}(object)
+samples.FacileDataSet(object)
 }
 \arguments{
 \item{object}{a `FacileDataSet`}
@@ -35,6 +22,7 @@ Other API: \code{\link{custom_sample_covariates_tbl.FacileDataSet}},
   \code{\link{fetch_sample_covariates}},
   \code{\link{fetch_sample_statistics}},
   \code{\link{fetch_samples}},
-  \code{\link{organism.FacileDataSet}}
+  \code{\link{organism.FacileDataSet}},
+  \code{\link{samples,FacileDataSet-method}}
 }
 \concept{API}
