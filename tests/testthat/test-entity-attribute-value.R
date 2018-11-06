@@ -119,7 +119,6 @@ test_that("basic decoding works corectly", {
   
   # factor/categorical
   character_input <- c("BLCA","BLCA","CRC","CRC")
-  factor_input <- as.factor(factor_input)
   x1 <- eav_decode_factor(character_input)
   x2 <- eav_decode_categorical(character_input)
   expect_identical(x1, character_input)
