@@ -25,7 +25,6 @@ Fetch rows from sample_covariate table for specified samples and covariates
 }
 \seealso{
 Other API: \code{\link{custom_sample_covariates_tbl.FacileDataSet}},
-  \code{\link{fetch_assay_data.FacileDataSet}},
   \code{\link{fetch_custom_sample_covariates}},
   \code{\link{fetch_sample_statistics}},
   \code{\link{fetch_samples}},

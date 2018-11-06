@@ -1,5 +1,6 @@
 library(FacileDataSet)
 library(testthat)
+library(multiGSEA)
 
 context("Fetching assay level data")
 
