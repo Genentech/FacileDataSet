@@ -4,7 +4,7 @@
 \alias{custom_sample_covariates_tbl.FacileDataSet}
 \title{Fetches custom (user) annotations for a given user prefix}
 \usage{
-custom_sample_covariates_tbl.FacileDataSet(x,
+\method{custom_sample_covariates_tbl}{FacileDataSet}(x,
   custom_key = Sys.getenv("USER"))
 }
 \arguments{
@@ -19,8 +19,7 @@ covariate tbl
 Fetches custom (user) annotations for a given user prefix
 }
 \seealso{
-Other API: \code{\link{fetch_assay_data.FacileDataSet}},
-  \code{\link{fetch_custom_sample_covariates}},
+Other API: \code{\link{fetch_custom_sample_covariates}},
   \code{\link{fetch_sample_covariates}},
   \code{\link{fetch_sample_statistics}},
   \code{\link{fetch_samples}},

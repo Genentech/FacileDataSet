@@ -17,7 +17,6 @@ Returns two-column tibble of sample_id and dataset for each sample.
 }
 \seealso{
 Other API: \code{\link{custom_sample_covariates_tbl.FacileDataSet}},
-  \code{\link{fetch_assay_data.FacileDataSet}},
   \code{\link{fetch_custom_sample_covariates}},
   \code{\link{fetch_sample_covariates}},
   \code{\link{fetch_sample_statistics}},
