@@ -25,7 +25,4 @@ It is natural to define subgroups of samples within larger datasets.
 This function returns grouping definitions (which we call "facets") for
 a `FacileDataStore`.
 }
-\seealso{
-Other FacileInterface: \code{\link{organism,FacileDataSet-method}}
-}
 \concept{FacileInterface}
