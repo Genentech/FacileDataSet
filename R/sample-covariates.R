@@ -1,14 +1,14 @@
 #' Fetch rows from sample_covariate table for specified samples and covariates
 #'
 #' @export
-#' @param db a \code{FacileDataSet} connection
+#' @param x A FacileDataSet
 #' @param samples a samples descriptor \code{tbl_*}
 #' @param covariates character vector of covariate names
 #' @param custom_key The key to use to fetch more custom annotations over
 #'   the given samples
 #' @return rows from the \code{sample_covariate} table
 #' @family API
-fetch_sample_covariates.FacileDataSet <- function(x, samples=NULL, covariates=NULL,
+fetch_sample_covariates <- function(x, samples=NULL, covariates=NULL,
                                     custom_key=Sys.getenv("USER")) {
   ## db temp table thing shouldn't be an issue here
   # dat <- sample_covariate_tbl(x) %>% collect(n=Inf) ## #dboptimize# remove to exercise db harder
@@ -49,16 +49,13 @@ fetch_sample_covariates.FacileDataSet <- function(x, samples=NULL, covariates=NU
 #'
 #' @export
 #' @importFrom jsonlite stream_in
-#' @param fds The \code{FacileDataSet}
-#' @param samples the facile sample descriptor
+#' @param x The \code{FacileDataSet}
 #' @param custom_key The key to use for the custom annotation
 #' @return covariate tbl
 #' @family API
-fetch_custom_sample_covariates.FacileDataSet <- function(x, samples=NULL, covariates=NULL,
-                                           custom_key=Sys.getenv("USER"),
-                                           file.prefix="facile") {
+custom_sample_covariates_tbl.FacileDataSet <- function(x, custom_key=Sys.getenv("USER")) {
   out.cols <- colnames(sample_covariate_tbl(x))
-
+  file.prefix = "facile"
   fpat <- paste0('^', file.prefix, '_', custom_key, "_.*json")
   annot.files <- list.files(path=x$anno.dir, pattern=fpat, full.names=TRUE)
 
@@ -66,9 +63,7 @@ fetch_custom_sample_covariates.FacileDataSet <- function(x, samples=NULL, covari
     annos <- lapply(annot.files, function(fn) stream_in(file(fn), verbose=FALSE))
     out <- bind_rows(annos) %>%
       select_(.dots=out.cols) %>%
-      set_fds(x) %>%
-      # filter_samples(samples)
-      join_samples(samples, semi=TRUE)
+      set_fds(x)
     ## We weren't saving the type == 'categorical' column earlier. So if this
     ## column is.na, then we force it to 'categorical', because that's all it
     ## realy could have been
@@ -81,6 +76,23 @@ fetch_custom_sample_covariates.FacileDataSet <- function(x, samples=NULL, covari
     out$date_entered <- integer()
     out <- as.data.frame(out, stringsAsFactors=FALSE) %>% as.tbl
   }
+  set_fds(out,x)
+}
+
+#' Fetches and filters custom (user) annotations for a given user prefix
+#'
+#' @export
+#' @importFrom jsonlite stream_in
+#' @param x The \code{FacileDataSet}
+#' @param samples the facile sample descriptor
+#' @param covariates character, names of pData columns to pull
+#' @param custom_key The key to use for the custom annotation
+#' @return covariate tbl
+#' @family API
+fetch_custom_sample_covariates <- function(x, samples=NULL, covariates=NULL,
+                                           custom_key=Sys.getenv("USER")) {
+  out <- custom_sample_covariates_tbl(x, custom_key = custom_key) %>%
+    join_samples(samples, semi=TRUE)
 
   if (!is.null(covariates)) {
     out <- filter(out, variable %in% covariates)
@@ -94,23 +106,24 @@ fetch_custom_sample_covariates.FacileDataSet <- function(x, samples=NULL, covari
 #' @export
 #' @importFrom jsonlite stream_out
 #'
-#' @param x the \code{FacileDataSet}
-#' @param annotation the annotation table of covariate values to a
-#'   sample-descriptor-like table
-#' @param name the variable name of the covariate
-#' @param custom_key the custom key (likely userid) for the annotation
-#' @param file.prefix Vincent uses this
-#' @param sample_filter_criteria optional list of filtering criteria that were
-#'   used to drill down into the samples we have the \code{annotatino}
-#'   data.frame for
+##' @param x the \code{FacileDataSet}
+##' @param annotation the annotation table of covariate values to a
+##'   sample-descriptor-like table
+##' @param name the variable name of the covariate
+##' @param class single character, pdata column class
+##' @param custom_key the custom key (likely userid) for the annotation
+##' @param file.prefix Vincent uses this
+##' @param sample_filter_criteria optional list of filtering criteria that were
+##'   used to drill down into the samples we have the \code{annotatino}
+##'   data.frame for
 save_custom_sample_covariates <- function(x, annotation, name=NULL,
                                           class='categorical',
                                           custom_key=Sys.getenv("USER"),
                                           file.prefix="facile",
-                                          sample_filter_critera=NULL) {
+                                          sample_filter_criteria=NULL) {
   #' TODO: Figure out how to encode sample_filter_criteria into serialized
   #' (JSON) annotation file
-  stopifnot(is.FacileDataSet(x))
+#  stopifnot(is.FacileDataSet(x))
   annotation <- collect(annotation, n=Inf)
   assert_columns(annotation, c('dataset', 'sample_id', 'value'))
   if (is.null(name)) name <- annotation$name
@@ -151,8 +164,11 @@ save_custom_sample_covariates <- function(x, annotation, name=NULL,
 #' @return The facile \code{x} object, annotated with the specified covariates.
 with_sample_covariates <- function(x, covariates=NULL, na.rm=FALSE,
                                    custom_key=Sys.getenv("USER"), .fds=fds(x)) {
-  stopifnot(is.FacileDataSet(.fds))
-  x <- assert_sample_subset(x) %>% collect(n=Inf)
+  #  stopifnot(is.FacileDataSet(.fds))
+
+  .fds <- force(.fds) # Necessary because we lose the fds attribute of x below
+  x <- assert_sample_subset(x) %>% collect(n=Inf) # collect drops fds attribute, but OK
+
   stopifnot(is.character(covariates) || is.null(covariates))
   if (is.character(covariates) && length(covariates) == 0L) {
     return(x)
@@ -186,7 +202,7 @@ with_sample_covariates <- function(x, covariates=NULL, na.rm=FALSE,
 #' @param .fds A \code{FacileDataSet} object
 #' @return a wide \code{tbl_df}-like object
 spread_covariates <- function(x, .fds=fds(x)) {
-  stopifnot(is.FacileDataSet(.fds))
+#  stopifnot(is.FacileDataSet(.fds))
   x <- assert_sample_covariates(x) %>%
     collect(n=Inf)
 

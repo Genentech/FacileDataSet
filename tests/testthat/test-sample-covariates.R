@@ -1,3 +1,6 @@
+library(FacileDataSet)
+library(testthat)
+
 context("Sample Covariates")
 
 FDS <- exampleFacileDataSet()
@@ -61,7 +64,6 @@ test_that("spread_covariates casts simple covariates to correct class", {
   wide <- FDS %>%
     fetch_sample_covariates(samples, names(vars)) %>%
     spread_covariates
-
   ## Test presence of columns and class converted correctly
   for (cov in names(vars)) {
     expect_is(wide[[cov]], vars[cov], info=paste("Covariate:", cov))
@@ -75,7 +77,6 @@ test_that("spread_covariates casts simple covariates to correct class", {
 test_that("spread_covariates works with both simple and complex types", {
   simple <- c('sex', 'stage')
   complex <- c('OS', 'PFS')
-
   ## Check values retrieved in uber result with individual results from simple
   ## and cmoplex covariates separately
   mixed <- FDS %>%

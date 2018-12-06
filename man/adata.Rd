@@ -9,6 +9,8 @@ adata(x, assay = NULL, ...)
 \arguments{
 \item{x}{SummarizedExperiment, ExpressionSet or DGEList}
 
+\item{assay}{single character, name of assay, e.g. 'rnaseq'}
+
 \item{...}{additional args, ignored for now}
 }
 \description{

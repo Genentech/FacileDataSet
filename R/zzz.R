@@ -1,4 +1,4 @@
-# .onLoad <- function(libname, pkgname) {
+ # .onLoad <- function(libname, pkgname) {
 #   impl.prefix <- 'ftest'
 #   ## This package serves as an "abstract implementation" to a FacileDb database.
 #   ## The packages that implement access to a FacileWareHouse should define

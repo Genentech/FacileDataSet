@@ -24,10 +24,11 @@
 #'   `$label`, `$is.factor`, (and maybe `$levels`)
 covariate_meta_info <- function(covariate, .fds, covdefs=NULL) {
   if (is.null(covdefs)) {
-    stopifnot(is.FacileDataSet(.fds))
+#    stopifnot(is.FacileDataSet(.fds))
     covdefs <- covariate_definitions(.fds)
   }
   assert_covariate_definitions(covdefs)
+  message("covariate_meta_info looking for ", covariate)
   meta <- covdefs[[covariate]]
   if (!is.list(meta)) {
     stop("Covariate `", covariate, "` not found in covariate_definition file")
@@ -68,7 +69,7 @@ covariate_meta_info <- function(covariate, .fds, covdefs=NULL) {
 #'   `right_censored` data, for instance)
 cast_covariate <- function(covariate, values, cov.def, .fds) {
   if (missing(cov.def)) {
-    stopifnot(is.FacileDataSet(.fds))
+    #    stopifnot(is.FacileDataSet(.fds))
     cov.def <- covariate_definitions(.fds)
   }
   stopifnot(is(cov.def, 'CovariateDefinitions'))
@@ -112,19 +113,24 @@ cast_covariate <- function(covariate, values, cov.def, .fds) {
 #' @param x the values column from the `EAV` table for this covariate
 #' @param attrname the name of "attribute" (covariate) in the EAV table.
 #' @param def the `covariate_definition` list for this covariate
+#' @param ... dots, ignored
 #' @return a `numeric` vector of `length(x)`
 #' @rdname simple-eav-decode-functions
 #' @export
-eav_decode_real <- function(x, attrname = character(), def = list(), ...) {
+eav_decode_numeric <- function(x, attrname = character(), def = list(), ...) {
   out <- as.numeric(x)
-  n.na <- sum(is.na(out))
-  if (n.na > 0L) {
+  before.n.na <- sum(is.na(x))
+  after.n.na <- sum(is.na(out))
+  # assert the same number of NAs before and after conversion
+  if (after.n.na != before.n.na) {
+    diff.n.na <- after.n.na - before.n.na
     msg <- "%d (%.2f) values in `%s` covariate failed conversion to numeric"
-    warning(sprintf(msg, n.na, n.na / length(x), attrname))
+    warning(sprintf(msg, diff.n.na, diff.n.na / length(x), attrname))
   }
-
   out
 }
+
+eav_decode_real <- eav_decode_numeric
 
 #' @rdname simple-eav-decode-functions
 #' @export
@@ -187,7 +193,7 @@ eav_decode_cSurv <- function(x, attrname = character(), def = list(), ...) {
 #' @inheritParams eav_decode_real
 #' @rdname simple-eav-decode-functions
 #' @export
-eav_decode_categorical <- function(x, attrname=character(), def=list(), ...) {
+eav_decode_factor <- function(x, attrname=character(), def=list(), ...) {
   out <- as.character(x)
   if (is.character(def$levels)) {
     ## protect against NAing a long list of values in the event that the
@@ -198,6 +204,7 @@ eav_decode_categorical <- function(x, attrname=character(), def=list(), ...) {
   }
   out
 }
+eav_decode_categorical <- eav_decode_factor
 
 #' @rdname simple-eav-decode-functions
 #' @export
@@ -235,7 +242,7 @@ eav_encode_factor <- eav_encode_categorical
 #' @param time `numeric` time to event
 #' @param event 0/1 vector encoded in the "R sense". "1" is an event, "0" is
 #'   right censored.
-#' @param sas.encoding Is the 'event' vector "SAS encoded"? In the SAS world,
+#' @param sas.encoding Indicates that the 'event' vector "SAS encoded". In the SAS world,
 #'   1 means censored, and 0 is event. This is `FALSE` by default.
 #' @return returns a numeric vector that combines time-to-event and censoring
 #'   info (sign of the value).
@@ -263,9 +270,11 @@ eav_encode_right_censored <- function(time, event, sas.encoding=FALSE, ...) {
 #' @export
 #' @rdname eav-right-censor
 #' @param x the time to event
+#' @param attrname the name of "attribute" (covariate) in the EAV table.
+#' @param def the covariate definition for this variable
 #' @param suffix adds `_<suffix>` to the `tte` and `event` columns of the
 #'   outgoing `data.frame`
-#' @param def the covariate definition for this variable
+#' @param ... dots ignored
 #' @return two column `data.frame` with `tte(_SUFFIX)?` and `event(_SUFFIX)?`
 #'   columns.
 eav_decode_right_censored <- function(x, attrname=character(), def=list(),
@@ -628,7 +637,7 @@ as.EAVtable <- function(x, eav_metadata = NULL, covariate_def = list()) {
 #'
 #' @param pdata the `pData` `data.frame`
 #' @param covariate_def the single-list-definition of this covariate
-#' @param vname the name of the attribute column in the eav table
+#' @param aname the name of the attribute column in the eav table
 #' @return a four-column `data.frame` (dataset,sample_id,variable,value)
 #'   with the encoded covariate into a single `value` column.
 eav_encode_covariate <- function(pdata, covariate_def, aname = "variable") {
@@ -653,3 +662,75 @@ eav_encode_covariate <- function(pdata, covariate_def, aname = "variable") {
   #args <- covariate_def[['arguments']] # Let us assume is a list of character(1)s for now
   encode.fn(pdata[[aname]])
 }
+
+##########
+
+cast_covariate_new <- function(covariate, values, cov.def, .fds) {
+  if (missing(cov.def)) {
+    #    stopifnot(is.FacileDataSet(.fds))
+    cov.def <- covariate_definitions(.fds)
+  }
+  stopifnot(is(cov.def, 'CovariateDefinitions'))
+  stopifnot(is.character(values))
+  stopifnot(is.character(covariate) && length(covariate) == 1L)
+  
+  if (covariate != '.dummy.') {
+    def <- cov.def[[covariate]]
+    if (is.null(def)) {
+      warning("Covariate definition not found for ", covariate,
+              " casting assumed to be categorical", immediate. = TRUE)
+      def <- list(class="categorical")
+    }
+    
+    clazz <- def$class
+    stopifnot(is.character(clazz), length(clazz) == 1L)
+    # we have false class, here we change to real R class
+    # TODO: remove in the future
+    if(clazz == "real") clazz <- "numeric"
+    if(clazz == "categorical") clazz <- "factor"
+    
+    # right_censored have more complicated structure, and decoding must be 
+    # more complicated. But class cSurv merge numeric value and event in one 
+    # variable and could be decoding as other class
+    if(clazz == "right_censored"){
+      values <- eav_decode_right_censored(values, covariate, def)
+    } else{
+      out.values <- as(values, clazz)
+      .check.new.na(values, out.values, clazz)
+      return(out.values)
+    }
+
+    values <- dfn(values, covariate, def)
+  }
+  
+  values
+}
+
+#' @rdname simple-eav-decode-functions
+#' @export
+eav_encode <- function(x, class, ...) {
+  out <- as.character(x)
+  attr(out, "eavclass") <- class
+  return(out)
+}
+
+#' @rdname simple-eav-decode-functions
+#' @export
+eav_decode <- function(x, class, ...) {
+  out.values <- as(x, class)
+  .check.new.na(x, out.values, class)
+  return(out.values)
+}
+
+.check.new.na <- function(in.value, out.value, class){
+  before.n.na <- sum(is.na(in.value))
+  after.n.na <- sum(is.na(out.value))
+  # assert the same number of NAs before and after conversion
+  if (after.n.na != before.n.na) {
+    diff.n.na <- after.n.na - before.n.na
+    msg <- "%d (%.2f) values in `%s` covariate failed conversion to %s"
+    warning(sprintf(msg, diff.n.na, diff.n.na / length(in.value), attrname, class))
+  }
+}
+
+setAs(from = "character", to = "factor", def = function(from) factor(from))

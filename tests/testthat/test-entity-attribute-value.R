@@ -1,6 +1,7 @@
 library(survival)
 library(testthat)
 library(FacileDataSet)
+library(FacileAnalysis)
 
 context("Entity-Attribute-Value conversions")
 
@@ -79,7 +80,7 @@ test_that("pData -> meta.yaml covariate encoding works (simple & compound)", {
     type = rep("general", 6),
     stringsAsFactors = FALSE
   )
-  expect_identical(long,long2)
+  expect_identical(long, long2)
 
 })
 
@@ -94,3 +95,42 @@ test_that("basic encoding and decoding of EAV columns works", {
   z = eav_decode_cSurv(y)
   expect_identical(x,z)
 })
+
+test_that("basic decoding works corectly", {
+  # numeric/real
+  numeric_input <- c(0,10,100)
+  character_input <- as.character(numeric_input)
+  # test 'classic' decoding function
+  x1 <- eav_decode_real(character_input)
+  x2 <- eav_decode_numeric(character_input)
+  expect_identical(x1, numeric_input)
+  expect_identical(x2, numeric_input)
+  # test universal decoding function
+  x3 <- eav_decode(character_input, "numeric")
+  expect_identical(x3, numeric_input)
+  
+  # numeric/real with NA
+  numeric_input_with_na <- c('0','10','100',NA)
+  x1 <- eav_decode_real(numeric_input_with_na)
+  expect_identical(x1, as.numeric(numeric_input_with_na))
+  numeric_input_with_na <- c('0','10','100','NA')
+  expect_warning(x1 <- eav_decode_real(numeric_input_with_na))
+  expect_identical(x1, as.numeric(numeric_input_with_na))
+  
+  # factor/categorical
+  character_input <- c("BLCA","BLCA","CRC","CRC")
+  x1 <- eav_decode_factor(character_input)
+  x2 <- eav_decode_categorical(character_input)
+  expect_identical(x1, character_input)
+  expect_identical(x2, character_input)
+  
+  #logical
+  logical_input.as.int <- c(1, 1, 1, 0)
+  logical_input <- c(T, T, T, F)
+  character_input <- as.character(logical_input.as.int)
+  x <- eav_decode_logical(character_input)
+  expect_identical(x, logical_input)
+  
+})
+
+

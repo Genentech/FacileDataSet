@@ -1,7 +1,8 @@
 Package: FacileDataSet
 Type: Package
 Title: A fluent API for accessing multi-assay high-throughput genomics data
-Version: 0.8.0
+Version: 0.9.9
+Date: 2018-10-02
 Authors@R: c(
   person("Steve", "Lianoglou", , "slianoglou@gmail.com", c("aut", "cre")),
   person("Vincent", "Rouilly", , "rouilly.vincent@gene.com", role = "ctb"),
@@ -18,7 +19,7 @@ Description: Defines the "FacileData" API over multi-assay, high-throughput
   efficient access to arbitrary subsets of these data without loading it all
   into memory.
 Depends:
-  R (>= 3.4.3),
+  R (>= 3.4.2),
   dplyr (>= 0.7.4),
   FacileAnalysis
 Imports:
@@ -26,7 +27,6 @@ Imports:
   dtplyr,
   magrittr,
   yaml,
-  checkmate (>= 1.8.5),
   RSQLite,
   reshape2,
   tidyr,
@@ -34,16 +34,19 @@ Imports:
   data.table,
   jsonlite,
   multiGSEA (>= 0.10.4),
+  checkmate (>= 1.8.5),
   edgeR,
   lazyeval,
   survival,
   Biobase,
   S4Vectors,
-  SummarizedExperiment,
   desc,
   devtools,
   glue,
-  utils
+  utils,
+  BiocGenerics,
+  SummarizedExperiment,
+  assertthat
 Suggests:
   testthat (>= 1.0.2),
   knitr,
@@ -52,6 +55,6 @@ Suggests:
   org.Mm.eg.db,
   stringr,
   AnnotationDbi
-RoxygenNote: 6.1.0.9000
+RoxygenNote: 6.1.1
 License: MIT + file LICENSE
 Encoding: UTF-8

@@ -28,3 +28,61 @@ test_that("We can get pdata metadata", {
          b = list(description = "b is b"))
   )
 })
+testthat::test_that(desc = "as.FacileDataSet.R::as.FacileDataSet.ExpressionSet", code = {
+  # get ExpressionSetSample
+  ExpressionSetSample <-
+    readRDS(
+      file = system.file(
+        package = "FacileDataSet",
+        "extdata",
+        "exampleESandSE",
+        "ExpressionSetSample.RDS"
+      )
+    )
+  # set dir for FacileDataSet
+  fdsDir <- file.path(tempdir(), "fdsDir")
+  unlink(fdsDir, recursive = TRUE)
+  as.FacileDataSet(
+    x = list(ExpressionSetSample = ExpressionSetSample),
+    path = fdsDir,
+    source_assay = "exprs",
+    dataset_name = "ExpressionSetSample",
+    assay_name = "assayDataSample",
+    organism = "unspecified"
+  )
+  fdsFiles <- c("custom-annotation", "data.sqlite", "data.h5", "meta.yaml")
+  testthat::expect_true(object =
+                          all(file.size(file.path(fdsDir,
+                                                  fdsFiles)) > 0))
+  unlink(fdsDir, recursive = TRUE)
+})
+testthat::test_that(desc = "as.FacileDataSet.R::as.FacileDataSet.SummarizedExperiment", code = {
+  # get SummarizedExperimentSample
+  SummarizedExperimentSample <-
+    readRDS(
+      file = system.file(
+        package = "FacileDataSet",
+        "extdata",
+        "exampleESandSE",
+        "SummarizedExperimentSample.RDS"
+      )
+    )
+  # set dir for FacileDataSet
+  fdsDir <- file.path(tempdir(), "fdsDir")
+  unlink(fdsDir, recursive = TRUE)
+  myFds <-
+    as.FacileDataSet(
+      x = list(SAMPLE = SummarizedExperimentSample),
+      path = fdsDir,
+      dataset_name = "DEFAULT_NAME",
+      assay_name = "myAssay",
+      source_assay = "counts",
+      assay_type = "rnaseq",
+      organism = "unspecified"
+    )
+  fdsFiles <- c("custom-annotation", "data.sqlite", "data.h5", "meta.yaml")
+  testthat::expect_true(object =
+                          all(file.size(file.path(fdsDir,
+                                                  fdsFiles)) > 0))
+  unlink(fdsDir, recursive = TRUE)
+})

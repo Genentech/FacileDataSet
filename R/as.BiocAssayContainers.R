@@ -37,6 +37,7 @@
 #' @param .fds The `FacileDataSet` that `x` was retrieved from
 #' @param custom_key the custom key to use to fetch custom annotations from
 #'   `.fds`
+#' @param ... dots, passed on
 #' @return the appropriate bioconductor assay container, ie. a [edgeR::DGEList]
 #'   for `as.DGEList`, an [Biobase::ExpressionSet] for `as.ExpressionSet`, or
 #'   a [SummarizedExperiment::SummarizedExperiment] for
@@ -54,29 +55,25 @@
 #'   filter_samples(sex == "f") %>%
 #'   as.DGEList() # or `as.ExpressionSet()`
 #' @export
-as.DGEList <- function(x, ...) {
+as.DGEList <- function(x, covariates=TRUE, feature_ids=NULL,
+                              assay_name=default_assay(.fds), .fds=fds(x),
+                              custom_key=Sys.getenv("USER"), ...) {
   UseMethod('as.DGEList')
 }
 
 #' @method as.DGEList matrix
 #' @rdname as.BiocContainer
 #' @export
-#' @param x
-#' @param covariates
-#' @param feature_ids
-#' @param assay_name
-#' @param .fds
-#' @param custom_key
-#' @param ...
 as.DGEList.matrix <- function(x, covariates=TRUE, feature_ids=NULL,
                               assay_name=default_assay(.fds), .fds=fds(x),
                               custom_key=Sys.getenv("USER"), ...) {
 
   ## NOTE: by now assay_name is ignored
   stopifnot(is(x, 'FacileExpression'))
-  requireNamespace("edgeR")
+  requireNamespace("edgeR") || stop("Failed to require edgeR.")
+
   .fds <- force(.fds)
-  stopifnot(is.FacileDataSet(.fds))
+#  stopifnot(is.FacileDataSet(.fds))
 
   ## Construct sample table from colnames of the matrix, and make sure this is
   ## legit
@@ -86,8 +83,9 @@ as.DGEList.matrix <- function(x, covariates=TRUE, feature_ids=NULL,
   ## if you don't want to `collect` first, you could send `samples` in as
   ## second argument and then copy that into the db.
   ## #dboptimize
+
   bad.samples <- samples %>%
-    anti_join(collect(sample_stats_tbl(.fds), n=Inf),
+    anti_join(collect(assay_sample_info_tbl(.fds), n=Inf),
               by=c('dataset', 'sample_id')) %>%
     collect(n=Inf)
   if (nrow(bad.samples)) {
@@ -105,9 +103,10 @@ as.DGEList.matrix <- function(x, covariates=TRUE, feature_ids=NULL,
   }
 
   fids <- rownames(x)
-  genes <- gene_info_tbl(.fds) %>%
+  genes <- feature_info_tbl(.fds) %>%
     collect(n=Inf) %>% ## #dboptimize# remove this if you want to exercise db
     semi_join(tibble(feature_id=fids), by='feature_id') %>%
+    rename(length = effective_length, symbol = name) %>%
     as.data.frame %>%
     set_rownames(., .$feature_id)
 
@@ -126,7 +125,7 @@ as.DGEList.matrix <- function(x, covariates=TRUE, feature_ids=NULL,
 
   ## Doing the internal filtering seems to be too slow
   ## sample.stats <- fetch_sample_statistics(db, x) %>%
-  sample.stats <- fetch_sample_statistics(.fds, samples) %>%
+  sample.stats <- fetch_sample_statistics(.fds, samples, assay_name = assay_name) %>%
     collect(n=Inf) %>%
     mutate(samid=paste(dataset, sample_id, sep='__')) %>%
     rename(lib.size=libsize, norm.factors=normfactor) %>%
@@ -156,11 +155,11 @@ as.DGEList.matrix <- function(x, covariates=TRUE, feature_ids=NULL,
 #' @method as.DGEList data.frame
 #' @rdname as.BiocContainer
 as.DGEList.data.frame <- function(x, covariates=TRUE, feature_ids=NULL,
-                                  assay_name=default_assay(.fds), .fds=fds(x),
-                                  custom_key=Sys.getenv("USER"),
-                                  ...) {
+                              assay_name=default_assay(.fds), .fds=fds(x),
+                              custom_key=Sys.getenv("USER"), ...) {
+
   .fds <- force(.fds)
-  stopifnot(is.FacileDataSet(.fds))
+#  stopifnot(is.FacileDataSet(.fds))
   x <- assert_sample_subset(x)
 
   has.count <- 'value' %in% colnames(x) && is.integer(x[['value']])
@@ -172,7 +171,7 @@ as.DGEList.data.frame <- function(x, covariates=TRUE, feature_ids=NULL,
       fetch.counts <- TRUE
     }
     if (!missing(feature_ids) && is.null(feature_ids)) {
-      ## user explicitly wants everythin
+      ## user explicitly wants everything
       fetch.counts <- TRUE
     }
   }
@@ -187,7 +186,7 @@ as.DGEList.data.frame <- function(x, covariates=TRUE, feature_ids=NULL,
     if (ainfo$assay_type != 'rnaseq') {
       warning("Creating DGEList for something other than rnaseq type assay")
     }
-    counts <- fetch_assay_data(.fds, feature_ids, x, assay_name=assay_name,
+    counts <- fetch_assay_data(.fds, feature_ids, samples = x, assay_name=assay_name,
                                normalized=FALSE, as.matrix=TRUE)
   } else {
     counts.dt <- assert_expression_result(x) %>%
@@ -212,9 +211,9 @@ as.DGEList.data.frame <- function(x, covariates=TRUE, feature_ids=NULL,
 #' @method as.DGEList tbl_sql
 #' @rdname as.BiocContainer
 as.DGEList.tbl_sql <- function(x, covariates=TRUE, feature_ids=NULL,
-                               assay_name=default_assay(.fds), .fds=fds(x),
-                               custom_key=Sys.getenv("USER"),
-                               ...) {
+                              assay_name=default_assay(.fds), .fds=fds(x),
+                              custom_key=Sys.getenv("USER"), ...) {
+
   x <- collect(x, n=Inf) %>% set_fds(.fds)
   as.DGEList(x, covariates, feature_ids, assay_name, .fds=.fds,
              custom_key=custom_key, ...)
@@ -224,9 +223,8 @@ as.DGEList.tbl_sql <- function(x, covariates=TRUE, feature_ids=NULL,
 #' @method as.DGEList FacileDataSet
 #' @rdname as.BiocContainer
 as.DGEList.FacileDataSet <- function(x, covariates=TRUE, feature_ids=NULL,
-                                     assay_name=default_assay(x),
-                                     custom_key=Sys.getenv("USER"),
-                                     ...) {
+                              assay_name=default_assay(.fds), .fds=fds(x),
+                              custom_key=Sys.getenv("USER"), ...) {
   as.DGEList(samples(x), covariates, feature_ids, assay_name, x, custom_key,
              ...)
 }
@@ -246,7 +244,7 @@ as.ExpressionSet.data.frame <- function(x, covariates=TRUE, feature_ids=NULL,
                                         assay_name=default_assay(.fds),
                                         .fds=fds(x), custom_key=Sys.getenv("USER"), ...) {
   .fds <- force(.fds)
-  stopifnot(is.FacileDataSet(.fds))
+#  stopifnot(is.FacileDataSet(.fds))
   assert_sample_subset(x)
   if (!requireNamespace("Biobase", quietly = TRUE)) {
     stop("Biobase required")
@@ -263,13 +261,18 @@ as.ExpressionSet.data.frame <- function(x, covariates=TRUE, feature_ids=NULL,
 #' @export
 #' @method as.ExpressionSet FacileDataSet
 #' @rdname as.BiocContainer
-as.ExpressionSet.FacileDataSet <- function(x, covariates=TRUE, feature_ids=NULL,
-                                           assay_name=default_assay(.fds),
-                                           .fds=fds(x),
-                                           custom_key=Sys.getenv("USER"), ...) {
-  force(.fds)
-  x <- samples(x) %>% collect(n=Inf) %>% set_fds(.fds)
-  as.ExpressionSet(x, covariates, feature_ids, assay_name, x,
+as.ExpressionSet.FacileDataSet <-
+  function(x,
+           covariates = TRUE,
+           feature_ids = NULL,
+           .fds = fds(x),
+           assay_name = default_assay(.fds),
+           custom_key = Sys.getenv("USER"),
+           ...) {
+
+  .fds <- force(.fds)
+  y <- samples(x) %>% collect(n=Inf) %>% set_fds(.fds)
+  as.ExpressionSet(y, covariates, feature_ids, assay_name, .fds,
                    custom_key, ...)
 }
 
@@ -290,7 +293,7 @@ as.SummarizedExperiment.data.frame <- function(x, covariates=TRUE, feature_ids=N
                                                custom_key=Sys.getenv("USER"),
                                                ...) {
   .fds <- force(.fds)
-  stopifnot(is.FacileDataSet(.fds))
+#  stopifnot(is.FacileDataSet(.fds))
   assert_sample_subset(x)
   if (!requireNamespace("SummarizedExperiment", quietly = TRUE)) {
     stop("SummarizedExperiment package required")
@@ -312,8 +315,8 @@ as.SummarizedExperiment.FacileDataSet <- function(x, covariates=TRUE, feature_id
                                                   assay_name=default_assay(.fds),
                                                   .fds=fds(x), custom_key=Sys.getenv("USER"),
                                                   ...) {
-  force(.fds)
-  x <- samples(x) %>% collect(n=Inf) %>% set_fds(.fds)
-  as.SummarizedExperiment(x, covariates, feature_ids, assay_name, x,
+  .fds <- force(.fds)
+  y <- samples(x) %>% collect(n=Inf) %>% set_fds(.fds)
+  as.SummarizedExperiment(y, covariates, feature_ids, assay_name, .fds,
                            custom_key, ...)
 }

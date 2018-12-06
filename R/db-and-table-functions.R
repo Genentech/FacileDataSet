@@ -6,7 +6,7 @@
 #' @param table_name the name of the table to query
 #' @return a character vector of primary keys
 primary_key <- function(x, table_name) {
-  if (is.FacileDataSet(x)) x <- x$con
+  if (is(x,"FacileDataSet")) x <- x$con
   stopifnot(is(x, 'SQLiteConnection'))
   assert_string(table_name)
   info <- dbGetQuery(x, sprintf("PRAGMA table_info(%s);", table_name))
@@ -29,7 +29,7 @@ primary_key <- function(x, table_name) {
 #'   \code{dat} to.
 #' @return invisibly returns the conformed version of \code{dat}.
 append_facile_table <- function(dat, x, table_name) {
-  stopifnot(is.FacileDataSet(x))
+#  stopifnot(is.FacileDataSet(x))
   target <- try(tbl(x$con, table_name), silent=TRUE)
   if (is(target, 'try-error')) stop("Unknown table to append to: ", table_name)
   dat <- conform_data_frame(dat, target)
@@ -62,26 +62,24 @@ append_facile_table <- function(dat, x, table_name) {
 ## Database Table Accessors ====================================================
 
 #' @export
-assay_info_tbl <- function(x) {
-  stopifnot(is.FacileDataSet(x))
+assay_info_tbl.FacileDataSet <- function(x) {
   tbl(x$con, 'assay_info') %>% set_fds(x)
 }
 
+
 #' @export
-assay_feature_info_tbl <- function(x) {
-  stopifnot(is.FacileDataSet(x))
+assay_feature_info_tbl.FacileDataSet <- function(x) {
   tbl(x$con, 'assay_feature_info') %>% set_fds(x)
 }
 
 #' @export
-assay_sample_info_tbl <- function(x) {
-  stopifnot(is.FacileDataSet(x))
+assay_sample_info_tbl.FacileDataSet <- function(x) {
   tbl(x$con, 'assay_sample_info') %>% set_fds(x)
 }
 
+
 #' @export
-feature_info_tbl <- function(x, assay_name=NULL) {
-  stopifnot(is.FacileDataSet(x))
+feature_info_tbl.FacileDataSet <- function(x, assay_name=NULL) {
   out <- tbl(x$con, 'feature_info')
   if (!is.null(assay_name)) {
     assert_string(assay_name)
@@ -101,10 +99,13 @@ feature_info_tbl <- function(x, assay_name=NULL) {
 #' Mimics the old `gene_info` table.
 #'
 #' @export
+#' @param x A FacileDataSet
+#' @return tbl
 gene_info_tbl <- function(x) {
   # TODO: This function needs to be removed and the code that relies on gene_info_tbl
   # should be updated.
-  stopifnot(is.FacileDataSet(x))
+#  stopifnot(is.FacileDataSet(x))
+  .Deprecated("feature_info_tbl")
   ## Columns:
   ## feature_id|feature_type|symbol|n_exons|length|source|hdf5_index
   hdf5.info <- assay_feature_info_tbl(x) %>%
@@ -123,70 +124,67 @@ gene_info_tbl <- function(x) {
 #' This function needs to be removed and the code that relies on
 #' sample_stats_tbl be updated.
 #' @export
+#' @param x A FacileDataSet
 sample_stats_tbl <- function(x) {
+  .Deprecated("assay_sample_info_tbl")
   assay_sample_info_tbl(x) %>%
     select(dataset, sample_id, libsize, normfactor) %>%
     set_fds(x)
 }
 
 #' @export
-sample_covariate_tbl <- function(x) {
-  stopifnot(is.FacileDataSet(x))
+sample_covariate_tbl.FacileDataSet <- function(x) {
   tbl(x$con, 'sample_covariate') %>% set_fds(x)
 }
 
 #' @export
-sample_info_tbl <- function(x) {
-  stopifnot(is.FacileDataSet(x))
+sample_info_tbl.FacileDataSet <- function(x) {
   tbl(x$con, 'sample_info') %>% set_fds(x)
 }
 
-#' Get/set db
-#'
-#' @rdname getsetdb
-#' @export
-#' @param x the object
-#' @param db The \code{FacileDb} object
-fds <- function(x) {
-  if (is.FacileDataSet(x)) return(x)
-  out <- attr(x, 'fds')
-  if (is.null(out)) {
-    warning("No FacileDataSet found in x (", class(x)[1L], ")", immediate.=TRUE)
-  }
-  out
-}
-
-#' @rdname getsetdb
-#' @export
-"fds<-" <- function(x, value) {
-  UseMethod("fds<-", x)
-}
-
-#' @rdname getsetdb
-#' @export
-"fds<-.tbl" <- function(x, value) {
-  attr(x, 'fds') <- value
-  x
-}
-
-#' @rdname getsetdb
-#' @export
-"fds<-.data.frame" <- function(x, value) {
-  attr(x, 'fds') <- value
-  x
-}
-
-"fds<-.default" <- function(x, value) {
-  attr(x, 'fds') <- value
-  x
-}
-
-#' @rdname getsetdb
-#' @export
-set_fds <- function(x, value) {
-  attr(x, 'fds') <- value
-  x
-}
+###################### restored 2018.09.14
+#' Get/set db	
+#'	
+#' @rdname getsetdb	
+#' @export	
+#' @param x the object	
+#' @param db The \code{FacileDb} object	
+fds <- function(x) {	
+  if (is.FacileDataSet(x)) return(x)	
+  out <- attr(x, 'fds')	
+  if (is.null(out)) {	
+    warning("No FacileDataSet found in x (", class(x)[1L], ")", immediate.=TRUE)	
+  }	
+  out	
+}	
+#' @rdname getsetdb	
+#' @export	
+"fds<-" <- function(x, value) {	
+  UseMethod("fds<-", x)	
+}	
+#' @rdname getsetdb	
+#' @export	
+"fds<-.tbl" <- function(x, value) {	
+  attr(x, 'fds') <- value	
+  x	
+}	
+#' @rdname getsetdb	
+#' @export	
+"fds<-.data.frame" <- function(x, value) {	
+  attr(x, 'fds') <- value	
+  x	
+}	
+"fds<-.default" <- function(x, value) {	
+  attr(x, 'fds') <- value	
+  x	
+}	
+#' @rdname getsetdb	
+#' @export	
+set_fds <- function(x, value) {	
+  attr(x, 'fds') <- value	
+  x	
+}	
+###################### end - restored 2018.09.14
 
 ## Unexported utility functions ================================================
 

@@ -25,6 +25,9 @@ addFacileAssaySet(x, datasets, facile_assay_name,
 \item{facile_feature_type}{a string indicating the universe the features in
 this assay refer to, i.e. "entrez", "ensgid", "enstid", etc.}
 
+\item{facile_assay_description}{a string that allows the caller to provide
+a "freeform" description of the assay (platform, protocol, whatever).}
+
 \item{facile_feature_info}{a \code{data.frame} with the required \code{feature_info}
 columns that describe the features in this assay. Please refer to the
 "Features" section of the \code{FacileDataSet} vignette for more complete
@@ -44,9 +47,6 @@ of columns in each of the internal dataset matrices being added.}
 
 \item{assay_name}{the assay name in the data containers provided in the
 \code{datasets} list.}
-
-\item{facie_assay_description}{a string that allows the caller to provide
-a "freeform" description of the assay (platform, protocol, whatever).}
 }
 \value{
 a \code{tibble} subset of \code{facile_feature_info} that indicates the \emph{new}

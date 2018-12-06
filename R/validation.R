@@ -79,6 +79,7 @@ test_facile_data_set <- function(x, ...) {
 #'      has your filters of interest set
 #' @export
 #' @rdname assertions
+#' @param x tbl
 assert_sample_subset <- function(x) {
   stopifnot(is_sample_subset(x))
   invisible(x)
@@ -112,6 +113,7 @@ is_facet_descriptor <- function(x) {
 #' in \code{.fds}
 #' @export
 #' @rdname assertions
+#' @param .fds A FacileDataSet or something implementing the FacileInterface
 assert_assay_feature_descriptor <- function(x, .fds=NULL) {
   stopifnot(is_assay_feature_descriptor(x, .fds))
   invisible(x)
@@ -123,7 +125,7 @@ is_assay_feature_descriptor <- function(x, .fds=NULL) {
   if (!(is(x, 'tbl') || is(x, 'data.frame'))) return(FALSE)
   if (!has_columns(x, c('assay', 'feature_id'))) return(FALSE)
   if (!is.null(.fds)) {
-    stopifnot(is.FacileDataSet(.fds))
+#    stopifnot(is.FacileDataSet(.fds))
     bad.assay <- setdiff(x[['assay']], assay_names(.fds))
     if (length(bad.assay)) {
       stop("Assay(s) in assay_feature_descriptor not found: ",
@@ -185,6 +187,7 @@ assert_columns <- function(x, req.cols) {
 
 #' @export
 #' @rdname assertions
+#' @param req.cols character, required column names in tbl
 has_columns <- function(x, req.cols) {
   missed <- setdiff(req.cols, colnames(x))
   if (length(missed)) {
@@ -214,4 +217,3 @@ is_covariate_definitions <- function(x) {
   }) %>% t
   all(kosher)
 }
-

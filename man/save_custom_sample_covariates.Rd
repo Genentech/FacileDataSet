@@ -6,7 +6,7 @@
 \usage{
 save_custom_sample_covariates(x, annotation, name = NULL,
   class = "categorical", custom_key = Sys.getenv("USER"),
-  file.prefix = "facile", sample_filter_critera = NULL)
+  file.prefix = "facile", sample_filter_criteria = NULL)
 }
 \arguments{
 \item{x}{the \code{FacileDataSet}}
@@ -15,6 +15,8 @@ save_custom_sample_covariates(x, annotation, name = NULL,
 sample-descriptor-like table}
 
 \item{name}{the variable name of the covariate}
+
+\item{class}{single character, pdata column class}
 
 \item{custom_key}{the custom key (likely userid) for the annotation}
 

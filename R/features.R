@@ -3,7 +3,7 @@
 #' @export
 #' @param x A \code{FacileDataSet}
 feature_types <- function(x) {
-  stopifnot(is.FacileDataSet(x))
+#  stopifnot(is.FacileDataSet(x))
   ## Damn, can't do distinct on sqlite
   feature_info_tbl(x) %>%
     distinct(feature_type) %>%
@@ -19,7 +19,7 @@ feature_types <- function(x) {
 #' @return logical vector indicating whether or not a given \code{feature_type}
 #'   is stored in \code{x}
 has_feature_type <- function(x, feature_type) {
-  stopifnot(is.FacileDataSet(x))
+#  stopifnot(is.FacileDataSet(x))
   assert_character(feature_type)
   feature_type %in% feature_types(x)
 }
@@ -41,7 +41,7 @@ feature_name_map <- function(x, feature_type) {
     select(feature_id, name) %>%
     collect(n=Inf) %>%
     mutate(type='primary')
-  if (fetch_organism(x) == 'Homo sapiens') {
+  if (organism(x) == 'Homo sapiens') {
     if (FALSE) {
       requireNamespace("org.Hs.eg.db") || stop("Failed to require org.Hs.eg.db")
       alias <- org.Hs.eg.db %>%
@@ -52,7 +52,7 @@ feature_name_map <- function(x, feature_type) {
     }
     alias <- system.file('extdata', 'feature-alias-map.human.csv', package='FacileDataSet')
     alias <- read.csv(alias, colClasses='character')
-  } else if (fetch_organism(x) == 'Mus musculus') {
+  } else if (organism(x) == 'Mus musculus') {
       if (FALSE) {
           requireNamespace("org.Mm.eg.db") || stop("Failed to require org.Mm.eg.db")
       alias <- org.Mm.eg.db %>%

@@ -6,6 +6,9 @@
 \usage{
 sample_stats_tbl(x)
 }
+\arguments{
+\item{x}{A FacileDataSet}
+}
 \description{
 This function needs to be removed and the code that relies on
 sample_stats_tbl be updated.

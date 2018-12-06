@@ -14,7 +14,9 @@
 \alias{as.SummarizedExperiment.FacileDataSet}
 \title{Converts a "facile object" to a traditional Bioconductor assay container}
 \usage{
-as.DGEList(x, ...)
+as.DGEList(x, covariates = TRUE, feature_ids = NULL,
+  assay_name = default_assay(.fds), .fds = fds(x),
+  custom_key = Sys.getenv("USER"), ...)
 
 \method{as.DGEList}{matrix}(x, covariates = TRUE, feature_ids = NULL,
   assay_name = default_assay(.fds), .fds = fds(x),
@@ -29,8 +31,8 @@ as.DGEList(x, ...)
   custom_key = Sys.getenv("USER"), ...)
 
 \method{as.DGEList}{FacileDataSet}(x, covariates = TRUE,
-  feature_ids = NULL, assay_name = default_assay(x),
-  custom_key = Sys.getenv("USER"), ...)
+  feature_ids = NULL, assay_name = default_assay(.fds),
+  .fds = fds(x), custom_key = Sys.getenv("USER"), ...)
 
 as.ExpressionSet(x, ...)
 
@@ -39,8 +41,9 @@ as.ExpressionSet(x, ...)
   .fds = fds(x), custom_key = Sys.getenv("USER"), ...)
 
 \method{as.ExpressionSet}{FacileDataSet}(x, covariates = TRUE,
-  feature_ids = NULL, assay_name = default_assay(.fds),
-  .fds = fds(x), custom_key = Sys.getenv("USER"), ...)
+  feature_ids = NULL, .fds = fds(x),
+  assay_name = default_assay(.fds), custom_key = Sys.getenv("USER"),
+  ...)
 
 as.SummarizedExperiment(x, ...)
 
@@ -80,6 +83,8 @@ The default value is the entry provided by [default_assay()]}
 
 \item{custom_key}{the custom key to use to fetch custom annotations from
 `.fds`}
+
+\item{...}{dots, passed on}
 }
 \value{
 the appropriate bioconductor assay container, ie. a [edgeR::DGEList]
